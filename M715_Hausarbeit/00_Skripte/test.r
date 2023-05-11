@@ -1,1 +1,6 @@
-5+5
+library(dplyr)
+library(purrr)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(rmarkdown)
