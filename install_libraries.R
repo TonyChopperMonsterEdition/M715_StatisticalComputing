@@ -20,6 +20,10 @@ list_of_packages <- c(
     #"rvest", # already included in tidyverse
     #"readxl", # already included in tidyverse
     #"rstudioapi", # already included in tidyverse
+    "nycflights13", 
+    "gapminder", 
+    "Lahman",
+    "rmarkdown",
     "knitr",
     "car",
     "caret",
@@ -45,6 +49,5 @@ list_of_packages <- c(
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
 if (length(new_packages) > 0) install.packages(new_packages)
-if (length(new_packages) > 0) library(new_packages)
     
            
