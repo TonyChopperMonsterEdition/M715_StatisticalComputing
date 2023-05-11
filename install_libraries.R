@@ -44,7 +44,8 @@ list_of_packages <- c(
     "facetscales",
     "hrbrthemes",
     "GGally",
-    "plot3D"
+    "plot3D",
+    "readr"
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
