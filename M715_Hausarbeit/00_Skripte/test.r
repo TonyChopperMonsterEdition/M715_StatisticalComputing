@@ -11,7 +11,8 @@ getwd()
 
 ggplot(diamonds, aes(carat, price)) + 
   geom_hex()
-getwd()
-ggsave("diamonds.png", path = paste(getwd(),'/Lerneinheiten'))
+WorkingDir<-getwd()
+ggsave("diamonds.png", path = paste0(WorkingDir,'/Lerneinheiten'))
 
-write.csv(diamonds, paste(getwd(),"/Lerneinheiten/diamonds.csv"))
+write.csv(diamonds, paste0(WorkingDir,"/Lerneinheiten/diamonds.csv"))
+paste0(WorkingDir,"/Lerneinheiten/diamonds.csv")
