@@ -13,3 +13,5 @@ getwd()
 
 ## Package readr fehlte, Methode falsch geschrieben. Zusätzlich habe ich persönlich für mich das Verzeichnis angepasst, so dass alles in Git abgelegt wird.) 
 write_csv(mpg, paste0(getwd(),"/Lerneinheiten/mpg.csv"))
+
+##https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing
