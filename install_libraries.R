@@ -45,7 +45,8 @@ list_of_packages <- c(
     "hrbrthemes",
     "GGally",
     "plot3D",
-    "readr"
+    "readr",
+    "magrittr"
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]

@@ -4,6 +4,7 @@ library(tidyverse)
 library(ggplot2)
 library(knitr)
 library(rmarkdown)
+library(magrittr)
 
 
 setwd("~/RStudio/M715_StatisticalComputing/")
