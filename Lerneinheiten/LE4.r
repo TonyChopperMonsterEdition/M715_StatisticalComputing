@@ -1,5 +1,6 @@
 install.packages("tidyverse")
 library(tidyverse)
+library(dplyr)
 
 ?mpg ## Displays information about the Dataset
 ggplot(data = mpg) + ##erstellt ein Kordinatensystem für das Tibble
@@ -86,3 +87,43 @@ bar + coord_polar()
 smaller <- diamonds %>% filter(carat < 3)
 ggplot(data = smaller, mapping = aes(x = carat, colour = cut)) +
   geom_freqpoly(binwidth = 0.1)
+
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) ### Mit Neusortierung
+
+diamonds %>% 
+  count(color, cut) %>%  
+  ggplot(mapping = aes(x = color, y = cut)) +
+  geom_tile(mapping = aes(fill = n))
+
+
+ggplot(data = smaller) +
+  geom_bin2d(mapping = aes(x = carat, y = price))
+
+# install.packages("hexbin")
+ggplot(data = smaller) +
+  geom_hex(mapping = aes(x = carat, y = price))
+
+
+library(modelr)
+
+
+###Modellierung vornehmen
+mod <- lm(log(price) ~ log(carat), data = diamonds)
+
+diamonds2 <- diamonds %>% 
+  add_residuals(mod) %>% 
+  mutate(resid = exp(resid))
+
+ggplot(mpg,aes(displ, cty)) + geom_point()
+ggplot(data = diamonds2) + 
+  geom_point(mapping = aes(x = carat, y = resid))
+
+ggplot(data = mpg, mapping = aes(x = manufacturer, fill = class)) + 
+  geom_bar(alpha = 0.3, position = "dodge")
+
+ggplot(economics,aes(date,unemploy)) + 
+  line()
+
+ggplot(economics,aes(date,unemploy)) + geom_line()
