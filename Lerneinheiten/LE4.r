@@ -1,4 +1,7 @@
 install.packages("tidyverse")
+install.packages("dplyr")
+install.packages("ggrepel")
+install.packages("viridis")
 library(tidyverse)
 library(dplyr)
 
