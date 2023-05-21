@@ -1,6 +1,7 @@
 library(tidyverse)
 library(ggplot2)
 library(readr)
+library(purrr)
 
 ### hat nicht wegen der Zahl an erster Stelle funktioniert  
 ErsterJanuar_Anzahl_Tage <- 31
