@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+### LM
+```{r}
+# prepare the data
+data(CASchools)
+CASchools$size <- CASchools$students/CASchools$teachers
+CASchools$score <- (CASchools$read + CASchools$math) / 2
+
+# fit a simple linear model
+linear_model<- lm(score ~ income, data = CASchools)
+coeftest(linear_model, vcov. = vcovHC, type = "HC1")
+summary_lm <- summary(linear_model)
+summary_lm
+
+```
+### QM
+```{r, titel}
+# fit the quadratic Model
+quadratic_model <- lm(score ~ income + I(income^2), data = CASchools)
+
+# obtain the model summary
+coeftest(quadratic_model, vcov. = vcovHC, type = "HC1")
+summary_qm <- summary(quadratic_model)
+summary_qm
+```
+
+
+### Cubic Modells:
+### QM
+```{r}
+# estimate a cubic model
+cubic_model <- lm(score ~ poly(income, degree = 3, raw = TRUE), data = CASchools)
+
+# set up hypothesis matrix
+H0 <- rbind(c(0, 0, 1, 0),
+            c(0, 0, 0, 1))
+
+# set up hypothesis matrix
+H1 <- rbind(c(linear_model$coefficients["(Intercept)"], 0, 0, 0),
+            c(0, linear_model$coefficients["income"], 0, 0),
+            c(0, 0, 1, 0),
+            c(0, 0, 0, 1))
+H1
+
+# obtain the model summary
+linearHypothesis(cubic_model,
+                 hypothesis.matrix = H0,
+                 white.adj = "hc1")
+
+# obtain the model summary
+linearHypothesis(linear_model,
+                 hypothesis.matrix = H1,
+                 white.adj = "hc1",
+                 singular.ok="TRUE")
+```
+
+
+### Log-Model
+``` {r}
+# set up new data
+LinearLog_model <- lm(score ~ log(income), data = CASchools)
+new_data <- data.frame(income = c(10, 11, 40, 44))
+
+# predict the outcomes 
+Y_hat <- predict(LinearLog_model, newdata = new_data)
+
+# compute the expected difference
+Y_hat_matrix <- matrix(Y_hat, nrow = 2, byrow = TRUE)
+Y_hat_matrix[, 2] - Y_hat_matrix[, 1]
+
+
+Linear_model <- lm(score ~ income, data = CASchools)
+new_data_lm <- data.frame(income = c(10, 11, 40, 41))
+
+# predict the outcomes 
+Y_hat_lm <- predict(Linear_model, newdata = new_data_lm)
+
+# compute the expected difference
+Y_hat_matrix_lm <- matrix(Y_hat_lm, nrow = 2, byrow = TRUE)
+Y_hat_matrix_lm[, 2] - Y_hat_matrix_lm[, 1]
+
+
+LogLinear_model <- lm(log(score) ~ income, data = CASchools)
+new_data_loglin <- data.frame(income = c(10, 11, 40, 41))
+
+# predict the outcomes 
+Y_hat_loglin <- predict(LogLinear_model, newdata = new_data_loglin)
+
+# compute the expected difference
+Y_hat_matrix_loglin <- matrix(Y_hat_loglin, nrow = 2, byrow = TRUE)
+Y_hat_matrix_loglin[, 2] - Y_hat_matrix_loglin[, 1]
+
+
+LogLog_model <- lm(log(score) ~ log(income), data = CASchools)
+new_data_loglog <- data.frame(income = c(10, 11, 40, 44))
+
+# predict the outcomes 
+Y_hat_loglog <- predict(LogLog_model, newdata = new_data_loglog)
+
+# compute the expected difference
+Y_hat_matrix_loglog <- matrix(Y_hat_loglog, nrow = 2, byrow = TRUE)
+Y_hat_matrix_loglog[, 2] - Y_hat_matrix_loglog[, 1]
+```
