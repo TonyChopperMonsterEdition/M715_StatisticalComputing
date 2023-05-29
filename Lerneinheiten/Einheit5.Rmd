@@ -6,8 +6,24 @@ output: html_notebook
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-### LM
+# Initialisation of Environment
 ```{r}
+
+library(tidyverse)
+library(dplyr)
+library(AER)
+library(plm)
+library(mvtnorm)
+library(stargazer)
+library(ggrepel)
+library(viridis)
+library(tibble)
+data(Fatalities)
+```
+
+# Chapter 8
+### LM
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
 # prepare the data
 data(CASchools)
 CASchools$size <- CASchools$students/CASchools$teachers
@@ -55,10 +71,13 @@ linearHypothesis(cubic_model,
                  white.adj = "hc1")
 
 # obtain the model summary
-linearHypothesis(linear_model,
-                 hypothesis.matrix = H1,
+linearHypothesis(cubic_model,
+                 c(Intercept= linear_model$coefficients["(Intercept)"],income=linear_model$coefficients["income"], 'poly(income, degree = 3, raw = TRUE)2' = 0, 'poly(income, degree = 3, raw = TRUE)3'= 0),
                  white.adj = "hc1",
-                 singular.ok="TRUE")
+                 vcov.=vcovHC(cubic_model, type = "HC1")
+                 )
+
+pFtest(cubic_model, linear_model)
 ```
 
 
@@ -108,3 +127,106 @@ Y_hat_loglog <- predict(LogLog_model, newdata = new_data_loglog)
 Y_hat_matrix_loglog <- matrix(Y_hat_loglog, nrow = 2, byrow = TRUE)
 Y_hat_matrix_loglog[, 2] - Y_hat_matrix_loglog[, 1]
 ```
+
+# Chapter 10
+```{r}
+# define the fatality rate
+Fatalities$fatal_rate <- Fatalities$fatal / Fatalities$pop * 10000
+
+# subset the data
+Fatalities1982 <- subset(Fatalities, year == "1982")
+Fatalities1988 <- subset(Fatalities, year == "1988")
+# estimate simple regression models using 1982 and 1988 data
+fatal1982_mod <- lm(fatal_rate ~ beertax, data = Fatalities1982)
+fatal1988_mod <- lm(fatal_rate ~ beertax, data = Fatalities1988)
+
+coeftest(fatal1982_mod, vcov. = vcovHC, type = "HC1")
+
+coeftest(fatal1988_mod, vcov. = vcovHC, type = "HC1")
+
+```
+
+## Differenz zwischen Zeitreihen betrachten
+```{r}
+# compute the differences 
+diff_fatal_rate <- Fatalities1988$fatal_rate - Fatalities1982$fatal_rate
+diff_beertax <- Fatalities1988$beertax - Fatalities1982$beertax
+
+# estimate a regression using differenced data
+fatal_diff_mod <- lm(diff_fatal_rate ~ diff_beertax)
+
+coeftest(fatal_diff_mod, vcov = vcovHC, type = "HC1")
+
+# plot the differenced data
+plot(x = as.double(diff_beertax), 
+     y = as.double(diff_fatal_rate), 
+     xlab = "Change in beer tax (in 1988 dollars)",
+     ylab = "Change in fatality rate (fatalities per 10000)",
+     main = "Changes in Traffic Fatality Rates and Beer Taxes in 1982-1988",
+     xlim = c(-0.6, 0.6),
+     ylim = c(-1.5, 1),
+     pch = 20, 
+     col = "steelblue")
+
+# add the regression line to plot
+abline(fatal_diff_mod, lwd = 1.5)
+
+```
+## Fixed Effects Regression
+```{r}
+fatal_fe_lm_mod <- lm(fatal_rate ~ beertax + state - 1, data = Fatalities)
+fatal_fe_lm_mod
+
+# obtain demeaned data
+Fatalities_demeaned <- with(Fatalities,
+            data.frame(fatal_rate = fatal_rate - ave(fatal_rate, state),
+            beertax = beertax - ave(beertax, state)))
+
+# estimate the regression
+summary(lm(fatal_rate ~ beertax - 1, data = Fatalities_demeaned))
+
+##Alternative mit plm
+# estimate the fixed effects regression with plm()
+fatal_fe_mod <- plm(fatal_rate ~ beertax, 
+                    data = Fatalities,
+                    index = c("state", "year"), 
+                    model = "within")
+
+# print summary using robust standard errors
+fatal_fe_mod
+coeftest(fatal_fe_mod, vcov. = vcovHC, type = "HC1") # Bereinigt um Heteroskedastizität 
+
+
+```
+
+## Kombiniertes Modell
+```{r}
+# estimate a combined time and entity fixed effects regression model
+
+# via lm()
+fatal_tefe_lm_mod <- lm(fatal_rate ~ beertax + state + year - 1, data = Fatalities)
+fatal_tefe_lm_mod
+
+
+# via plm()
+fatal_tefe_mod <- plm(fatal_rate ~ beertax, 
+                      data = Fatalities,
+                      index = c("state", "year"), 
+                      model = "within", 
+                      effect = "twoways")
+fatal_tefe_mod
+coeftest(fatal_tefe_mod, vcov = vcovHC, type = "HC1")
+?lenght()
+
+```
+
+# Kapitel 11
+```{r}
+data(HMDA)
+
+```
+
+
+
+
+

@@ -1,0 +1,51 @@
+---
+title: "Hausarbeit"
+author: "D'Alessandro David"
+date: "2023-05-29"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Kriminalitässtatistik
+https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2021/PKSTabellen/KreisOpfertabellen/kreisOpfertabellen_node.html--> Kann verworfen werden
+
+https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/Administrativ/04-kreise.html
+
+https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/_inhalt.html# 
+
+https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=13111#abreadcrumb 
+
+https://www.regionalstatistik.de/genesis/online?operation=abruftabelleBearbeiten&levelindex=2&levelid=1685395674289&auswahloperation=abruftabelleAuspraegungAuswaehlen&auswahlverzeichnis=ordnungsstruktur&auswahlziel=werteabruf&code=13111-02-02-4&auswahltext=&werteabruf=Werteabruf#abreadcrumb 
+
+Bevölkerung in Gemeinde https://www.regionalstatistik.de/genesis//online?operation=table&code=12411-01-01-4&bypass=true&levelindex=1&levelid=1685395910046#abreadcrumb
+
+Wahlstimmen-nicht sinnvoll
+https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=14338#abreadcrumb
+
+Absolventen und Schulen
+https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=21111#abreadcrumb
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+

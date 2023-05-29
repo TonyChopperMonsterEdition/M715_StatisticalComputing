@@ -1757,55 +1757,31 @@ Notebook. When you execute code within the notebook, the results appear
 beneath the code.</p>
 <p>Try executing this chunk by clicking the <em>Run</em> button within
 the chunk or by placing your cursor inside it and pressing
-<em>Ctrl+Shift+Enter</em>. ### LM</p>
+<em>Ctrl+Shift+Enter</em>. # Initialisation of Environment</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwcmVwYXJlIHRoZSBkYXRhXG5kYXRhKENBU2Nob29scylcbkNBU2Nob29scyRzaXplIDwtIENBU2Nob29scyRzdHVkZW50cy9DQVNjaG9vbHMkdGVhY2hlcnNcbkNBU2Nob29scyRzY29yZSA8LSAoQ0FTY2hvb2xzJHJlYWQgKyBDQVNjaG9vbHMkbWF0aCkgLyAyXG5cbiMgZml0IGEgc2ltcGxlIGxpbmVhciBtb2RlbFxubGluZWFyX21vZGVsPC0gbG0oc2NvcmUgfiBpbmNvbWUsIGRhdGEgPSBDQVNjaG9vbHMpXG5jb2VmdGVzdChsaW5lYXJfbW9kZWwsIHZjb3YuID0gdmNvdkhDLCB0eXBlID0gXCJIQzFcIilcbmBgYCJ9 -->
-<pre class="r"><code># prepare the data
-data(CASchools)
-CASchools$size &lt;- CASchools$students/CASchools$teachers
-CASchools$score &lt;- (CASchools$read + CASchools$math) / 2
-
-# fit a simple linear model
-linear_model&lt;- lm(score ~ income, data = CASchools)
-coeftest(linear_model, vcov. = vcovHC, type = &quot;HC1&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5saWJyYXJ5KHRpZHl2ZXJzZSlcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KEFFUilcbmxpYnJhcnkocGxtKVxubGlicmFyeShtdnRub3JtKVxubGlicmFyeShzdGFyZ2F6ZXIpXG5saWJyYXJ5KGdncmVwZWwpXG5saWJyYXJ5KHZpcmlkaXMpXG5saWJyYXJ5KHRpYmJsZSlcbmRhdGEoRmF0YWxpdGllcylcbmBgYCJ9 -->
+<pre class="r"><code>
+library(tidyverse)
+library(dplyr)
+library(AER)
+library(plm)
+library(mvtnorm)
+library(stargazer)
+library(ggrepel)
+library(viridis)
+library(tibble)
+data(Fatalities)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlICBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpIDYyNS4zODM1OCAgICAxLjg2Nzg3IDMzNC44MTEgPCAyLjJlLTE2ICoqKlxuaW5jb21lICAgICAgICAxLjg3ODU1ICAgIDAuMTEzNjMgIDE2LjUzMiA8IDIuMmUtMTYgKioqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
-<pre><code>
-t test of coefficients:
-
-             Estimate Std. Error t value  Pr(&gt;|t|)    
-(Intercept) 625.38358    1.86787 334.811 &lt; 2.2e-16 ***
-income        1.87855    0.11363  16.532 &lt; 2.2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeV9sbSA8LSBzdW1tYXJ5KGxpbmVhcl9tb2RlbClcbnN1bW1hcnlfbG1cbmBgYCJ9 -->
-<pre class="r"><code>summary_lm &lt;- summary(linear_model)
-summary_lm</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IHNjb3JlIH4gaW5jb21lLCBkYXRhID0gQ0FTY2hvb2xzKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMzkuNTc0ICAtOC44MDMgICAwLjYwMyAgIDkuMDMyICAzMi41MzAgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpIDYyNS4zODM2ICAgICAxLjUzMjQgIDQwOC4xMSAgIDwyZS0xNiAqKipcbmluY29tZSAgICAgICAgMS44Nzg1ICAgICAwLjA5MDUgICAyMC43NiAgIDwyZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogMTMuMzkgb24gNDE4IGRlZ3JlZXMgb2YgZnJlZWRvbVxuTXVsdGlwbGUgUi1zcXVhcmVkOiAgMC41MDc2LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC41MDY0IFxuRi1zdGF0aXN0aWM6IDQzMC44IG9uIDEgYW5kIDQxOCBERiwgIHAtdmFsdWU6IDwgMi4yZS0xNlxuIn0= -->
-<pre><code>
-Call:
-lm(formula = score ~ income, data = CASchools)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--39.574  -8.803   0.603   9.032  32.530 
-
-Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 625.3836     1.5324  408.11   &lt;2e-16 ***
-income        1.8785     0.0905   20.76   &lt;2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 13.39 on 418 degrees of freedom
-Multiple R-squared:  0.5076,    Adjusted R-squared:  0.5064 
-F-statistic: 430.8 on 1 and 418 DF,  p-value: &lt; 2.2e-16</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<div id="chapter-8" class="section level1">
+<h1>Chapter 8</h1>
+<div id="lm" class="section level3">
+<h3>LM</h3>
+<!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+</div>
 <div id="qm" class="section level3">
 <h3>QM</h3>
 <!-- rnb-text-end -->
@@ -1829,7 +1805,7 @@ summary_qm</code></pre>
 <h3>QM</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBlc3RpbWF0ZSBhIGN1YmljIG1vZGVsXG5jdWJpY19tb2RlbCA8LSBsbShzY29yZSB+IHBvbHkoaW5jb21lLCBkZWdyZWUgPSAzLCByYXcgPSBUUlVFKSwgZGF0YSA9IENBU2Nob29scylcblxuIyBzZXQgdXAgaHlwb3RoZXNpcyBtYXRyaXhcbkgwIDwtIHJiaW5kKGMoMCwgMCwgMSwgMCksXG4gICAgICAgICAgICBjKDAsIDAsIDAsIDEpKVxuXG4jIHNldCB1cCBoeXBvdGhlc2lzIG1hdHJpeFxuSDEgPC0gcmJpbmQoYyhsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiKEludGVyY2VwdClcIl0sIDAsIDAsIDApLFxuICAgICAgICAgICAgYygwLCBsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiaW5jb21lXCJdLCAwLCAwKSxcbiAgICAgICAgICAgIGMoMCwgMCwgMSwgMCksXG4gICAgICAgICAgICBjKDAsIDAsIDAsIDEpKVxuSDFcblxuIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnlcbmxpbmVhckh5cG90aGVzaXMoY3ViaWNfbW9kZWwsXG4gICAgICAgICAgICAgICAgIGh5cG90aGVzaXMubWF0cml4ID0gSDAsXG4gICAgICAgICAgICAgICAgIHdoaXRlLmFkaiA9IFwiaGMxXCIpXG5cbiMgb2J0YWluIHRoZSBtb2RlbCBzdW1tYXJ5XG5saW5lYXJIeXBvdGhlc2lzKGxpbmVhcl9tb2RlbCxcbiAgICAgICAgICAgICAgICAgaHlwb3RoZXNpcy5tYXRyaXggPSBIMSxcbiAgICAgICAgICAgICAgICAgd2hpdGUuYWRqID0gXCJoYzFcIixcbiAgICAgICAgICAgICAgICAgc2luZ3VsYXIub2s9XCJUUlVFXCIpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBlc3RpbWF0ZSBhIGN1YmljIG1vZGVsXG5jdWJpY19tb2RlbCA8LSBsbShzY29yZSB+IHBvbHkoaW5jb21lLCBkZWdyZWUgPSAzLCByYXcgPSBUUlVFKSwgZGF0YSA9IENBU2Nob29scylcblxuIyBzZXQgdXAgaHlwb3RoZXNpcyBtYXRyaXhcbkgwIDwtIHJiaW5kKGMoMCwgMCwgMSwgMCksXG4gICAgICAgICAgICBjKDAsIDAsIDAsIDEpKVxuXG4jIHNldCB1cCBoeXBvdGhlc2lzIG1hdHJpeFxuSDEgPC0gcmJpbmQoYyhsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiKEludGVyY2VwdClcIl0sIDAsIDAsIDApLFxuICAgICAgICAgICAgYygwLCBsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiaW5jb21lXCJdLCAwLCAwKSxcbiAgICAgICAgICAgIGMoMCwgMCwgMSwgMCksXG4gICAgICAgICAgICBjKDAsIDAsIDAsIDEpKVxuSDFcblxuIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnlcbmxpbmVhckh5cG90aGVzaXMoY3ViaWNfbW9kZWwsXG4gICAgICAgICAgICAgICAgIGh5cG90aGVzaXMubWF0cml4ID0gSDAsXG4gICAgICAgICAgICAgICAgIHdoaXRlLmFkaiA9IFwiaGMxXCIpXG5cbiMgb2J0YWluIHRoZSBtb2RlbCBzdW1tYXJ5XG5saW5lYXJIeXBvdGhlc2lzKGN1YmljX21vZGVsLFxuICAgICAgICAgICAgICAgICBjKEludGVyY2VwdD0gbGluZWFyX21vZGVsJGNvZWZmaWNpZW50c1tcIihJbnRlcmNlcHQpXCJdLGluY29tZT1saW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiaW5jb21lXCJdLCAncG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpMicgPSAwLCAncG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpMyc9IDApLFxuICAgICAgICAgICAgICAgICB3aGl0ZS5hZGogPSBcImhjMVwiLFxuICAgICAgICAgICAgICAgICB2Y292Lj12Y292SEMoY3ViaWNfbW9kZWwsIHR5cGUgPSBcIkhDMVwiKVxuICAgICAgICAgICAgICAgICApXG5cbnBGdGVzdChjdWJpY19tb2RlbCwgbGluZWFyX21vZGVsKVxuYGBgIn0= -->
 <pre class="r"><code># estimate a cubic model
 cubic_model &lt;- lm(score ~ poly(income, degree = 3, raw = TRUE), data = CASchools)
 
@@ -1850,10 +1826,13 @@ linearHypothesis(cubic_model,
                  white.adj = &quot;hc1&quot;)
 
 # obtain the model summary
-linearHypothesis(linear_model,
-                 hypothesis.matrix = H1,
+linearHypothesis(cubic_model,
+                 c(Intercept= linear_model$coefficients[&quot;(Intercept)&quot;],income=linear_model$coefficients[&quot;income&quot;], &#39;poly(income, degree = 3, raw = TRUE)2&#39; = 0, &#39;poly(income, degree = 3, raw = TRUE)3&#39;= 0),
                  white.adj = &quot;hc1&quot;,
-                 singular.ok=&quot;TRUE&quot;)</code></pre>
+                 vcov.=vcovHC(cubic_model, type = &quot;HC1&quot;)
+                 )
+
+pFtest(cubic_model, linear_model)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1862,55 +1841,342 @@ linearHypothesis(linear_model,
 <h3>Log-Model</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzZXQgdXAgbmV3IGRhdGFcbkxpbmVhckxvZ19tb2RlbCA8LSBsbShzY29yZSB+IGxvZyhpbmNvbWUpLCBkYXRhID0gQ0FTY2hvb2xzKVxubmV3X2RhdGEgPC0gZGF0YS5mcmFtZShpbmNvbWUgPSBjKDEwLCAxMSwgNDAsIDQ0KSlcblxuIyBwcmVkaWN0IHRoZSBvdXRjb21lcyBcbllfaGF0IDwtIHByZWRpY3QoTGluZWFyTG9nX21vZGVsLCBuZXdkYXRhID0gbmV3X2RhdGEpXG5cbiMgY29tcHV0ZSB0aGUgZXhwZWN0ZWQgZGlmZmVyZW5jZVxuWV9oYXRfbWF0cml4IDwtIG1hdHJpeChZX2hhdCwgbnJvdyA9IDIsIGJ5cm93ID0gVFJVRSlcbllfaGF0X21hdHJpeFssIDJdIC0gWV9oYXRfbWF0cml4WywgMV1cblxuXG5MaW5lYXJfbW9kZWwgPC0gbG0oc2NvcmUgfiBpbmNvbWUsIGRhdGEgPSBDQVNjaG9vbHMpXG5uZXdfZGF0YV9sbSA8LSBkYXRhLmZyYW1lKGluY29tZSA9IGMoMTAsIDExLCA0MCwgNDEpKVxuXG4jIHByZWRpY3QgdGhlIG91dGNvbWVzIFxuWV9oYXRfbG0gPC0gcHJlZGljdChMaW5lYXJfbW9kZWwsIG5ld2RhdGEgPSBuZXdfZGF0YV9sbSlcblxuIyBjb21wdXRlIHRoZSBleHBlY3RlZCBkaWZmZXJlbmNlXG5ZX2hhdF9tYXRyaXhfbG0gPC0gbWF0cml4KFlfaGF0X2xtLCBucm93ID0gMiwgYnlyb3cgPSBUUlVFKVxuWV9oYXRfbWF0cml4X2xtWywgMl0gLSBZX2hhdF9tYXRyaXhfbG1bLCAxXVxuXG5cbkxvZ0xpbmVhcl9tb2RlbCA8LSBsbShsb2coc2NvcmUpIH4gaW5jb21lLCBkYXRhID0gQ0FTY2hvb2xzKVxubmV3X2RhdGFfbG9nbGluIDwtIGRhdGEuZnJhbWUoaW5jb21lID0gYygxMCwgMTEsIDQwLCA0MSkpXG5cbiMgcHJlZGljdCB0aGUgb3V0Y29tZXMgXG5ZX2hhdF9sb2dsaW4gPC0gcHJlZGljdChMb2dMaW5lYXJfbW9kZWwsIG5ld2RhdGEgPSBuZXdfZGF0YV9sb2dsaW4pXG5cbiMgY29tcHV0ZSB0aGUgZXhwZWN0ZWQgZGlmZmVyZW5jZVxuWV9oYXRfbWF0cml4X2xvZ2xpbiA8LSBtYXRyaXgoWV9oYXRfbG9nbGluLCBucm93ID0gMiwgYnlyb3cgPSBUUlVFKVxuWV9oYXRfbWF0cml4X2xvZ2xpblssIDJdIC0gWV9oYXRfbWF0cml4X2xvZ2xpblssIDFdXG5cblxuTG9nTG9nX21vZGVsIDwtIGxtKGxvZyhzY29yZSkgfiBsb2coaW5jb21lKSwgZGF0YSA9IENBU2Nob29scylcbm5ld19kYXRhX2xvZ2xvZyA8LSBkYXRhLmZyYW1lKGluY29tZSA9IGMoMTAsIDExLCA0MCwgNDQpKVxuXG4jIHByZWRpY3QgdGhlIG91dGNvbWVzIFxuWV9oYXRfbG9nbG9nIDwtIHByZWRpY3QoTG9nTG9nX21vZGVsLCBuZXdkYXRhID0gbmV3X2RhdGFfbG9nbG9nKVxuXG4jIGNvbXB1dGUgdGhlIGV4cGVjdGVkIGRpZmZlcmVuY2VcbllfaGF0X21hdHJpeF9sb2dsb2cgPC0gbWF0cml4KFlfaGF0X2xvZ2xvZywgbnJvdyA9IDIsIGJ5cm93ID0gVFJVRSlcbllfaGF0X21hdHJpeF9sb2dsb2dbLCAyXSAtIFlfaGF0X21hdHJpeF9sb2dsb2dbLCAxXVxuYGBgIn0= -->
-<pre class="r"><code># set up new data
-LinearLog_model &lt;- lm(score ~ log(income), data = CASchools)
-new_data &lt;- data.frame(income = c(10, 11, 40, 44))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBlc3RpbWF0ZSBhIGN1YmljIG1vZGVsXG5jdWJpY19tb2RlbCA8LSBsbShzY29yZSB+IHBvbHkoaW5jb21lLCBkZWdyZWUgPSAzLCByYXcgPSBUUlVFKSwgZGF0YSA9IENBU2Nob29scylcblxuIyBzZXQgdXAgaHlwb3RoZXNpcyBtYXRyaXhcbkgwIDwtIHJiaW5kKGMoMCwgMCwgMSwgMCksXG4gICAgICAgICAgICBjKDAsIDAsIDAsIDEpKVxuXG4jIHNldCB1cCBoeXBvdGhlc2lzIG1hdHJpeFxuSDEgPC0gcmJpbmQoYyhsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiKEludGVyY2VwdClcIl0sIDAsIDAsIDApLFxuICAgICAgICAgICAgYygwLCBsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiaW5jb21lXCJdLCAwLCAwKSxcbiAgICAgICAgICAgIGMoMCwgMCwgMSwgMCksXG4gICAgICAgICAgICBjKDAsIDAsIDAsIDEpKVxuSDFcbmBgYCJ9 -->
+<pre class="r"><code># estimate a cubic model
+cubic_model &lt;- lm(score ~ poly(income, degree = 3, raw = TRUE), data = CASchools)
 
-# predict the outcomes 
-Y_hat &lt;- predict(LinearLog_model, newdata = new_data)
+# set up hypothesis matrix
+H0 &lt;- rbind(c(0, 0, 1, 0),
+            c(0, 0, 0, 1))
 
-# compute the expected difference
-Y_hat_matrix &lt;- matrix(Y_hat, nrow = 2, byrow = TRUE)
-Y_hat_matrix[, 2] - Y_hat_matrix[, 1]
+# set up hypothesis matrix
+H1 &lt;- rbind(c(linear_model$coefficients[&quot;(Intercept)&quot;], 0, 0, 0),
+            c(0, linear_model$coefficients[&quot;income&quot;], 0, 0),
+            c(0, 0, 1, 0),
+            c(0, 0, 0, 1))
+H1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAoSW50ZXJjZXB0KSAgICAgICAgICAgICBcblsxLF0gICAgNjI1LjM4MzYgMC4wMDAwMDAgMCAwXG5bMixdICAgICAgMC4wMDAwIDEuODc4NTQ5IDAgMFxuWzMsXSAgICAgIDAuMDAwMCAwLjAwMDAwMCAxIDBcbls0LF0gICAgICAwLjAwMDAgMC4wMDAwMDAgMCAxXG4ifQ== -->
+<pre><code>     (Intercept)             
+[1,]    625.3836 0.000000 0 0
+[2,]      0.0000 1.878549 0 0
+[3,]      0.0000 0.000000 1 0
+[4,]      0.0000 0.000000 0 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnlcbmxpbmVhckh5cG90aGVzaXMoY3ViaWNfbW9kZWwsXG4gICAgICAgICAgICAgICAgIGh5cG90aGVzaXMubWF0cml4ID0gSDAsXG4gICAgICAgICAgICAgICAgIHdoaXRlLmFkaiA9IFwiaGMxXCIpXG5gYGAifQ== -->
+<pre class="r"><code># obtain the model summary
+linearHypothesis(cubic_model,
+                 hypothesis.matrix = H0,
+                 white.adj = &quot;hc1&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIGh5cG90aGVzaXMgdGVzdFxuXG5IeXBvdGhlc2lzOlxucG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpMiA9IDBcbnBvbHkoaW5jb21lLCBkZWdyZWUgPSAzLCByYXcgPSBUUlVFKTMgPSAwXG5cbk1vZGVsIDE6IHJlc3RyaWN0ZWQgbW9kZWxcbk1vZGVsIDI6IHNjb3JlIH4gcG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpXG5cbk5vdGU6IENvZWZmaWNpZW50IGNvdmFyaWFuY2UgbWF0cml4IHN1cHBsaWVkLlxuXG4gIFJlcy5EZiBEZiAgICAgIEYgICAgUHIoPkYpICAgIFxuMSAgICA0MTggICAgICAgICAgICAgICAgICAgICAgICBcbjIgICAgNDE2ICAyIDM3LjY5MSA5LjA0M2UtMTYgKioqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>Linear hypothesis test
 
+Hypothesis:
+poly(income, degree = 3, raw = TRUE)2 = 0
+poly(income, degree = 3, raw = TRUE)3 = 0
 
-Linear_model &lt;- lm(score ~ income, data = CASchools)
-new_data_lm &lt;- data.frame(income = c(10, 11, 40, 41))
+Model 1: restricted model
+Model 2: score ~ poly(income, degree = 3, raw = TRUE)
 
-# predict the outcomes 
-Y_hat_lm &lt;- predict(Linear_model, newdata = new_data_lm)
+Note: Coefficient covariance matrix supplied.
 
-# compute the expected difference
-Y_hat_matrix_lm &lt;- matrix(Y_hat_lm, nrow = 2, byrow = TRUE)
-Y_hat_matrix_lm[, 2] - Y_hat_matrix_lm[, 1]
+  Res.Df Df      F    Pr(&gt;F)    
+1    418                        
+2    416  2 37.691 9.043e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnlcbmxpbmVhckh5cG90aGVzaXMoY3ViaWNfbW9kZWwsXG4gICAgICAgICAgICAgICAgIGMoSW50ZXJjZXB0PSBsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzW1wiKEludGVyY2VwdClcIl0saW5jb21lPWxpbmVhcl9tb2RlbCRjb2VmZmljaWVudHNbXCJpbmNvbWVcIl0sICdwb2x5KGluY29tZSwgZGVncmVlID0gMywgcmF3ID0gVFJVRSkyJyA9IDAsICdwb2x5KGluY29tZSwgZGVncmVlID0gMywgcmF3ID0gVFJVRSkzJz0gMCksXG4gICAgICAgICAgICAgICAgIHdoaXRlLmFkaiA9IFwiaGMxXCIsXG4gICAgICAgICAgICAgICAgIHZjb3YuPXZjb3ZIQyhjdWJpY19tb2RlbCwgdHlwZSA9IFwiSEMxXCIpXG4gICAgICAgICAgICAgICAgIClcbmBgYCJ9 -->
+<pre class="r"><code># obtain the model summary
+linearHypothesis(cubic_model,
+                 c(Intercept= linear_model$coefficients[&quot;(Intercept)&quot;],income=linear_model$coefficients[&quot;income&quot;], &#39;poly(income, degree = 3, raw = TRUE)2&#39; = 0, &#39;poly(income, degree = 3, raw = TRUE)3&#39;= 0),
+                 white.adj = &quot;hc1&quot;,
+                 vcov.=vcovHC(cubic_model, type = &quot;HC1&quot;)
+                 )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGluZWFyIGh5cG90aGVzaXMgdGVzdFxuXG5IeXBvdGhlc2lzOlxuNjI1LjM4MzU4MDQ3NzggKChJbnRlcmNlcHQpICArIDEuODc4NTQ5Mzk5Mjg3NzcgcG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpMSA9IDBcblxuTW9kZWwgMTogcmVzdHJpY3RlZCBtb2RlbFxuTW9kZWwgMjogc2NvcmUgfiBwb2x5KGluY29tZSwgZGVncmVlID0gMywgcmF3ID0gVFJVRSlcblxuTm90ZTogQ29lZmZpY2llbnQgY292YXJpYW5jZSBtYXRyaXggc3VwcGxpZWQuXG5cbiAgUmVzLkRmIERmICAgICBGICAgIFByKD5GKSAgICBcbjEgICAgNDE3ICAgICAgICAgICAgICAgICAgICAgICBcbjIgICAgNDE2ICAxIDEzODQ1IDwgMi4yZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuIn0= -->
+<pre><code>Linear hypothesis test
 
+Hypothesis:
+625.3835804778 ((Intercept)  + 1.87854939928777 poly(income, degree = 3, raw = TRUE)1 = 0
 
-LogLinear_model &lt;- lm(log(score) ~ income, data = CASchools)
-new_data_loglin &lt;- data.frame(income = c(10, 11, 40, 41))
+Model 1: restricted model
+Model 2: score ~ poly(income, degree = 3, raw = TRUE)
 
-# predict the outcomes 
-Y_hat_loglin &lt;- predict(LogLinear_model, newdata = new_data_loglin)
+Note: Coefficient covariance matrix supplied.
 
-# compute the expected difference
-Y_hat_matrix_loglin &lt;- matrix(Y_hat_loglin, nrow = 2, byrow = TRUE)
-Y_hat_matrix_loglin[, 2] - Y_hat_matrix_loglin[, 1]
+  Res.Df Df     F    Pr(&gt;F)    
+1    417                       
+2    416  1 13845 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucEZ0ZXN0KGN1YmljX21vZGVsLCBsaW5lYXJfbW9kZWwpXG5gYGAifQ== -->
+<pre class="r"><code>pFtest(cubic_model, linear_model)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gVXNlTWV0aG9kKFwicEZ0ZXN0XCIpIDogXG4gIG5vIGFwcGxpY2FibGUgbWV0aG9kIGZvciAncEZ0ZXN0JyBhcHBsaWVkIHRvIGFuIG9iamVjdCBvZiBjbGFzcyBcImxtXCJcbiJ9 -->
+<pre><code>Error in UseMethod(&quot;pFtest&quot;) : 
+  no applicable method for &#39;pFtest&#39; applied to an object of class &quot;lm&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="chapter-10" class="section level1">
+<h1>Chapter 10</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkZWZpbmUgdGhlIGZhdGFsaXR5IHJhdGVcbkZhdGFsaXRpZXMkZmF0YWxfcmF0ZSA8LSBGYXRhbGl0aWVzJGZhdGFsIC8gRmF0YWxpdGllcyRwb3AgKiAxMDAwMFxuXG4jIHN1YnNldCB0aGUgZGF0YVxuRmF0YWxpdGllczE5ODIgPC0gc3Vic2V0KEZhdGFsaXRpZXMsIHllYXIgPT0gXCIxOTgyXCIpXG5GYXRhbGl0aWVzMTk4OCA8LSBzdWJzZXQoRmF0YWxpdGllcywgeWVhciA9PSBcIjE5ODhcIilcbiMgZXN0aW1hdGUgc2ltcGxlIHJlZ3Jlc3Npb24gbW9kZWxzIHVzaW5nIDE5ODIgYW5kIDE5ODggZGF0YVxuZmF0YWwxOTgyX21vZCA8LSBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgZGF0YSA9IEZhdGFsaXRpZXMxOTgyKVxuZmF0YWwxOTg4X21vZCA8LSBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgZGF0YSA9IEZhdGFsaXRpZXMxOTg4KVxuXG5jb2VmdGVzdChmYXRhbDE5ODJfbW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9IFwiSEMxXCIpXG5cbmNvZWZ0ZXN0KGZhdGFsMTk4OF9tb2QsIHZjb3YuID0gdmNvdkhDLCB0eXBlID0gXCJIQzFcIilcblxuYGBgIn0= -->
+<pre class="r"><code># define the fatality rate
+Fatalities$fatal_rate &lt;- Fatalities$fatal / Fatalities$pop * 10000
 
+# subset the data
+Fatalities1982 &lt;- subset(Fatalities, year == &quot;1982&quot;)
+Fatalities1988 &lt;- subset(Fatalities, year == &quot;1988&quot;)
+# estimate simple regression models using 1982 and 1988 data
+fatal1982_mod &lt;- lm(fatal_rate ~ beertax, data = Fatalities1982)
+fatal1988_mod &lt;- lm(fatal_rate ~ beertax, data = Fatalities1988)
 
-LogLog_model &lt;- lm(log(score) ~ log(income), data = CASchools)
-new_data_loglog &lt;- data.frame(income = c(10, 11, 40, 44))
+coeftest(fatal1982_mod, vcov. = vcovHC, type = &quot;HC1&quot;)
 
-# predict the outcomes 
-Y_hat_loglog &lt;- predict(LogLog_model, newdata = new_data_loglog)
-
-# compute the expected difference
-Y_hat_matrix_loglog &lt;- matrix(Y_hat_loglog, nrow = 2, byrow = TRUE)
-Y_hat_matrix_loglog[, 2] - Y_hat_matrix_loglog[, 1]</code></pre>
+coeftest(fatal1988_mod, vcov. = vcovHC, type = &quot;HC1&quot;)
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="differenz-zwischen-zeitreihen-betrachten" class="section level2">
+<h2>Differenz zwischen Zeitreihen betrachten</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkZWZpbmUgdGhlIGZhdGFsaXR5IHJhdGVcbkZhdGFsaXRpZXMkZmF0YWxfcmF0ZSA8LSBGYXRhbGl0aWVzJGZhdGFsIC8gRmF0YWxpdGllcyRwb3AgKiAxMDAwMFxuXG4jIHN1YnNldCB0aGUgZGF0YVxuRmF0YWxpdGllczE5ODIgPC0gc3Vic2V0KEZhdGFsaXRpZXMsIHllYXIgPT0gXCIxOTgyXCIpXG5GYXRhbGl0aWVzMTk4OCA8LSBzdWJzZXQoRmF0YWxpdGllcywgeWVhciA9PSBcIjE5ODhcIilcbiMgZXN0aW1hdGUgc2ltcGxlIHJlZ3Jlc3Npb24gbW9kZWxzIHVzaW5nIDE5ODIgYW5kIDE5ODggZGF0YVxuZmF0YWwxOTgyX21vZCA8LSBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgZGF0YSA9IEZhdGFsaXRpZXMxOTgyKVxuZmF0YWwxOTg4X21vZCA8LSBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgZGF0YSA9IEZhdGFsaXRpZXMxOTg4KVxuXG5jb2VmdGVzdChmYXRhbDE5ODJfbW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9IFwiSEMxXCIpXG5gYGAifQ== -->
+<pre class="r"><code># define the fatality rate
+Fatalities$fatal_rate &lt;- Fatalities$fatal / Fatalities$pop * 10000
+
+# subset the data
+Fatalities1982 &lt;- subset(Fatalities, year == &quot;1982&quot;)
+Fatalities1988 &lt;- subset(Fatalities, year == &quot;1988&quot;)
+# estimate simple regression models using 1982 and 1988 data
+fatal1982_mod &lt;- lm(fatal_rate ~ beertax, data = Fatalities1982)
+fatal1988_mod &lt;- lm(fatal_rate ~ beertax, data = Fatalities1988)
+
+coeftest(fatal1982_mod, vcov. = vcovHC, type = &quot;HC1&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgMi4wMTAzOCAgICAwLjE0OTU3IDEzLjQ0MDggICA8MmUtMTYgKioqXG5iZWVydGF4ICAgICAgMC4xNDg0NiAgICAwLjEzMjYxICAxLjExOTYgICAwLjI2ODcgICAgXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>
+t test of coefficients:
+
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  2.01038    0.14957 13.4408   &lt;2e-16 ***
+beertax      0.14846    0.13261  1.1196   0.2687    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29lZnRlc3QoZmF0YWwxOTg4X21vZCwgdmNvdi4gPSB2Y292SEMsIHR5cGUgPSBcIkhDMVwiKVxuYGBgIn0= -->
+<pre class="r"><code>coeftest(fatal1988_mod, vcov. = vcovHC, type = &quot;HC1&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgIFByKD58dHwpICAgIFxuKEludGVyY2VwdCkgIDEuODU5MDcgICAgMC4xMTQ2MSAxNi4yMjA1IDwgMi4yZS0xNiAqKipcbmJlZXJ0YXggICAgICAwLjQzODc1ICAgIDAuMTI3ODYgIDMuNDMxNCAgMC4wMDEyNzkgKiogXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>
+t test of coefficients:
+
+            Estimate Std. Error t value  Pr(&gt;|t|)    
+(Intercept)  1.85907    0.11461 16.2205 &lt; 2.2e-16 ***
+beertax      0.43875    0.12786  3.4314  0.001279 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="fixed-effects-regression" class="section level2">
+<h2>Fixed Effects Regression</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBjb21wdXRlIHRoZSBkaWZmZXJlbmNlcyBcbmRpZmZfZmF0YWxfcmF0ZSA8LSBGYXRhbGl0aWVzMTk4OCRmYXRhbF9yYXRlIC0gRmF0YWxpdGllczE5ODIkZmF0YWxfcmF0ZVxuZGlmZl9iZWVydGF4IDwtIEZhdGFsaXRpZXMxOTg4JGJlZXJ0YXggLSBGYXRhbGl0aWVzMTk4MiRiZWVydGF4XG5cbiMgZXN0aW1hdGUgYSByZWdyZXNzaW9uIHVzaW5nIGRpZmZlcmVuY2VkIGRhdGFcbmZhdGFsX2RpZmZfbW9kIDwtIGxtKGRpZmZfZmF0YWxfcmF0ZSB+IGRpZmZfYmVlcnRheClcblxuY29lZnRlc3QoZmF0YWxfZGlmZl9tb2QsIHZjb3YgPSB2Y292SEMsIHR5cGUgPSBcIkhDMVwiKVxuYGBgIn0= -->
+<pre class="r"><code># compute the differences 
+diff_fatal_rate &lt;- Fatalities1988$fatal_rate - Fatalities1982$fatal_rate
+diff_beertax &lt;- Fatalities1988$beertax - Fatalities1982$beertax
+
+# estimate a regression using differenced data
+fatal_diff_mod &lt;- lm(diff_fatal_rate ~ diff_beertax)
+
+coeftest(fatal_diff_mod, vcov = vcovHC, type = &quot;HC1&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgIFxuKEludGVyY2VwdCkgIC0wLjA3MjAzNyAgIDAuMDY1MzU1IC0xLjEwMjIgMC4yNzYwOTEgICBcbmRpZmZfYmVlcnRheCAtMS4wNDA5NzMgICAwLjM1NTAwNiAtMi45MzIzIDAuMDA1MjI5ICoqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>
+t test of coefficients:
+
+              Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)  -0.072037   0.065355 -1.1022 0.276091   
+diff_beertax -1.040973   0.355006 -2.9323 0.005229 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBwbG90IHRoZSBkaWZmZXJlbmNlZCBkYXRhXG5wbG90KHggPSBhcy5kb3VibGUoZGlmZl9iZWVydGF4KSwgXG4gICAgIHkgPSBhcy5kb3VibGUoZGlmZl9mYXRhbF9yYXRlKSwgXG4gICAgIHhsYWIgPSBcIkNoYW5nZSBpbiBiZWVyIHRheCAoaW4gMTk4OCBkb2xsYXJzKVwiLFxuICAgICB5bGFiID0gXCJDaGFuZ2UgaW4gZmF0YWxpdHkgcmF0ZSAoZmF0YWxpdGllcyBwZXIgMTAwMDApXCIsXG4gICAgIG1haW4gPSBcIkNoYW5nZXMgaW4gVHJhZmZpYyBGYXRhbGl0eSBSYXRlcyBhbmQgQmVlciBUYXhlcyBpbiAxOTgyLTE5ODhcIixcbiAgICAgeGxpbSA9IGMoLTAuNiwgMC42KSxcbiAgICAgeWxpbSA9IGMoLTEuNSwgMSksXG4gICAgIHBjaCA9IDIwLCBcbiAgICAgY29sID0gXCJzdGVlbGJsdWVcIilcblxuIyBhZGQgdGhlIHJlZ3Jlc3Npb24gbGluZSB0byBwbG90XG5hYmxpbmUoZmF0YWxfZGlmZl9tb2QsIGx3ZCA9IDEuNSlcblxuYGBgIn0= -->
+<pre class="r"><code># plot the differenced data
+plot(x = as.double(diff_beertax), 
+     y = as.double(diff_fatal_rate), 
+     xlab = &quot;Change in beer tax (in 1988 dollars)&quot;,
+     ylab = &quot;Change in fatality rate (fatalities per 10000)&quot;,
+     main = &quot;Changes in Traffic Fatality Rates and Beer Taxes in 1982-1988&quot;,
+     xlim = c(-0.6, 0.6),
+     ylim = c(-1.5, 1),
+     pch = 20, 
+     col = &quot;steelblue&quot;)
+
+# add the regression line to plot
+abline(fatal_diff_mod, lwd = 1.5)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-plot-begin eyJoZWlnaHQiOjQzMi42MzI5LCJ3aWR0aCI6NzAwLCJzaXplX2JlaGF2aW9yIjowLCJjb25kaXRpb25zIjpbXX0= -->
+<p><img src="data:image/png;base64,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" /></p>
+<!-- rnb-plot-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="kombiniertes-modell" class="section level2">
+<h2>Kombiniertes Modell</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmF0YWxfZmVfbG1fbW9kIDwtIGxtKGZhdGFsX3JhdGUgfiBiZWVydGF4ICsgc3RhdGUgLSAxLCBkYXRhID0gRmF0YWxpdGllcylcbmZhdGFsX2ZlX2xtX21vZFxuYGBgIn0= -->
+<pre class="r"><code>fatal_fe_lm_mod &lt;- lm(fatal_rate ~ beertax + state - 1, data = Fatalities)
+fatal_fe_lm_mod</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IGZhdGFsX3JhdGUgfiBiZWVydGF4ICsgc3RhdGUgLSAxLCBkYXRhID0gRmF0YWxpdGllcylcblxuQ29lZmZpY2llbnRzOlxuYmVlcnRheCAgc3RhdGVhbCAgc3RhdGVheiAgc3RhdGVhciAgc3RhdGVjYSAgc3RhdGVjbyAgc3RhdGVjdCAgc3RhdGVkZSAgc3RhdGVmbCAgc3RhdGVnYSAgc3RhdGVpZCAgc3RhdGVpbCAgc3RhdGVpbiAgc3RhdGVpYSAgc3RhdGVrcyAgc3RhdGVreSAgc3RhdGVsYSAgc3RhdGVtZSAgc3RhdGVtZCAgc3RhdGVtYSAgc3RhdGVtaSAgc3RhdGVtbiAgXG4tMC42NTU5ICAgMy40Nzc2ICAgMi45MDk5ICAgMi44MjI3ICAgMS45NjgyICAgMS45OTMzICAgMS42MTU0ICAgMi4xNzAwICAgMy4yMDk1ICAgNC4wMDIyICAgMi44MDg2ICAgMS41MTYwICAgMi4wMTYxICAgMS45MzM3ICAgMi4yNTQ0ICAgMi4yNjAxICAgMi42MzA1ICAgMi4zNjk3ICAgMS43NzEyICAgMS4zNjc5ICAgMS45OTMxICAgMS41ODA0ICBcbnN0YXRlbXMgIHN0YXRlbW8gIHN0YXRlbXQgIHN0YXRlbmUgIHN0YXRlbnYgIHN0YXRlbmggIHN0YXRlbmogIHN0YXRlbm0gIHN0YXRlbnkgIHN0YXRlbmMgIHN0YXRlbmQgIHN0YXRlb2ggIHN0YXRlb2sgIHN0YXRlb3IgIHN0YXRlcGEgIHN0YXRlcmkgIHN0YXRlc2MgIHN0YXRlc2QgIHN0YXRldG4gIHN0YXRldHggIHN0YXRldXQgIHN0YXRldnQgIFxuIDMuNDQ4NiAgIDIuMTgxNCAgIDMuMTE3MiAgIDEuOTU1NSAgIDIuODc2OSAgIDIuMjIzMiAgIDEuMzcxOSAgIDMuOTA0MCAgIDEuMjkxMCAgIDMuMTg3MiAgIDEuODU0MiAgIDEuODAzMiAgIDIuOTMyNiAgIDIuMzA5NiAgIDEuNzEwMiAgIDEuMjEyNiAgIDQuMDM0OCAgIDIuNDczOSAgIDIuNjAyMCAgIDIuNTYwMiAgIDIuMzEzNyAgIDIuNTExNiAgXG5zdGF0ZXZhICBzdGF0ZXdhICBzdGF0ZXd2ICBzdGF0ZXdpICBzdGF0ZXd5ICBcbiAyLjE4NzQgICAxLjgxODEgICAyLjU4MDkgICAxLjcxODQgICAzLjI0OTEgIFxuIn0= -->
+<pre><code>
+Call:
+lm(formula = fatal_rate ~ beertax + state - 1, data = Fatalities)
+
+Coefficients:
+beertax  stateal  stateaz  statear  stateca  stateco  statect  statede  statefl  statega  stateid  stateil  statein  stateia  stateks  stateky  statela  stateme  statemd  statema  statemi  statemn  
+-0.6559   3.4776   2.9099   2.8227   1.9682   1.9933   1.6154   2.1700   3.2095   4.0022   2.8086   1.5160   2.0161   1.9337   2.2544   2.2601   2.6305   2.3697   1.7712   1.3679   1.9931   1.5804  
+statems  statemo  statemt  statene  statenv  statenh  statenj  statenm  stateny  statenc  statend  stateoh  stateok  stateor  statepa  stateri  statesc  statesd  statetn  statetx  stateut  statevt  
+ 3.4486   2.1814   3.1172   1.9555   2.8769   2.2232   1.3719   3.9040   1.2910   3.1872   1.8542   1.8032   2.9326   2.3096   1.7102   1.2126   4.0348   2.4739   2.6020   2.5602   2.3137   2.5116  
+stateva  statewa  statewv  statewi  statewy  
+ 2.1874   1.8181   2.5809   1.7184   3.2491  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvYnRhaW4gZGVtZWFuZWQgZGF0YVxuRmF0YWxpdGllc19kZW1lYW5lZCA8LSB3aXRoKEZhdGFsaXRpZXMsXG4gICAgICAgICAgICBkYXRhLmZyYW1lKGZhdGFsX3JhdGUgPSBmYXRhbF9yYXRlIC0gYXZlKGZhdGFsX3JhdGUsIHN0YXRlKSxcbiAgICAgICAgICAgIGJlZXJ0YXggPSBiZWVydGF4IC0gYXZlKGJlZXJ0YXgsIHN0YXRlKSkpXG5cbiMgZXN0aW1hdGUgdGhlIHJlZ3Jlc3Npb25cbnN1bW1hcnkobG0oZmF0YWxfcmF0ZSB+IGJlZXJ0YXggLSAxLCBkYXRhID0gRmF0YWxpdGllc19kZW1lYW5lZCkpXG5gYGAifQ== -->
+<pre class="r"><code># obtain demeaned data
+Fatalities_demeaned &lt;- with(Fatalities,
+            data.frame(fatal_rate = fatal_rate - ave(fatal_rate, state),
+            beertax = beertax - ave(beertax, state)))
+
+# estimate the regression
+summary(lm(fatal_rate ~ beertax - 1, data = Fatalities_demeaned))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IGZhdGFsX3JhdGUgfiBiZWVydGF4IC0gMSwgZGF0YSA9IEZhdGFsaXRpZXNfZGVtZWFuZWQpXG5cblJlc2lkdWFsczpcbiAgICAgTWluICAgICAgIDFRICAgTWVkaWFuICAgICAgIDNRICAgICAgTWF4IFxuLTAuNTg2OTYgLTAuMDgyODQgLTAuMDAxMjcgIDAuMDc5NTUgIDAuODk3ODAgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgRXN0aW1hdGUgU3RkLiBFcnJvciB0IHZhbHVlIFByKD58dHwpICAgIFxuYmVlcnRheCAgLTAuNjU1OSAgICAgMC4xNzM5ICAtMy43NzIgMC4wMDAxOTEgKioqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDAuMTc1NyBvbiAzMzUgZGVncmVlcyBvZiBmcmVlZG9tXG5NdWx0aXBsZSBSLXNxdWFyZWQ6ICAwLjA0MDc0LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC4wMzc4OCBcbkYtc3RhdGlzdGljOiAxNC4yMyBvbiAxIGFuZCAzMzUgREYsICBwLXZhbHVlOiAwLjAwMDE5MTNcbiJ9 -->
+<pre><code>
+Call:
+lm(formula = fatal_rate ~ beertax - 1, data = Fatalities_demeaned)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.58696 -0.08284 -0.00127  0.07955  0.89780 
+
+Coefficients:
+        Estimate Std. Error t value Pr(&gt;|t|)    
+beertax  -0.6559     0.1739  -3.772 0.000191 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1757 on 335 degrees of freedom
+Multiple R-squared:  0.04074,   Adjusted R-squared:  0.03788 
+F-statistic: 14.23 on 1 and 335 DF,  p-value: 0.0001913</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyNBbHRlcm5hdGl2ZSBtaXQgcGxtXG4jIGVzdGltYXRlIHRoZSBmaXhlZCBlZmZlY3RzIHJlZ3Jlc3Npb24gd2l0aCBwbG0oKVxuZmF0YWxfZmVfbW9kIDwtIHBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgXG4gICAgICAgICAgICAgICAgICAgIGRhdGEgPSBGYXRhbGl0aWVzLFxuICAgICAgICAgICAgICAgICAgICBpbmRleCA9IGMoXCJzdGF0ZVwiLCBcInllYXJcIiksIFxuICAgICAgICAgICAgICAgICAgICBtb2RlbCA9IFwid2l0aGluXCIpXG5cbiMgcHJpbnQgc3VtbWFyeSB1c2luZyByb2J1c3Qgc3RhbmRhcmQgZXJyb3JzXG5mYXRhbF9mZV9tb2RcbmBgYCJ9 -->
+<pre class="r"><code>##Alternative mit plm
+# estimate the fixed effects regression with plm()
+fatal_fe_mod &lt;- plm(fatal_rate ~ beertax, 
+                    data = Fatalities,
+                    index = c(&quot;state&quot;, &quot;year&quot;), 
+                    model = &quot;within&quot;)
+
+# print summary using robust standard errors
+fatal_fe_mod</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5Nb2RlbCBGb3JtdWxhOiBmYXRhbF9yYXRlIH4gYmVlcnRheFxuXG5Db2VmZmljaWVudHM6XG4gYmVlcnRheCBcbi0wLjY1NTg3IFxuIn0= -->
+<pre><code>
+Model Formula: fatal_rate ~ beertax
+
+Coefficients:
+ beertax 
+-0.65587 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29lZnRlc3QoZmF0YWxfZmVfbW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9IFwiSEMxXCIpICMgQmVyZWluaWd0IHVtIEhldGVyb3NrZWRhc3Rpeml0w6R0IFxuYGBgIn0= -->
+<pre class="r"><code>coeftest(fatal_fe_mod, vcov. = vcovHC, type = &quot;HC1&quot;) # Bereinigt um Heteroskedastizität </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG5iZWVydGF4IC0wLjY1NTg3ICAgIDAuMjg4ODAgIC0yLjI3MSAgMC4wMjM4OCAqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>
+t test of coefficients:
+
+        Estimate Std. Error t value Pr(&gt;|t|)  
+beertax -0.65587    0.28880  -2.271  0.02388 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="kapitel-11" class="section level1">
+<h1>Kapitel 11</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBlc3RpbWF0ZSBhIGNvbWJpbmVkIHRpbWUgYW5kIGVudGl0eSBmaXhlZCBlZmZlY3RzIHJlZ3Jlc3Npb24gbW9kZWxcblxuIyB2aWEgbG0oKVxuZmF0YWxfdGVmZV9sbV9tb2QgPC0gbG0oZmF0YWxfcmF0ZSB+IGJlZXJ0YXggKyBzdGF0ZSArIHllYXIgLSAxLCBkYXRhID0gRmF0YWxpdGllcylcbmZhdGFsX3RlZmVfbG1fbW9kXG5gYGAifQ== -->
+<pre class="r"><code># estimate a combined time and entity fixed effects regression model
+
+# via lm()
+fatal_tefe_lm_mod &lt;- lm(fatal_rate ~ beertax + state + year - 1, data = Fatalities)
+fatal_tefe_lm_mod</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IGZhdGFsX3JhdGUgfiBiZWVydGF4ICsgc3RhdGUgKyB5ZWFyIC0gMSwgZGF0YSA9IEZhdGFsaXRpZXMpXG5cbkNvZWZmaWNpZW50czpcbiBiZWVydGF4ICAgc3RhdGVhbCAgIHN0YXRlYXogICBzdGF0ZWFyICAgc3RhdGVjYSAgIHN0YXRlY28gICBzdGF0ZWN0ICAgc3RhdGVkZSAgIHN0YXRlZmwgICBzdGF0ZWdhICAgc3RhdGVpZCAgIHN0YXRlaWwgICBzdGF0ZWluICAgc3RhdGVpYSAgIHN0YXRla3MgICBzdGF0ZWt5ICAgc3RhdGVsYSAgIHN0YXRlbWUgICBzdGF0ZW1kICAgc3RhdGVtYSAgXG4tMC42Mzk5OCAgIDMuNTExMzcgICAyLjk2NDUxICAgMi44NzI4NCAgIDIuMDI2MTggICAyLjA0OTg0ICAgMS42NzEyNSAgIDIuMjI3MTEgICAzLjI1MTMyICAgNC4wMjMwMCAgIDIuODYyNDIgICAxLjU3Mjg3ICAgMi4wNzEyMyAgIDEuOTg3MDkgICAyLjMwNzA3ICAgMi4zMTY1OSAgIDIuNjc3NzIgICAyLjQxNzEzICAgMS44MjczMSAgIDEuNDIzMzUgIFxuIHN0YXRlbWkgICBzdGF0ZW1uICAgc3RhdGVtcyAgIHN0YXRlbW8gICBzdGF0ZW10ICAgc3RhdGVuZSAgIHN0YXRlbnYgICBzdGF0ZW5oICAgc3RhdGVuaiAgIHN0YXRlbm0gICBzdGF0ZW55ICAgc3RhdGVuYyAgIHN0YXRlbmQgICBzdGF0ZW9oICAgc3RhdGVvayAgIHN0YXRlb3IgICBzdGF0ZXBhICAgc3RhdGVyaSAgIHN0YXRlc2MgICBzdGF0ZXNkICBcbiAyLjA0NDg4ICAgMS42MzQ4OCAgIDMuNDkxNDYgICAyLjIzNTk4ICAgMy4xNzE2MCAgIDIuMDA4NDYgICAyLjkzMzIyICAgMi4yNzI0NSAgIDEuNDMwMTYgICAzLjk1NzQ4ICAgMS4zNDg0OSAgIDMuMjI2MzAgICAxLjkwNzYyICAgMS44NTY2NCAgIDIuOTc3NzYgICAyLjM2NTk3ICAgMS43NjU2MyAgIDEuMjY5NjQgICA0LjA2NDk2ICAgMi41MjMxNyAgXG4gc3RhdGV0biAgIHN0YXRldHggICBzdGF0ZXV0ICAgc3RhdGV2dCAgIHN0YXRldmEgICBzdGF0ZXdhICAgc3RhdGV3diAgIHN0YXRld2kgICBzdGF0ZXd5ICB5ZWFyMTk4MyAgeWVhcjE5ODQgIHllYXIxOTg1ICB5ZWFyMTk4NiAgeWVhcjE5ODcgIHllYXIxOTg4ICBcbiAyLjY1NjcwICAgMi42MTI4MiAgIDIuMzYxNjUgICAyLjU2MTAwICAgMi4yMzYxOCAgIDEuODc0MjQgICAyLjYzMzY0ICAgMS43NzU0NSAgIDMuMzA3OTEgIC0wLjA3OTkwICAtMC4wNzI0MiAgLTAuMTIzOTggIC0wLjAzNzg2ICAtMC4wNTA5MCAgLTAuMDUxODAgIFxuIn0= -->
+<pre><code>
+Call:
+lm(formula = fatal_rate ~ beertax + state + year - 1, data = Fatalities)
+
+Coefficients:
+ beertax   stateal   stateaz   statear   stateca   stateco   statect   statede   statefl   statega   stateid   stateil   statein   stateia   stateks   stateky   statela   stateme   statemd   statema  
+-0.63998   3.51137   2.96451   2.87284   2.02618   2.04984   1.67125   2.22711   3.25132   4.02300   2.86242   1.57287   2.07123   1.98709   2.30707   2.31659   2.67772   2.41713   1.82731   1.42335  
+ statemi   statemn   statems   statemo   statemt   statene   statenv   statenh   statenj   statenm   stateny   statenc   statend   stateoh   stateok   stateor   statepa   stateri   statesc   statesd  
+ 2.04488   1.63488   3.49146   2.23598   3.17160   2.00846   2.93322   2.27245   1.43016   3.95748   1.34849   3.22630   1.90762   1.85664   2.97776   2.36597   1.76563   1.26964   4.06496   2.52317  
+ statetn   statetx   stateut   statevt   stateva   statewa   statewv   statewi   statewy  year1983  year1984  year1985  year1986  year1987  year1988  
+ 2.65670   2.61282   2.36165   2.56100   2.23618   1.87424   2.63364   1.77545   3.30791  -0.07990  -0.07242  -0.12398  -0.03786  -0.05090  -0.05180  </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB2aWEgcGxtKClcbmZhdGFsX3RlZmVfbW9kIDwtIHBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgXG4gICAgICAgICAgICAgICAgICAgICAgZGF0YSA9IEZhdGFsaXRpZXMsXG4gICAgICAgICAgICAgICAgICAgICAgaW5kZXggPSBjKFwic3RhdGVcIiwgXCJ5ZWFyXCIpLCBcbiAgICAgICAgICAgICAgICAgICAgICBtb2RlbCA9IFwid2l0aGluXCIsIFxuICAgICAgICAgICAgICAgICAgICAgIGVmZmVjdCA9IFwidHdvd2F5c1wiKVxuZmF0YWxfdGVmZV9tb2RcbmBgYCJ9 -->
+<pre class="r"><code># via plm()
+fatal_tefe_mod &lt;- plm(fatal_rate ~ beertax, 
+                      data = Fatalities,
+                      index = c(&quot;state&quot;, &quot;year&quot;), 
+                      model = &quot;within&quot;, 
+                      effect = &quot;twoways&quot;)
+fatal_tefe_mod</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5Nb2RlbCBGb3JtdWxhOiBmYXRhbF9yYXRlIH4gYmVlcnRheFxuXG5Db2VmZmljaWVudHM6XG4gYmVlcnRheCBcbi0wLjYzOTk4IFxuIn0= -->
+<pre><code>
+Model Formula: fatal_rate ~ beertax
+
+Coefficients:
+ beertax 
+-0.63998 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29lZnRlc3QoZmF0YWxfdGVmZV9tb2QsIHZjb3YgPSB2Y292SEMsIHR5cGUgPSBcIkhDMVwiKVxuYGBgIn0= -->
+<pre class="r"><code>coeftest(fatal_tefe_mod, vcov = vcovHC, type = &quot;HC1&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG50IHRlc3Qgb2YgY29lZmZpY2llbnRzOlxuXG4gICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgXG5iZWVydGF4IC0wLjYzOTk4ICAgIDAuMzUwMTUgLTEuODI3NyAgMC4wNjg2NSAuXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcbiJ9 -->
+<pre><code>
+t test of coefficients:
+
+        Estimate Std. Error t value Pr(&gt;|t|)  
+beertax -0.63998    0.35015 -1.8277  0.06865 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCiMjIyBMTQ0KYGBge3J9DQojIHByZXBhcmUgdGhlIGRhdGENCmRhdGEoQ0FTY2hvb2xzKQ0KQ0FTY2hvb2xzJHNpemUgPC0gQ0FTY2hvb2xzJHN0dWRlbnRzL0NBU2Nob29scyR0ZWFjaGVycw0KQ0FTY2hvb2xzJHNjb3JlIDwtIChDQVNjaG9vbHMkcmVhZCArIENBU2Nob29scyRtYXRoKSAvIDINCg0KIyBmaXQgYSBzaW1wbGUgbGluZWFyIG1vZGVsDQpsaW5lYXJfbW9kZWw8LSBsbShzY29yZSB+IGluY29tZSwgZGF0YSA9IENBU2Nob29scykNCmNvZWZ0ZXN0KGxpbmVhcl9tb2RlbCwgdmNvdi4gPSB2Y292SEMsIHR5cGUgPSAiSEMxIikNCnN1bW1hcnlfbG0gPC0gc3VtbWFyeShsaW5lYXJfbW9kZWwpDQpzdW1tYXJ5X2xtDQoNCmBgYA0KIyMjIFFNDQpgYGB7ciwgdGl0ZWx9DQojIGZpdCB0aGUgcXVhZHJhdGljIE1vZGVsDQpxdWFkcmF0aWNfbW9kZWwgPC0gbG0oc2NvcmUgfiBpbmNvbWUgKyBJKGluY29tZV4yKSwgZGF0YSA9IENBU2Nob29scykNCg0KIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnkNCmNvZWZ0ZXN0KHF1YWRyYXRpY19tb2RlbCwgdmNvdi4gPSB2Y292SEMsIHR5cGUgPSAiSEMxIikNCnN1bW1hcnlfcW0gPC0gc3VtbWFyeShxdWFkcmF0aWNfbW9kZWwpDQpzdW1tYXJ5X3FtDQpgYGANCg0KDQojIyMgQ3ViaWMgTW9kZWxsczoNCiMjIyBRTQ0KYGBge3J9DQojIGVzdGltYXRlIGEgY3ViaWMgbW9kZWwNCmN1YmljX21vZGVsIDwtIGxtKHNjb3JlIH4gcG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpLCBkYXRhID0gQ0FTY2hvb2xzKQ0KDQojIHNldCB1cCBoeXBvdGhlc2lzIG1hdHJpeA0KSDAgPC0gcmJpbmQoYygwLCAwLCAxLCAwKSwNCiAgICAgICAgICAgIGMoMCwgMCwgMCwgMSkpDQoNCiMgc2V0IHVwIGh5cG90aGVzaXMgbWF0cml4DQpIMSA8LSByYmluZChjKGxpbmVhcl9tb2RlbCRjb2VmZmljaWVudHNbIihJbnRlcmNlcHQpIl0sIDAsIDAsIDApLA0KICAgICAgICAgICAgYygwLCBsaW5lYXJfbW9kZWwkY29lZmZpY2llbnRzWyJpbmNvbWUiXSwgMCwgMCksDQogICAgICAgICAgICBjKDAsIDAsIDEsIDApLA0KICAgICAgICAgICAgYygwLCAwLCAwLCAxKSkNCkgxDQoNCiMgb2J0YWluIHRoZSBtb2RlbCBzdW1tYXJ5DQpsaW5lYXJIeXBvdGhlc2lzKGN1YmljX21vZGVsLA0KICAgICAgICAgICAgICAgICBoeXBvdGhlc2lzLm1hdHJpeCA9IEgwLA0KICAgICAgICAgICAgICAgICB3aGl0ZS5hZGogPSAiaGMxIikNCg0KIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnkNCmxpbmVhckh5cG90aGVzaXMobGluZWFyX21vZGVsLA0KICAgICAgICAgICAgICAgICBoeXBvdGhlc2lzLm1hdHJpeCA9IEgxLA0KICAgICAgICAgICAgICAgICB3aGl0ZS5hZGogPSAiaGMxIiwNCiAgICAgICAgICAgICAgICAgc2luZ3VsYXIub2s9IlRSVUUiKQ0KYGBgDQoNCg0KIyMjIExvZy1Nb2RlbA0KYGBgIHtyfQ0KIyBzZXQgdXAgbmV3IGRhdGENCkxpbmVhckxvZ19tb2RlbCA8LSBsbShzY29yZSB+IGxvZyhpbmNvbWUpLCBkYXRhID0gQ0FTY2hvb2xzKQ0KbmV3X2RhdGEgPC0gZGF0YS5mcmFtZShpbmNvbWUgPSBjKDEwLCAxMSwgNDAsIDQ0KSkNCg0KIyBwcmVkaWN0IHRoZSBvdXRjb21lcyANCllfaGF0IDwtIHByZWRpY3QoTGluZWFyTG9nX21vZGVsLCBuZXdkYXRhID0gbmV3X2RhdGEpDQoNCiMgY29tcHV0ZSB0aGUgZXhwZWN0ZWQgZGlmZmVyZW5jZQ0KWV9oYXRfbWF0cml4IDwtIG1hdHJpeChZX2hhdCwgbnJvdyA9IDIsIGJ5cm93ID0gVFJVRSkNCllfaGF0X21hdHJpeFssIDJdIC0gWV9oYXRfbWF0cml4WywgMV0NCg0KDQpMaW5lYXJfbW9kZWwgPC0gbG0oc2NvcmUgfiBpbmNvbWUsIGRhdGEgPSBDQVNjaG9vbHMpDQpuZXdfZGF0YV9sbSA8LSBkYXRhLmZyYW1lKGluY29tZSA9IGMoMTAsIDExLCA0MCwgNDEpKQ0KDQojIHByZWRpY3QgdGhlIG91dGNvbWVzIA0KWV9oYXRfbG0gPC0gcHJlZGljdChMaW5lYXJfbW9kZWwsIG5ld2RhdGEgPSBuZXdfZGF0YV9sbSkNCg0KIyBjb21wdXRlIHRoZSBleHBlY3RlZCBkaWZmZXJlbmNlDQpZX2hhdF9tYXRyaXhfbG0gPC0gbWF0cml4KFlfaGF0X2xtLCBucm93ID0gMiwgYnlyb3cgPSBUUlVFKQ0KWV9oYXRfbWF0cml4X2xtWywgMl0gLSBZX2hhdF9tYXRyaXhfbG1bLCAxXQ0KDQoNCkxvZ0xpbmVhcl9tb2RlbCA8LSBsbShsb2coc2NvcmUpIH4gaW5jb21lLCBkYXRhID0gQ0FTY2hvb2xzKQ0KbmV3X2RhdGFfbG9nbGluIDwtIGRhdGEuZnJhbWUoaW5jb21lID0gYygxMCwgMTEsIDQwLCA0MSkpDQoNCiMgcHJlZGljdCB0aGUgb3V0Y29tZXMgDQpZX2hhdF9sb2dsaW4gPC0gcHJlZGljdChMb2dMaW5lYXJfbW9kZWwsIG5ld2RhdGEgPSBuZXdfZGF0YV9sb2dsaW4pDQoNCiMgY29tcHV0ZSB0aGUgZXhwZWN0ZWQgZGlmZmVyZW5jZQ0KWV9oYXRfbWF0cml4X2xvZ2xpbiA8LSBtYXRyaXgoWV9oYXRfbG9nbGluLCBucm93ID0gMiwgYnlyb3cgPSBUUlVFKQ0KWV9oYXRfbWF0cml4X2xvZ2xpblssIDJdIC0gWV9oYXRfbWF0cml4X2xvZ2xpblssIDFdDQoNCg0KTG9nTG9nX21vZGVsIDwtIGxtKGxvZyhzY29yZSkgfiBsb2coaW5jb21lKSwgZGF0YSA9IENBU2Nob29scykNCm5ld19kYXRhX2xvZ2xvZyA8LSBkYXRhLmZyYW1lKGluY29tZSA9IGMoMTAsIDExLCA0MCwgNDQpKQ0KDQojIHByZWRpY3QgdGhlIG91dGNvbWVzIA0KWV9oYXRfbG9nbG9nIDwtIHByZWRpY3QoTG9nTG9nX21vZGVsLCBuZXdkYXRhID0gbmV3X2RhdGFfbG9nbG9nKQ0KDQojIGNvbXB1dGUgdGhlIGV4cGVjdGVkIGRpZmZlcmVuY2UNCllfaGF0X21hdHJpeF9sb2dsb2cgPC0gbWF0cml4KFlfaGF0X2xvZ2xvZywgbnJvdyA9IDIsIGJ5cm93ID0gVFJVRSkNCllfaGF0X21hdHJpeF9sb2dsb2dbLCAyXSAtIFlfaGF0X21hdHJpeF9sb2dsb2dbLCAxXQ0KYGBg</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCiMgSW5pdGlhbGlzYXRpb24gb2YgRW52aXJvbm1lbnQNCmBgYHtyfQ0KDQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KEFFUikNCmxpYnJhcnkocGxtKQ0KbGlicmFyeShtdnRub3JtKQ0KbGlicmFyeShzdGFyZ2F6ZXIpDQpsaWJyYXJ5KGdncmVwZWwpDQpsaWJyYXJ5KHZpcmlkaXMpDQpsaWJyYXJ5KHRpYmJsZSkNCmRhdGEoRmF0YWxpdGllcykNCmBgYA0KDQojIENoYXB0ZXIgOA0KIyMjIExNDQpgYGB7ciBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFLCBpbmNsdWRlPUZBTFNFLCBwYWdlZC5wcmludD1GQUxTRX0NCiMgcHJlcGFyZSB0aGUgZGF0YQ0KZGF0YShDQVNjaG9vbHMpDQpDQVNjaG9vbHMkc2l6ZSA8LSBDQVNjaG9vbHMkc3R1ZGVudHMvQ0FTY2hvb2xzJHRlYWNoZXJzDQpDQVNjaG9vbHMkc2NvcmUgPC0gKENBU2Nob29scyRyZWFkICsgQ0FTY2hvb2xzJG1hdGgpIC8gMg0KDQojIGZpdCBhIHNpbXBsZSBsaW5lYXIgbW9kZWwNCmxpbmVhcl9tb2RlbDwtIGxtKHNjb3JlIH4gaW5jb21lLCBkYXRhID0gQ0FTY2hvb2xzKQ0KY29lZnRlc3QobGluZWFyX21vZGVsLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0Kc3VtbWFyeV9sbSA8LSBzdW1tYXJ5KGxpbmVhcl9tb2RlbCkNCnN1bW1hcnlfbG0NCg0KYGBgDQojIyMgUU0NCmBgYHtyLCB0aXRlbH0NCiMgZml0IHRoZSBxdWFkcmF0aWMgTW9kZWwNCnF1YWRyYXRpY19tb2RlbCA8LSBsbShzY29yZSB+IGluY29tZSArIEkoaW5jb21lXjIpLCBkYXRhID0gQ0FTY2hvb2xzKQ0KDQojIG9idGFpbiB0aGUgbW9kZWwgc3VtbWFyeQ0KY29lZnRlc3QocXVhZHJhdGljX21vZGVsLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0Kc3VtbWFyeV9xbSA8LSBzdW1tYXJ5KHF1YWRyYXRpY19tb2RlbCkNCnN1bW1hcnlfcW0NCmBgYA0KDQoNCiMjIyBDdWJpYyBNb2RlbGxzOg0KIyMjIFFNDQpgYGB7cn0NCiMgZXN0aW1hdGUgYSBjdWJpYyBtb2RlbA0KY3ViaWNfbW9kZWwgPC0gbG0oc2NvcmUgfiBwb2x5KGluY29tZSwgZGVncmVlID0gMywgcmF3ID0gVFJVRSksIGRhdGEgPSBDQVNjaG9vbHMpDQoNCiMgc2V0IHVwIGh5cG90aGVzaXMgbWF0cml4DQpIMCA8LSByYmluZChjKDAsIDAsIDEsIDApLA0KICAgICAgICAgICAgYygwLCAwLCAwLCAxKSkNCg0KIyBzZXQgdXAgaHlwb3RoZXNpcyBtYXRyaXgNCkgxIDwtIHJiaW5kKGMobGluZWFyX21vZGVsJGNvZWZmaWNpZW50c1siKEludGVyY2VwdCkiXSwgMCwgMCwgMCksDQogICAgICAgICAgICBjKDAsIGxpbmVhcl9tb2RlbCRjb2VmZmljaWVudHNbImluY29tZSJdLCAwLCAwKSwNCiAgICAgICAgICAgIGMoMCwgMCwgMSwgMCksDQogICAgICAgICAgICBjKDAsIDAsIDAsIDEpKQ0KSDENCg0KIyBvYnRhaW4gdGhlIG1vZGVsIHN1bW1hcnkNCmxpbmVhckh5cG90aGVzaXMoY3ViaWNfbW9kZWwsDQogICAgICAgICAgICAgICAgIGh5cG90aGVzaXMubWF0cml4ID0gSDAsDQogICAgICAgICAgICAgICAgIHdoaXRlLmFkaiA9ICJoYzEiKQ0KDQojIG9idGFpbiB0aGUgbW9kZWwgc3VtbWFyeQ0KbGluZWFySHlwb3RoZXNpcyhjdWJpY19tb2RlbCwNCiAgICAgICAgICAgICAgICAgYyhJbnRlcmNlcHQ9IGxpbmVhcl9tb2RlbCRjb2VmZmljaWVudHNbIihJbnRlcmNlcHQpIl0saW5jb21lPWxpbmVhcl9tb2RlbCRjb2VmZmljaWVudHNbImluY29tZSJdLCAncG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpMicgPSAwLCAncG9seShpbmNvbWUsIGRlZ3JlZSA9IDMsIHJhdyA9IFRSVUUpMyc9IDApLA0KICAgICAgICAgICAgICAgICB3aGl0ZS5hZGogPSAiaGMxIiwNCiAgICAgICAgICAgICAgICAgdmNvdi49dmNvdkhDKGN1YmljX21vZGVsLCB0eXBlID0gIkhDMSIpDQogICAgICAgICAgICAgICAgICkNCg0KcEZ0ZXN0KGN1YmljX21vZGVsLCBsaW5lYXJfbW9kZWwpDQpgYGANCg0KDQojIyMgTG9nLU1vZGVsDQpgYGAge3J9DQojIHNldCB1cCBuZXcgZGF0YQ0KTGluZWFyTG9nX21vZGVsIDwtIGxtKHNjb3JlIH4gbG9nKGluY29tZSksIGRhdGEgPSBDQVNjaG9vbHMpDQpuZXdfZGF0YSA8LSBkYXRhLmZyYW1lKGluY29tZSA9IGMoMTAsIDExLCA0MCwgNDQpKQ0KDQojIHByZWRpY3QgdGhlIG91dGNvbWVzIA0KWV9oYXQgPC0gcHJlZGljdChMaW5lYXJMb2dfbW9kZWwsIG5ld2RhdGEgPSBuZXdfZGF0YSkNCg0KIyBjb21wdXRlIHRoZSBleHBlY3RlZCBkaWZmZXJlbmNlDQpZX2hhdF9tYXRyaXggPC0gbWF0cml4KFlfaGF0LCBucm93ID0gMiwgYnlyb3cgPSBUUlVFKQ0KWV9oYXRfbWF0cml4WywgMl0gLSBZX2hhdF9tYXRyaXhbLCAxXQ0KDQoNCkxpbmVhcl9tb2RlbCA8LSBsbShzY29yZSB+IGluY29tZSwgZGF0YSA9IENBU2Nob29scykNCm5ld19kYXRhX2xtIDwtIGRhdGEuZnJhbWUoaW5jb21lID0gYygxMCwgMTEsIDQwLCA0MSkpDQoNCiMgcHJlZGljdCB0aGUgb3V0Y29tZXMgDQpZX2hhdF9sbSA8LSBwcmVkaWN0KExpbmVhcl9tb2RlbCwgbmV3ZGF0YSA9IG5ld19kYXRhX2xtKQ0KDQojIGNvbXB1dGUgdGhlIGV4cGVjdGVkIGRpZmZlcmVuY2UNCllfaGF0X21hdHJpeF9sbSA8LSBtYXRyaXgoWV9oYXRfbG0sIG5yb3cgPSAyLCBieXJvdyA9IFRSVUUpDQpZX2hhdF9tYXRyaXhfbG1bLCAyXSAtIFlfaGF0X21hdHJpeF9sbVssIDFdDQoNCg0KTG9nTGluZWFyX21vZGVsIDwtIGxtKGxvZyhzY29yZSkgfiBpbmNvbWUsIGRhdGEgPSBDQVNjaG9vbHMpDQpuZXdfZGF0YV9sb2dsaW4gPC0gZGF0YS5mcmFtZShpbmNvbWUgPSBjKDEwLCAxMSwgNDAsIDQxKSkNCg0KIyBwcmVkaWN0IHRoZSBvdXRjb21lcyANCllfaGF0X2xvZ2xpbiA8LSBwcmVkaWN0KExvZ0xpbmVhcl9tb2RlbCwgbmV3ZGF0YSA9IG5ld19kYXRhX2xvZ2xpbikNCg0KIyBjb21wdXRlIHRoZSBleHBlY3RlZCBkaWZmZXJlbmNlDQpZX2hhdF9tYXRyaXhfbG9nbGluIDwtIG1hdHJpeChZX2hhdF9sb2dsaW4sIG5yb3cgPSAyLCBieXJvdyA9IFRSVUUpDQpZX2hhdF9tYXRyaXhfbG9nbGluWywgMl0gLSBZX2hhdF9tYXRyaXhfbG9nbGluWywgMV0NCg0KDQpMb2dMb2dfbW9kZWwgPC0gbG0obG9nKHNjb3JlKSB+IGxvZyhpbmNvbWUpLCBkYXRhID0gQ0FTY2hvb2xzKQ0KbmV3X2RhdGFfbG9nbG9nIDwtIGRhdGEuZnJhbWUoaW5jb21lID0gYygxMCwgMTEsIDQwLCA0NCkpDQoNCiMgcHJlZGljdCB0aGUgb3V0Y29tZXMgDQpZX2hhdF9sb2dsb2cgPC0gcHJlZGljdChMb2dMb2dfbW9kZWwsIG5ld2RhdGEgPSBuZXdfZGF0YV9sb2dsb2cpDQoNCiMgY29tcHV0ZSB0aGUgZXhwZWN0ZWQgZGlmZmVyZW5jZQ0KWV9oYXRfbWF0cml4X2xvZ2xvZyA8LSBtYXRyaXgoWV9oYXRfbG9nbG9nLCBucm93ID0gMiwgYnlyb3cgPSBUUlVFKQ0KWV9oYXRfbWF0cml4X2xvZ2xvZ1ssIDJdIC0gWV9oYXRfbWF0cml4X2xvZ2xvZ1ssIDFdDQpgYGANCg0KIyBDaGFwdGVyIDEwDQpgYGB7cn0NCiMgZGVmaW5lIHRoZSBmYXRhbGl0eSByYXRlDQpGYXRhbGl0aWVzJGZhdGFsX3JhdGUgPC0gRmF0YWxpdGllcyRmYXRhbCAvIEZhdGFsaXRpZXMkcG9wICogMTAwMDANCg0KIyBzdWJzZXQgdGhlIGRhdGENCkZhdGFsaXRpZXMxOTgyIDwtIHN1YnNldChGYXRhbGl0aWVzLCB5ZWFyID09ICIxOTgyIikNCkZhdGFsaXRpZXMxOTg4IDwtIHN1YnNldChGYXRhbGl0aWVzLCB5ZWFyID09ICIxOTg4IikNCiMgZXN0aW1hdGUgc2ltcGxlIHJlZ3Jlc3Npb24gbW9kZWxzIHVzaW5nIDE5ODIgYW5kIDE5ODggZGF0YQ0KZmF0YWwxOTgyX21vZCA8LSBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgZGF0YSA9IEZhdGFsaXRpZXMxOTgyKQ0KZmF0YWwxOTg4X21vZCA8LSBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgZGF0YSA9IEZhdGFsaXRpZXMxOTg4KQ0KDQpjb2VmdGVzdChmYXRhbDE5ODJfbW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0KDQpjb2VmdGVzdChmYXRhbDE5ODhfbW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0KDQpgYGANCg0KIyMgRGlmZmVyZW56IHp3aXNjaGVuIFplaXRyZWloZW4gYmV0cmFjaHRlbg0KYGBge3J9DQojIGNvbXB1dGUgdGhlIGRpZmZlcmVuY2VzIA0KZGlmZl9mYXRhbF9yYXRlIDwtIEZhdGFsaXRpZXMxOTg4JGZhdGFsX3JhdGUgLSBGYXRhbGl0aWVzMTk4MiRmYXRhbF9yYXRlDQpkaWZmX2JlZXJ0YXggPC0gRmF0YWxpdGllczE5ODgkYmVlcnRheCAtIEZhdGFsaXRpZXMxOTgyJGJlZXJ0YXgNCg0KIyBlc3RpbWF0ZSBhIHJlZ3Jlc3Npb24gdXNpbmcgZGlmZmVyZW5jZWQgZGF0YQ0KZmF0YWxfZGlmZl9tb2QgPC0gbG0oZGlmZl9mYXRhbF9yYXRlIH4gZGlmZl9iZWVydGF4KQ0KDQpjb2VmdGVzdChmYXRhbF9kaWZmX21vZCwgdmNvdiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0KDQojIHBsb3QgdGhlIGRpZmZlcmVuY2VkIGRhdGENCnBsb3QoeCA9IGFzLmRvdWJsZShkaWZmX2JlZXJ0YXgpLCANCiAgICAgeSA9IGFzLmRvdWJsZShkaWZmX2ZhdGFsX3JhdGUpLCANCiAgICAgeGxhYiA9ICJDaGFuZ2UgaW4gYmVlciB0YXggKGluIDE5ODggZG9sbGFycykiLA0KICAgICB5bGFiID0gIkNoYW5nZSBpbiBmYXRhbGl0eSByYXRlIChmYXRhbGl0aWVzIHBlciAxMDAwMCkiLA0KICAgICBtYWluID0gIkNoYW5nZXMgaW4gVHJhZmZpYyBGYXRhbGl0eSBSYXRlcyBhbmQgQmVlciBUYXhlcyBpbiAxOTgyLTE5ODgiLA0KICAgICB4bGltID0gYygtMC42LCAwLjYpLA0KICAgICB5bGltID0gYygtMS41LCAxKSwNCiAgICAgcGNoID0gMjAsIA0KICAgICBjb2wgPSAic3RlZWxibHVlIikNCg0KIyBhZGQgdGhlIHJlZ3Jlc3Npb24gbGluZSB0byBwbG90DQphYmxpbmUoZmF0YWxfZGlmZl9tb2QsIGx3ZCA9IDEuNSkNCg0KYGBgDQojIyBGaXhlZCBFZmZlY3RzIFJlZ3Jlc3Npb24NCmBgYHtyfQ0KZmF0YWxfZmVfbG1fbW9kIDwtIGxtKGZhdGFsX3JhdGUgfiBiZWVydGF4ICsgc3RhdGUgLSAxLCBkYXRhID0gRmF0YWxpdGllcykNCmZhdGFsX2ZlX2xtX21vZA0KDQojIG9idGFpbiBkZW1lYW5lZCBkYXRhDQpGYXRhbGl0aWVzX2RlbWVhbmVkIDwtIHdpdGgoRmF0YWxpdGllcywNCiAgICAgICAgICAgIGRhdGEuZnJhbWUoZmF0YWxfcmF0ZSA9IGZhdGFsX3JhdGUgLSBhdmUoZmF0YWxfcmF0ZSwgc3RhdGUpLA0KICAgICAgICAgICAgYmVlcnRheCA9IGJlZXJ0YXggLSBhdmUoYmVlcnRheCwgc3RhdGUpKSkNCg0KIyBlc3RpbWF0ZSB0aGUgcmVncmVzc2lvbg0Kc3VtbWFyeShsbShmYXRhbF9yYXRlIH4gYmVlcnRheCAtIDEsIGRhdGEgPSBGYXRhbGl0aWVzX2RlbWVhbmVkKSkNCg0KIyNBbHRlcm5hdGl2ZSBtaXQgcGxtDQojIGVzdGltYXRlIHRoZSBmaXhlZCBlZmZlY3RzIHJlZ3Jlc3Npb24gd2l0aCBwbG0oKQ0KZmF0YWxfZmVfbW9kIDwtIHBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgDQogICAgICAgICAgICAgICAgICAgIGRhdGEgPSBGYXRhbGl0aWVzLA0KICAgICAgICAgICAgICAgICAgICBpbmRleCA9IGMoInN0YXRlIiwgInllYXIiKSwgDQogICAgICAgICAgICAgICAgICAgIG1vZGVsID0gIndpdGhpbiIpDQoNCiMgcHJpbnQgc3VtbWFyeSB1c2luZyByb2J1c3Qgc3RhbmRhcmQgZXJyb3JzDQpmYXRhbF9mZV9tb2QNCmNvZWZ0ZXN0KGZhdGFsX2ZlX21vZCwgdmNvdi4gPSB2Y292SEMsIHR5cGUgPSAiSEMxIikgIyBCZXJlaW5pZ3QgdW0gSGV0ZXJvc2tlZGFzdGl6aXTDpHQgDQoNCg0KYGBgDQoNCiMjIEtvbWJpbmllcnRlcyBNb2RlbGwNCmBgYHtyfQ0KIyBlc3RpbWF0ZSBhIGNvbWJpbmVkIHRpbWUgYW5kIGVudGl0eSBmaXhlZCBlZmZlY3RzIHJlZ3Jlc3Npb24gbW9kZWwNCg0KIyB2aWEgbG0oKQ0KZmF0YWxfdGVmZV9sbV9tb2QgPC0gbG0oZmF0YWxfcmF0ZSB+IGJlZXJ0YXggKyBzdGF0ZSArIHllYXIgLSAxLCBkYXRhID0gRmF0YWxpdGllcykNCmZhdGFsX3RlZmVfbG1fbW9kDQoNCg0KIyB2aWEgcGxtKCkNCmZhdGFsX3RlZmVfbW9kIDwtIHBsbShmYXRhbF9yYXRlIH4gYmVlcnRheCwgDQogICAgICAgICAgICAgICAgICAgICAgZGF0YSA9IEZhdGFsaXRpZXMsDQogICAgICAgICAgICAgICAgICAgICAgaW5kZXggPSBjKCJzdGF0ZSIsICJ5ZWFyIiksIA0KICAgICAgICAgICAgICAgICAgICAgIG1vZGVsID0gIndpdGhpbiIsIA0KICAgICAgICAgICAgICAgICAgICAgIGVmZmVjdCA9ICJ0d293YXlzIikNCmZhdGFsX3RlZmVfbW9kDQpjb2VmdGVzdChmYXRhbF90ZWZlX21vZCwgdmNvdiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0KP2xlbmdodCgpDQoNCmBgYA0KDQojIEthcGl0ZWwgMTENCmBgYHtyfQ0KZGF0YShITURBKQ0KDQpgYGANCg0KDQoNCg0KDQo=</div>
 
 
 

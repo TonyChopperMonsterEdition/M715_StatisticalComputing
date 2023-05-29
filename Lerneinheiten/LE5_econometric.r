@@ -4,6 +4,8 @@ install.packages("ggrepel")
 install.packages("viridis")
 install.packages("AER")
 install.packages("stargazer")
+install.packages("plm")
+install.packages("mvtnorm")
 library(AER)
 library(stargazer)
 
