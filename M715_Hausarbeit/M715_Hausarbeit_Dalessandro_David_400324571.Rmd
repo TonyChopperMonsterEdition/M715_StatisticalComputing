@@ -3,21 +3,26 @@ title: "Regression der Opferstatistik"
 subtitle: "Modul 715 - Statistical Computing"
 author: "D'Alessandro David"
 date: "`r format(Sys.Date())`"
-knit: (function(inputFile, encoding) {
-      out_dir <- "./08_Report";
-      rmarkdown::render(inputFile,
-                        encoding=encoding, 
-                        output_file=file.path(dirname(inputFile), out_dir, 'M715_Hausarbeit_DAlessandro_David.html')) })
+
 output:  
-  html_document: 
+  html_document:
+    toc: true
+    toc_float: true
     theme: paper
     css: "./09_Formatierung/stylesheetCaseStudy.css"
+  github_document: default
 bibliography: "./10_Literatur_Quellen/references.bib"
 csl: "https://www.zotero.org/styles/apa-with-abstract"
 lang: de
 
 ##Formatierung
 geometry: left=2cm,right=4cm,top=2cm,bottom=2cm
+
+knit: (function(inputFile, encoding) {
+      out_dir <- "08_Report";
+      rmarkdown::render(inputFile,
+                        encoding=encoding, 
+                        output_file=file.path(dirname(inputFile), out_dir, 'M715_Hausarbeit_Dalessandro_David_400324571.html')) })
 
 ---
 
@@ -36,6 +41,9 @@ comma(3452345)
 #> [1] "3,452,345"
 comma(.12358124331)
 ```
+
+
+
 
 # Kriminalitässtatistik
 https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2021/PKSTabellen/KreisOpfertabellen/kreisOpfertabellen_node.html--> Kann verworfen werden
@@ -97,3 +105,9 @@ Beispiel | Beispiel2
 :---------:|:---------:
 Inhalt | spalte2
 Spalte1| Inhalt
+
+# Info zu geladenen Paketen
+```{r Sessioninformationen laden}
+## Gewährleistet Nachvollziehbarkeit in den geladenen Packeten
+sessionInfo()
+```
