@@ -12,10 +12,10 @@ install.packages("quantmod")
 install.packages("urca")
 install.packages("dynlm")
 install.packages("forecast")
+install.packages("pandoc")
+library(pandoc)
 library(AER)
 library(stargazer)
-
-
 library(tidyverse)
 library(dplyr)
 library(ggrepel)

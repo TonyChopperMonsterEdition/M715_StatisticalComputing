@@ -8,8 +8,18 @@ output:
   html_document:
     toc: true
     toc_float: true
+    highlight: default 
     theme: paper
     css: "./09_Formatierung/stylesheetCaseStudy.css"
+    number_sections: yes
+    code_folding:  show #hide
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+  word_document:
+    toc: yes
+    toc_depth: 3
   github_document: default
 bibliography: "./10_Literatur_Quellen/references.bib"
 csl: "https://www.zotero.org/styles/apa-with-abstract"
@@ -27,25 +37,35 @@ knit: (function(inputFile, encoding) {
 ---
 
 ```{r setup, include=FALSE}
+# load libraries
+#### zuvor geladen:
+#library(rmarkdown)
+#library(knitr)
+#library(yaml)
+
 # globaloptions
 knitr::opts_chunk$set(echo = FALSE)
 
-# load libraries
-
+### zu laden für die Bearbeitung
+#library(tidyverse)
+#library(feather)
 # load datasets
 
-# relevante Funktionen
-comma <- function(x) format(x, digits = 2, big.mark = ".", decimal.mark=",")
 
-comma(3452345)
+
+# Funktionenladen
+source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global())
+kommaSetzen(3452345)
 #> [1] "3,452,345"
-comma(.12358124331)
+kommaSetzen(.12358124331)
 ```
-
+<!-- ohne Nummerierung -->
+# Vorwort {.unnumbered} 
 
 
 
 # Kriminalitässtatistik
+https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2021/PKSTabellen/StadtOpfertabellen/stadtOpfertabellen_node.html
 https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2021/PKSTabellen/KreisOpfertabellen/kreisOpfertabellen_node.html--> Kann verworfen werden
 
 https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/Administrativ/04-kreise.html
@@ -106,8 +126,36 @@ Beispiel | Beispiel2
 Inhalt | spalte2
 Spalte1| Inhalt
 
+## Interaktive Tabs {.tabset}
+
+Sie können verschiedene Daten oder Inhalte in interaktiven Registerkarten anzeigen, indem Sie das Attribut ```.tabset``` hinter dem Namen eines Abschnitts hinzufügen, wie z.B. ```## Interaktive Registerkarten {.tabset}```. Dies bewirkt, dass alle folgenden Unterabschnitte wie ```### Cars rows 1-5``` als Tabs erscheinen:
+
+### Cars Zeilen 1-5 {-}
+
+```{r cars row1-5, echo=FALSE}
+knitr::kable(
+cars[1:5,]
+)
+```
+
+###  Cars Zeilen 6-10 {-}
+
+```{r cars row6-10, echo=FALSE}
+knitr::kable(
+cars[6:10,]
+)
+```
+
+### Car Plot {-}
+```{r cars plot in tabs, echo=FALSE, fig.height = 3}
+plot(cars)
+```
+
 # Info zu geladenen Paketen
 ```{r Sessioninformationen laden}
 ## Gewährleistet Nachvollziehbarkeit in den geladenen Packeten
 sessionInfo()
+names(sessionInfo())
+sessionInfo()[4]
+
 ```

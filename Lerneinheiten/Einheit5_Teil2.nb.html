@@ -1511,7 +1511,7 @@ window.initializeCodeFolding = function(show) {
     $(this).detach().appendTo(div);
 
     // add a show code button right above
-    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
     var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
     showCodeButton.append(showCodeText);
     showCodeButton
@@ -1537,7 +1537,7 @@ window.initializeCodeFolding = function(show) {
     //   * Change text
     //   * add a class for intermediate states styling
     div.on('hide.bs.collapse', function () {
-      showCodeText.text('Code');
+      showCodeText.text('Show');
       showCodeButton.addClass('btn-collapsing');
     });
     div.on('hidden.bs.collapse', function () {
@@ -1760,23 +1760,92 @@ the chunk or by placing your cursor inside it and pressing
 <em>Ctrl+Shift+Enter</em>. # Chapter 13</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5saWJyYXJ5KEFFUilcbmxpYnJhcnkoZHBseXIpXG5saWJyYXJ5KE1BU1MpXG5saWJyYXJ5KG12dG5vcm0pXG5saWJyYXJ5KHJkZHRvb2xzKVxubGlicmFyeShzY2FsZXMpXG5saWJyYXJ5KHN0YXJnYXplcilcbmxpYnJhcnkodGlkeXZlcnNlKVxuYGBgIn0= -->
-<pre class="r"><code>
-library(AER)
-library(dplyr)
-library(MASS)
-library(mvtnorm)
-library(rddtools)
-library(scales)
-library(stargazer)
-library(tidyverse)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybnVuZzogUGFrZXQg4oCYdGlkeXZlcnNl4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdFdhcm51bmc6IFBha2V0IOKAmGdncGxvdDLigJkgd3VyZGUgdW50ZXIgUiBWZXJzaW9uIDQuMi4zIGVyc3RlbGx0V2FybnVuZzogUGFrZXQg4oCYdGliYmxl4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdFdhcm51bmc6IFBha2V0IOKAmHRpZHly4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdEVycm9yOiBMYWRlbiB2b24gUGFrZXQgb2RlciBOYW1lbnNyYXVtIGbDvHIg4oCYdGlkeXZlcnNl4oCZOiBmZWhsZ2VzY2hsYWdlblxuIC5vbkF0dGFjaCBpbiBhdHRhY2hOYW1lc3BhY2UoKSBmw7xyICd0aWR5dmVyc2UnIGZlaGxnZXNjaGxhZ2VuLCBEZXRhaWxzOlxuICBBdWZydWY6IE5VTExcbiAgRmVobGVyOiBMYWRlbiB2b24gUGFrZXQgb2RlciBOYW1lbnNyYXVtIGbDvHIg4oCYdGlkeXLigJkgaW4gbG9hZE5hbWVzcGFjZShqIDwtIGlbWzFMXV0sIGMobGliLmxvYywgLmxpYlBhdGhzKCkpLCB2ZXJzaW9uQ2hlY2sgPSB2SVtbal1dKTogZmVobGdlc2NobGFnZW5cbiBOYW1lbnNyYXVtIOKAmGNsaeKAmSAzLjMuMCBpc3QgYmVyZWl0cyBnZWxhZGVuLCBhYmVyID49IDMuNC4wIHdpcmQgZ2Vmb3JkZXJ0XG4ifQ== -->
-<pre><code>Warnung: Paket ‘tidyverse’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘ggplot2’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘tibble’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘tidyr’ wurde unter R Version 4.2.3 erstelltError: Laden von Paket oder Namensraum für ‘tidyverse’: fehlgeschlagen
- .onAttach in attachNamespace() für &#39;tidyverse&#39; fehlgeschlagen, Details:
-  Aufruf: NULL
-  Fehler: Laden von Paket oder Namensraum für ‘tidyr’ in loadNamespace(j &lt;- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]): fehlgeschlagen
- Namensraum ‘cli’ 3.3.0 ist bereits geladen, aber &gt;= 3.4.0 wird gefordert</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQzovVXNlcnMvRGF2aWQvRG9jdW1lbnRzL1JTdHVkaW8vTTcxNV9TdGF0aXN0aWNhbENvbXB1dGluZy9MZXJuZWluaGVpdGVuXCJcbiJ9 -->
+<pre><code>[1] &quot;C:/Users/David/Documents/RStudio/M715_StatisticalComputing/Lerneinheiten&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybnVuZzogUGFrZXQg4oCYQUVS4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdExhZGUgbsO2dGlnZXMgUGFrZXQ6IGNhclxuV2FybnVuZzogUGFrZXQg4oCYY2Fy4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdExhZGUgbsO2dGlnZXMgUGFrZXQ6IGNhckRhdGFcbkxhZGUgbsO2dGlnZXMgUGFrZXQ6IGxtdGVzdFxuV2FybnVuZzogUGFrZXQg4oCYbG10ZXN04oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdExhZGUgbsO2dGlnZXMgUGFrZXQ6IHpvb1xuV2FybnVuZzogUGFrZXQg4oCYem9v4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdFxuQXR0YWNoZSBQYWtldDog4oCYem9v4oCZXG5cbkRpZSBmb2xnZW5kZW4gT2JqZWt0ZSBzaW5kIG1hc2tpZXJ0IHZvbiDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBhcy5EYXRlLCBhcy5EYXRlLm51bWVyaWNcblxuTGFkZSBuw7Z0aWdlcyBQYWtldDogc2FuZHdpY2hcbldhcm51bmc6IFBha2V0IOKAmHNhbmR3aWNo4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdExhZGUgbsO2dGlnZXMgUGFrZXQ6IHN1cnZpdmFsXG5XYXJudW5nOiBQYWtldCDigJhzdXJ2aXZhbOKAmSB3dXJkZSB1bnRlciBSIFZlcnNpb24gNC4yLjMgZXJzdGVsbHRXYXJudW5nOiBQYWtldCDigJhkcGx5cuKAmSB3dXJkZSB1bnRlciBSIFZlcnNpb24gNC4yLjMgZXJzdGVsbHRcbkF0dGFjaGUgUGFrZXQ6IOKAmGRwbHly4oCZXG5cbkRhcyBmb2xnZW5kZSBPYmpla3QgaXN0IG1hc2tpZXJ0IOKAmHBhY2thZ2U6Y2Fy4oCZOlxuXG4gICAgcmVjb2RlXG5cbkRpZSBmb2xnZW5kZW4gT2JqZWt0ZSBzaW5kIG1hc2tpZXJ0IHZvbiDigJhwYWNrYWdlOnN0YXRz4oCZOlxuXG4gICAgZmlsdGVyLCBsYWdcblxuRGllIGZvbGdlbmRlbiBPYmpla3RlIHNpbmQgbWFza2llcnQgdm9uIOKAmHBhY2thZ2U6YmFzZeKAmTpcblxuICAgIGludGVyc2VjdCwgc2V0ZGlmZiwgc2V0ZXF1YWwsIHVuaW9uXG5cbldhcm51bmc6IFBha2V0IOKAmE1BU1PigJkgd3VyZGUgdW50ZXIgUiBWZXJzaW9uIDQuMi4zIGVyc3RlbGx0XG5BdHRhY2hlIFBha2V0OiDigJhNQVNT4oCZXG5cbkRhcyBmb2xnZW5kZSBPYmpla3QgaXN0IG1hc2tpZXJ0IOKAmHBhY2thZ2U6ZHBseXLigJk6XG5cbiAgICBzZWxlY3RcblxuV2FybnVuZzogUGFrZXQg4oCYcmRkdG9vbHPigJkgd3VyZGUgdW50ZXIgUiBWZXJzaW9uIDQuMi4zIGVyc3RlbGx0TGFkZSBuw7Z0aWdlcyBQYWtldDogbnBcbldhcm51bmc6IFBha2V0IOKAmG5w4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdE5vbnBhcmFtZXRyaWMgS2VybmVsIE1ldGhvZHMgZm9yIE1peGVkIERhdGF0eXBlcyAodmVyc2lvbiAwLjYwLTE3KVxuW3ZpZ25ldHRlKFwibnBfZmFxXCIscGFja2FnZT1cIm5wXCIpIHByb3ZpZGVzIGFuc3dlcnMgdG8gZnJlcXVlbnRseSBhc2tlZCBxdWVzdGlvbnNdXG5bdmlnbmV0dGUoXCJucFwiLHBhY2thZ2U9XCJucFwiKSBhbiBvdmVydmlld11cblt2aWduZXR0ZShcImVudHJvcHlfbnBcIixwYWNrYWdlPVwibnBcIikgYW4gb3ZlcnZpZXcgb2YgZW50cm9weS1iYXNlZCBtZXRob2RzXVxuXG5QbGVhc2UgY29uc2lkZXIgY2l0aW5nIFIgYW5kIHJkZHRvb2xzLFxuY2l0YXRpb24oKVxuY2l0YXRpb24oXCJyZGR0b29sc1wiKVxuXG5XYXJudW5nOiBQYWtldCDigJhzY2FsZXPigJkgd3VyZGUgdW50ZXIgUiBWZXJzaW9uIDQuMi4zIGVyc3RlbGx0XG5QbGVhc2UgY2l0ZSBhczogXG5cbiBIbGF2YWMsIE1hcmVrICgyMDIyKS4gc3RhcmdhemVyOiBXZWxsLUZvcm1hdHRlZCBSZWdyZXNzaW9uIGFuZCBTdW1tYXJ5IFN0YXRpc3RpY3MgVGFibGVzLlxuIFIgcGFja2FnZSB2ZXJzaW9uIDUuMi4zLiBodHRwczovL0NSQU4uUi1wcm9qZWN0Lm9yZy9wYWNrYWdlPXN0YXJnYXplciBcblxuV2FybnVuZzogUGFrZXQg4oCYZHlubG3igJkgd3VyZGUgdW50ZXIgUiBWZXJzaW9uIDQuMi4zIGVyc3RlbGx0V2FybnVuZzogUGFrZXQg4oCYZm9yZWNhc3TigJkgd3VyZGUgdW50ZXIgUiBWZXJzaW9uIDQuMi4zIGVyc3RlbGx0UmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ3F1YW50bW9kJzpcbiAgbWV0aG9kICAgICAgICAgICAgZnJvbVxuICBhcy56b28uZGF0YS5mcmFtZSB6b28gXG5UaGlzIGlzIGZvcmVjYXN0IDguMjEgXG4gIFdhbnQgdG8gc3RheSB1cC10by1kYXRlPyBSZWFkIHRoZSBIeW5kc2lnaHQgYmxvZzpcbiAgaHR0cHM6Ly9yb2JqaHluZG1hbi5jb20vaHluZHNpZ2h0L1xuV2FybnVuZzogUGFrZXQg4oCYcmVhZHhs4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdFdhcm51bmc6IFBha2V0IOKAmHF1YW50bW9k4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdExhZGUgbsO2dGlnZXMgUGFrZXQ6IHh0c1xuV2FybnVuZzogUGFrZXQg4oCYeHRz4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdFxuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyBXYXJuaW5nIGZyb20gJ3h0cycgcGFja2FnZSAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI1xuIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI1xuIyBUaGUgZHBseXIgbGFnKCkgZnVuY3Rpb24gYnJlYWtzIGhvdyBiYXNlIFIncyBsYWcoKSBmdW5jdGlvbiBpcyBzdXBwb3NlZCB0byAgI1xuIyB3b3JrLCB3aGljaCBicmVha3MgbGFnKG15X3h0cykuIENhbGxzIHRvIGxhZyhteV94dHMpIHRoYXQgeW91IHR5cGUgb3IgICAgICAgI1xuIyBzb3VyY2UoKSBpbnRvIHRoaXMgc2Vzc2lvbiB3b24ndCB3b3JrIGNvcnJlY3RseS4gICAgICAgICAgICAgICAgICAgICAgICAgICAgI1xuIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI1xuIyBVc2Ugc3RhdHM6OmxhZygpIHRvIG1ha2Ugc3VyZSB5b3UncmUgbm90IHVzaW5nIGRwbHlyOjpsYWcoKSwgb3IgeW91IGNhbiBhZGQgI1xuIyBjb25mbGljdFJ1bGVzKCdkcGx5cicsIGV4Y2x1ZGUgPSAnbGFnJykgdG8geW91ciAuUnByb2ZpbGUgdG8gc3RvcCAgICAgICAgICAgI1xuIyBkcGx5ciBmcm9tIGJyZWFraW5nIGJhc2UgUidzIGxhZygpIGZ1bmN0aW9uLiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI1xuIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI1xuIyBDb2RlIGluIHBhY2thZ2VzIGlzIG5vdCBhZmZlY3RlZC4gSXQncyBwcm90ZWN0ZWQgYnkgUidzIG5hbWVzcGFjZSBtZWNoYW5pc20gI1xuIyBTZXQgYG9wdGlvbnMoeHRzLndhcm5fZHBseXJfYnJlYWtzX2xhZyA9IEZBTFNFKWAgdG8gc3VwcHJlc3MgdGhpcyB3YXJuaW5nLiAgI1xuIyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI1xuIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI1xuXG5BdHRhY2hlIFBha2V0OiDigJh4dHPigJlcblxuRGllIGZvbGdlbmRlbiBPYmpla3RlIHNpbmQgbWFza2llcnQgdm9uIOKAmHBhY2thZ2U6ZHBseXLigJk6XG5cbiAgICBmaXJzdCwgbGFzdFxuXG5MYWRlIG7DtnRpZ2VzIFBha2V0OiBUVFJcbldhcm51bmc6IFBha2V0IOKAmFRUUuKAmSB3dXJkZSB1bnRlciBSIFZlcnNpb24gNC4yLjMgZXJzdGVsbHRXYXJudW5nOiBQYWtldCDigJh1cmNh4oCZIHd1cmRlIHVudGVyIFIgVmVyc2lvbiA0LjIuMyBlcnN0ZWxsdFxuIn0= -->
+<pre><code>Warnung: Paket ‘AER’ wurde unter R Version 4.2.3 erstelltLade nötiges Paket: car
+Warnung: Paket ‘car’ wurde unter R Version 4.2.3 erstelltLade nötiges Paket: carData
+Lade nötiges Paket: lmtest
+Warnung: Paket ‘lmtest’ wurde unter R Version 4.2.3 erstelltLade nötiges Paket: zoo
+Warnung: Paket ‘zoo’ wurde unter R Version 4.2.3 erstellt
+Attache Paket: ‘zoo’
+
+Die folgenden Objekte sind maskiert von ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Lade nötiges Paket: sandwich
+Warnung: Paket ‘sandwich’ wurde unter R Version 4.2.3 erstelltLade nötiges Paket: survival
+Warnung: Paket ‘survival’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘dplyr’ wurde unter R Version 4.2.3 erstellt
+Attache Paket: ‘dplyr’
+
+Das folgende Objekt ist maskiert ‘package:car’:
+
+    recode
+
+Die folgenden Objekte sind maskiert von ‘package:stats’:
+
+    filter, lag
+
+Die folgenden Objekte sind maskiert von ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Warnung: Paket ‘MASS’ wurde unter R Version 4.2.3 erstellt
+Attache Paket: ‘MASS’
+
+Das folgende Objekt ist maskiert ‘package:dplyr’:
+
+    select
+
+Warnung: Paket ‘rddtools’ wurde unter R Version 4.2.3 erstelltLade nötiges Paket: np
+Warnung: Paket ‘np’ wurde unter R Version 4.2.3 erstelltNonparametric Kernel Methods for Mixed Datatypes (version 0.60-17)
+[vignette(&quot;np_faq&quot;,package=&quot;np&quot;) provides answers to frequently asked questions]
+[vignette(&quot;np&quot;,package=&quot;np&quot;) an overview]
+[vignette(&quot;entropy_np&quot;,package=&quot;np&quot;) an overview of entropy-based methods]
+
+Please consider citing R and rddtools,
+citation()
+citation(&quot;rddtools&quot;)
+
+Warnung: Paket ‘scales’ wurde unter R Version 4.2.3 erstellt
+Please cite as: 
+
+ Hlavac, Marek (2022). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+ R package version 5.2.3. https://CRAN.R-project.org/package=stargazer 
+
+Warnung: Paket ‘dynlm’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘forecast’ wurde unter R Version 4.2.3 erstelltRegistered S3 method overwritten by &#39;quantmod&#39;:
+  method            from
+  as.zoo.data.frame zoo 
+This is forecast 8.21 
+  Want to stay up-to-date? Read the Hyndsight blog:
+  https://robjhyndman.com/hyndsight/
+Warnung: Paket ‘readxl’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘quantmod’ wurde unter R Version 4.2.3 erstelltLade nötiges Paket: xts
+Warnung: Paket ‘xts’ wurde unter R Version 4.2.3 erstellt
+######################### Warning from &#39;xts&#39; package ##########################
+#                                                                             #
+# The dplyr lag() function breaks how base R&#39;s lag() function is supposed to  #
+# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #
+# source() into this session won&#39;t work correctly.                            #
+#                                                                             #
+# Use stats::lag() to make sure you&#39;re not using dplyr::lag(), or you can add #
+# conflictRules(&#39;dplyr&#39;, exclude = &#39;lag&#39;) to your .Rprofile to stop           #
+# dplyr from breaking base R&#39;s lag() function.                                #
+#                                                                             #
+# Code in packages is not affected. It&#39;s protected by R&#39;s namespace mechanism #
+# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
+#                                                                             #
+###############################################################################
+
+Attache Paket: ‘xts’
+
+Die folgenden Objekte sind maskiert von ‘package:dplyr’:
+
+    first, last
+
+Lade nötiges Paket: TTR
+Warnung: Paket ‘TTR’ wurde unter R Version 4.2.3 erstelltWarnung: Paket ‘urca’ wurde unter R Version 4.2.3 erstellt</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1784,22 +1853,6 @@ library(tidyverse)</code></pre>
 <h3>Chapter 14</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShBRVIpXG5saWJyYXJ5KGR5bmxtKVxubGlicmFyeShmb3JlY2FzdClcbmxpYnJhcnkocmVhZHhsKVxubGlicmFyeShzdGFyZ2F6ZXIpXG5saWJyYXJ5KHNjYWxlcylcbmxpYnJhcnkocXVhbnRtb2QpXG5saWJyYXJ5KHVyY2EpXG5cblxuIyBsb2FkIFVTIG1hY3JvZWNvbm9taWMgZGF0YVxuVVNNYWNyb1NXUSA8LSByZWFkX3hsc3goXCJEYXRhL3VzX21hY3JvX3F1YXJ0ZXJseS54bHN4XCIsXG4gICAgICAgICAgICAgICAgICAgICAgICAgc2hlZXQgPSAxLFxuICAgICAgICAgICAgICAgICAgICAgICAgIGNvbF90eXBlcyA9IGMoXCJ0ZXh0XCIsIHJlcChcIm51bWVyaWNcIiwgOSkpKVxuYGBgIn0= -->
-<pre class="r"><code>library(AER)
-library(dynlm)
-library(forecast)
-library(readxl)
-library(stargazer)
-library(scales)
-library(quantmod)
-library(urca)
-
-
-# load US macroeconomic data
-USMacroSWQ &lt;- read_xlsx(&quot;Data/us_macro_quarterly.xlsx&quot;,
-                         sheet = 1,
-                         col_types = c(&quot;text&quot;, rep(&quot;numeric&quot;, 9)))</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiRXJyb3I6IGBwYXRoYCBkb2VzIG5vdCBleGlzdDog4oCYRGF0YS91c19tYWNyb19xdWFydGVybHkueGxzeOKAmVxuIn0= -->
 <pre><code>Error: `path` does not exist: ‘Data/us_macro_quarterly.xlsx’</code></pre>
 <!-- rnb-output-end -->
@@ -1810,35 +1863,12 @@ USMacroSWQ &lt;- read_xlsx(&quot;Data/us_macro_quarterly.xlsx&quot;,
 <h2>Chapter 14 Part 2</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQFxuIyBzdWJzZXQgZGF0YVxuZGF0YShHRFBHcm93dGgpXG5HRFBHUlN1YiA8LSBHRFBHcm93dGhbXCIxOTYyOjoyMDEyXCJdXG5cbiMgZXN0aW1hdGUgdGhlIG1vZGVsXG5hci5vbHMoR0RQR1JTdWIsIFxuICAgICAgIG9yZGVyLm1heCA9IDEsIFxuICAgICAgIGRlbWVhbiA9IEYsIFxuICAgICAgIGludGVyY2VwdCA9IFQpXG4jIGxlbmd0aCBvZiBkYXRhIHNldFxuTiA8LWxlbmd0aChHRFBHUlN1YilcblxuR0RQR1JfbGV2ZWwgPC0gYXMubnVtZXJpYyhHRFBHUlN1YlstMV0pXG5HRFBHUl9sYWdzIDwtIGFzLm51bWVyaWMoR0RQR1JTdWJbLU5dKVxuXG4jIGVzdGltYXRlIHRoZSBtb2RlbFxuYXJtb2QgPC0gbG0oR0RQR1JfbGV2ZWwgfiBHRFBHUl9sYWdzKVxuYXJtb2RcbiMgcm9idXN0IHN1bW1hcnlcbmNvZWZ0ZXN0KGFybW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9IFwiSEMxXCIpXG5gYGAifQ== -->
-<pre class="r"><code>@
-# subset data
-data(GDPGrowth)
-GDPGRSub &lt;- GDPGrowth[&quot;1962::2012&quot;]
-
-# estimate the model
-ar.ols(GDPGRSub, 
-       order.max = 1, 
-       demean = F, 
-       intercept = T)
-# length of data set
-N &lt;-length(GDPGRSub)
-
-GDPGR_level &lt;- as.numeric(GDPGRSub[-1])
-GDPGR_lags &lt;- as.numeric(GDPGRSub[-N])
-
-# estimate the model
-armod &lt;- lm(GDPGR_level ~ GDPGR_lags)
-armod
-# robust summary
-coeftest(armod, vcov. = vcovHC, type = &quot;HC1&quot;)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCiMgQ2hhcHRlciAxMw0KYGBge3J9DQoNCmxpYnJhcnkoQUVSKQ0KbGlicmFyeShkcGx5cikNCmxpYnJhcnkoTUFTUykNCmxpYnJhcnkobXZ0bm9ybSkNCmxpYnJhcnkocmRkdG9vbHMpDQpsaWJyYXJ5KHNjYWxlcykNCmxpYnJhcnkoc3RhcmdhemVyKQ0KbGlicmFyeShkeW5sbSkNCmxpYnJhcnkoZm9yZWNhc3QpDQpsaWJyYXJ5KHJlYWR4bCkNCmxpYnJhcnkocXVhbnRtb2QpDQpsaWJyYXJ5KHVyY2EpDQojbGlicmFyeSh0aWR5cikNCiNsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KDQojIyMgQ2hhcHRlciAxNA0KYGBge3J9DQpsaWJyYXJ5KEFFUikNCmxpYnJhcnkoZHlubG0pDQpsaWJyYXJ5KGZvcmVjYXN0KQ0KbGlicmFyeShyZWFkeGwpDQpsaWJyYXJ5KHN0YXJnYXplcikNCmxpYnJhcnkoc2NhbGVzKQ0KbGlicmFyeShxdWFudG1vZCkNCmxpYnJhcnkodXJjYSkNCg0KDQojIGxvYWQgVVMgbWFjcm9lY29ub21pYyBkYXRhDQpVU01hY3JvU1dRIDwtIHJlYWRfeGxzeCgiRGF0YS91c19tYWNyb19xdWFydGVybHkueGxzeCIsDQogICAgICAgICAgICAgICAgICAgICAgICAgc2hlZXQgPSAxLA0KICAgICAgICAgICAgICAgICAgICAgICAgIGNvbF90eXBlcyA9IGMoInRleHQiLCByZXAoIm51bWVyaWMiLCA5KSkpDQoNCiMgZm9ybWF0IGRhdGUgY29sdW1uDQpVU01hY3JvU1dRJC4uLjEgPC0gYXMueWVhcnF0cihVU01hY3JvU1dRJC4uLjEsIGZvcm1hdCA9ICIlWTowJXEiKQ0KDQojIGFkanVzdCBjb2x1bW4gbmFtZXMNCmNvbG5hbWVzKFVTTWFjcm9TV1EpIDwtIGMoIkRhdGUiLCAiR0RQQzk2IiwgIkpBUEFOX0lQIiwgIlBDRUNUUEkiLCANCiAgICAgICAgICAgICAgICAgICAgICAgICAgIkdTMTAiLCAiR1MxIiwgIlRCM01TIiwgIlVOUkFURSIsICJFWFVTVUsiLCAiQ1BJQVVDU0wiKQ0KDQojIEdEUCBzZXJpZXMgYXMgeHRzIG9iamVjdA0KR0RQIDwtIHh0cyhVU01hY3JvU1dRJEdEUEM5NiwgVVNNYWNyb1NXUSREYXRlKVsiMTk2MDo6MjAxMyJdDQoNCiMgR0RQIGdyb3d0aCBzZXJpZXMgYXMgeHRzIG9iamVjdA0KR0RQR3Jvd3RoIDwtIHh0cyg0MDAgKiBsb2coR0RQL2xhZyhHRFApKSkNCg0KYGBgDQojIyBDaGFwdGVyIDE0IFBhcnQgMg0KYGBge3J9DQpADQojIHN1YnNldCBkYXRhDQpkYXRhKEdEUEdyb3d0aCkNCkdEUEdSU3ViIDwtIEdEUEdyb3d0aFsiMTk2Mjo6MjAxMiJdDQoNCiMgZXN0aW1hdGUgdGhlIG1vZGVsDQphci5vbHMoR0RQR1JTdWIsIA0KICAgICAgIG9yZGVyLm1heCA9IDEsIA0KICAgICAgIGRlbWVhbiA9IEYsIA0KICAgICAgIGludGVyY2VwdCA9IFQpDQojIGxlbmd0aCBvZiBkYXRhIHNldA0KTiA8LWxlbmd0aChHRFBHUlN1YikNCg0KR0RQR1JfbGV2ZWwgPC0gYXMubnVtZXJpYyhHRFBHUlN1YlstMV0pDQpHRFBHUl9sYWdzIDwtIGFzLm51bWVyaWMoR0RQR1JTdWJbLU5dKQ0KDQojIGVzdGltYXRlIHRoZSBtb2RlbA0KYXJtb2QgPC0gbG0oR0RQR1JfbGV2ZWwgfiBHRFBHUl9sYWdzKQ0KYXJtb2QNCiMgcm9idXN0IHN1bW1hcnkNCmNvZWZ0ZXN0KGFybW9kLCB2Y292LiA9IHZjb3ZIQywgdHlwZSA9ICJIQzEiKQ0KYGBgDQoNCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCiMgQ2hhcHRlciAxMw0KYGBge3J9DQpnZXR3ZCgpDQpsaWJyYXJ5KEFFUikNCmxpYnJhcnkoZHBseXIpDQpsaWJyYXJ5KE1BU1MpDQpsaWJyYXJ5KG12dG5vcm0pDQpsaWJyYXJ5KHJkZHRvb2xzKQ0KbGlicmFyeShzY2FsZXMpDQpsaWJyYXJ5KHN0YXJnYXplcikNCmxpYnJhcnkoZHlubG0pDQpsaWJyYXJ5KGZvcmVjYXN0KQ0KbGlicmFyeShyZWFkeGwpDQpsaWJyYXJ5KHF1YW50bW9kKQ0KbGlicmFyeSh1cmNhKQ0KI2xpYnJhcnkodGlkeXIpDQojbGlicmFyeSh0aWR5dmVyc2UpDQpgYGANCg0KIyMjIENoYXB0ZXIgMTQNCmBgYHtyfQ0KbGlicmFyeShBRVIpDQpsaWJyYXJ5KGR5bmxtKQ0KbGlicmFyeShmb3JlY2FzdCkNCmxpYnJhcnkocmVhZHhsKQ0KbGlicmFyeShzdGFyZ2F6ZXIpDQpsaWJyYXJ5KHNjYWxlcykNCmxpYnJhcnkocXVhbnRtb2QpDQpsaWJyYXJ5KHVyY2EpDQoNCg0KIyBsb2FkIFVTIG1hY3JvZWNvbm9taWMgZGF0YQ0KVVNNYWNyb1NXUSA8LSByZWFkX3hsc3goIkRhdGEvdXNfbWFjcm9fcXVhcnRlcmx5Lnhsc3giLA0KICAgICAgICAgICAgICAgICAgICAgICAgIHNoZWV0ID0gMSwNCiAgICAgICAgICAgICAgICAgICAgICAgICBjb2xfdHlwZXMgPSBjKCJ0ZXh0IiwgcmVwKCJudW1lcmljIiwgOSkpKQ0KDQojIGZvcm1hdCBkYXRlIGNvbHVtbg0KVVNNYWNyb1NXUSQuLi4xIDwtIGFzLnllYXJxdHIoVVNNYWNyb1NXUSQuLi4xLCBmb3JtYXQgPSAiJVk6MCVxIikNCg0KIyBhZGp1c3QgY29sdW1uIG5hbWVzDQpjb2xuYW1lcyhVU01hY3JvU1dRKSA8LSBjKCJEYXRlIiwgIkdEUEM5NiIsICJKQVBBTl9JUCIsICJQQ0VDVFBJIiwgDQogICAgICAgICAgICAgICAgICAgICAgICAgICJHUzEwIiwgIkdTMSIsICJUQjNNUyIsICJVTlJBVEUiLCAiRVhVU1VLIiwgIkNQSUFVQ1NMIikNCg0KIyBHRFAgc2VyaWVzIGFzIHh0cyBvYmplY3QNCkdEUCA8LSB4dHMoVVNNYWNyb1NXUSRHRFBDOTYsIFVTTWFjcm9TV1EkRGF0ZSlbIjE5NjA6OjIwMTMiXQ0KDQojIEdEUCBncm93dGggc2VyaWVzIGFzIHh0cyBvYmplY3QNCkdEUEdyb3d0aCA8LSB4dHMoNDAwICogbG9nKEdEUC9sYWcoR0RQKSkpDQoNCmBgYA0KIyMgQ2hhcHRlciAxNCBQYXJ0IDINCmBgYHtyfQ0KQA0KIyBzdWJzZXQgZGF0YQ0KZGF0YShHRFBHcm93dGgpDQpHRFBHUlN1YiA8LSBHRFBHcm93dGhbIjE5NjI6OjIwMTIiXQ0KDQojIGVzdGltYXRlIHRoZSBtb2RlbA0KYXIub2xzKEdEUEdSU3ViLCANCiAgICAgICBvcmRlci5tYXggPSAxLCANCiAgICAgICBkZW1lYW4gPSBGLCANCiAgICAgICBpbnRlcmNlcHQgPSBUKQ0KIyBsZW5ndGggb2YgZGF0YSBzZXQNCk4gPC1sZW5ndGgoR0RQR1JTdWIpDQoNCkdEUEdSX2xldmVsIDwtIGFzLm51bWVyaWMoR0RQR1JTdWJbLTFdKQ0KR0RQR1JfbGFncyA8LSBhcy5udW1lcmljKEdEUEdSU3ViWy1OXSkNCg0KIyBlc3RpbWF0ZSB0aGUgbW9kZWwNCmFybW9kIDwtIGxtKEdEUEdSX2xldmVsIH4gR0RQR1JfbGFncykNCmFybW9kDQojIHJvYnVzdCBzdW1tYXJ5DQpjb2VmdGVzdChhcm1vZCwgdmNvdi4gPSB2Y292SEMsIHR5cGUgPSAiSEMxIikNCmBgYA0KDQoNCg==</div>
 
 
 
