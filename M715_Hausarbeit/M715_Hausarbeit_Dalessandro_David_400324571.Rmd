@@ -1,16 +1,40 @@
 ---
-subtitle: "Regression der Opferstatistik"
+title: "Regression der Opferstatistik"
+subtitle: "Modul 715 - Statistical Computing"
 author: "D'Alessandro David"
 date: "`r format(Sys.Date())`"
-output:  html_document
-bibliography: references.bib
+knit: (function(inputFile, encoding) {
+      out_dir <- "./08_Report";
+      rmarkdown::render(inputFile,
+                        encoding=encoding, 
+                        output_file=file.path(dirname(inputFile), out_dir, '.M715_Hausarbeit_DAlessandro_David.html')) })
+output:  
+  html_document: 
+    theme: paper
+    css: "./09_Formatierung/stylesheetCaseStudy.css"
+bibliography: "./10_Literatur_Quellen/references.bib"
 csl: "https://www.zotero.org/styles/apa-with-abstract"
 lang: de
+
+##Formatierung
+geometry: left=2cm,right=4cm,top=2cm,bottom=2cm
+
 ---
 
 ```{r setup, include=FALSE}
+# globaloptions
 knitr::opts_chunk$set(echo = FALSE)
 
+# load libraries
+
+# load datasets
+
+# relevante Funktionen
+comma <- function(x) format(x, digits = 2, big.mark = ".", decimal.mark=",")
+
+comma(3452345)
+#> [1] "3,452,345"
+comma(.12358124331)
 ```
 
 # Kriminalitässtatistik
@@ -26,35 +50,39 @@ https://www.regionalstatistik.de/genesis/online?operation=abruftabelleBearbeiten
 
 Bevölkerung in Gemeinde https://www.regionalstatistik.de/genesis//online?operation=table&code=12411-01-01-4&bypass=true&levelindex=1&levelid=1685395910046#abreadcrumb
 
-Wahlstimmen-nicht sinnvoll
-https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=14338#abreadcrumb
+Wahlstimmen-nicht sinnvoll https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=14338#abreadcrumb
 
-Absolventen und Schulen
-https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=21111#abreadcrumb
+Absolventen und Schule^[https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=21111#abreadcrumb]
 
+***
 
-##Datenbanken zu mehr inhalt: https://www.statistikportal.de/de/gesundheit#datenbanken
-Regionalatlas Deutschland Themenbereich "Soziales" Indikatoren zu "Armutsgefährdung"
-https://www.regionalstatistik.de/genesis/online?operation=abruftabelleBearbeiten&levelindex=0&levelid=1685530852339&auswahloperation=abruftabelleAuspraegungAuswaehlen&auswahlverzeichnis=ordnungsstruktur&auswahlziel=werteabruf&code=AI-S-02&auswahltext=&werteabruf=Werteabruf#abreadcrumb
+## Datenbanken zu mehr Inhalt 
+- https://www.statistikportal.de/de/gesundheit#datenbanken
 
-https://www.statistikportal.de/de/arbeitsmarkt#datenbanken
+- Regionalatlas Deutschland Themenbereich "Soziales" Indikatoren zu "Armutsgefährdung"
+  - https://www.regionalstatistik.de/genesis/online?operation=abruftabelleBearbeiten&levelindex=0&levelid=1685530852339&auswahloperation=abruftabelleAuspraegungAuswaehlen&auswahlverzeichnis=ordnungsstruktur&auswahlziel=werteabruf&code=AI-S-02&auswahltext=&werteabruf=Werteabruf#abreadcrumb
 
-https://www.regionalstatistik.de/genesis/online?language=de&sequenz=statistikTabellen&selectionname=23111#abreadcrumb
+- https://www.statistikportal.de/de/arbeitsmarkt#datenbanken
 
-[Vgl. @Bankhofer.2008,S. 32]
+- https://www.regionalstatistik.de/genesis/online?language=de&sequenz=statistikTabellen&selectionname=23111#abreadcrumb
 
+\newpage
+
+***
 ## Arbeitnehmerentgelte in Kreisen
-https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise
-## Slide with Bullets
+- https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise
+- Zitation^[Vgl. @Bankhofer.2008,S. 32]
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
 
-## Slide with R Output
+## Slide with R Output und gut formatierter tabellen ausgabe
 
 ```{r cars, echo = TRUE}
-summary(cars)
+knitr::kable(summary(cars),
+             caption= "Zusammenfassung von cars")
+knitr::kable(head(cars),
+             caption="Die ersten 10 Zeilen"
+             )
+
 ```
 
 ## Slide with Plot
@@ -63,3 +91,9 @@ summary(cars)
 plot(pressure)
 ```
 
+
+### Tabellen
+Beispiel | Beispiel2
+:---------:|:---------:
+Inhalt | spalte2
+Spalte1| Inhalt
