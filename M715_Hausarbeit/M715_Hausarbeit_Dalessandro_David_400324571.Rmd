@@ -7,7 +7,7 @@ knit: (function(inputFile, encoding) {
       out_dir <- "./08_Report";
       rmarkdown::render(inputFile,
                         encoding=encoding, 
-                        output_file=file.path(dirname(inputFile), out_dir, '.M715_Hausarbeit_DAlessandro_David.html')) })
+                        output_file=file.path(dirname(inputFile), out_dir, 'M715_Hausarbeit_DAlessandro_David.html')) })
 output:  
   html_document: 
     theme: paper
