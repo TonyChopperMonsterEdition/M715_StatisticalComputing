@@ -47,8 +47,9 @@ knit: (function(inputFile, encoding) {
 knitr::opts_chunk$set(echo = FALSE)
 
 ### zu laden für die Bearbeitung
-#library(tidyverse)
-#library(feather)
+library(tidyverse)
+library(feather)
+
 # load datasets
 
 
@@ -159,3 +160,5 @@ names(sessionInfo())
 sessionInfo()[4]
 
 ```
+
+# References
