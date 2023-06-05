@@ -1,0 +1,568 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+# Initialisation of Environment
+```{r}
+
+library(tidyverse)
+library(dplyr)
+library(AER)
+library(plm)
+library(mvtnorm)
+library(stargazer)
+library(ggrepel)
+library(viridis)
+library(tibble)
+data(Fatalities)
+```
+
+# Chapter 8
+### LM
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+# prepare the data
+data(CASchools)
+CASchools$size <- CASchools$students/CASchools$teachers
+CASchools$score <- (CASchools$read + CASchools$math) / 2
+
+# fit a simple linear model
+linear_model<- lm(score ~ income, data = CASchools)
+coeftest(linear_model, vcov. = vcovHC, type = "HC1")
+summary_lm <- summary(linear_model)
+summary_lm
+
+```
+### QM
+```{r, titel}
+# fit the quadratic Model
+quadratic_model <- lm(score ~ income + I(income^2), data = CASchools)
+
+# obtain the model summary
+coeftest(quadratic_model, vcov. = vcovHC, type = "HC1")
+summary_qm <- summary(quadratic_model)
+summary_qm
+```
+
+
+### Cubic Modells:
+### QM
+```{r}
+# estimate a cubic model
+cubic_model <- lm(score ~ poly(income, degree = 3, raw = TRUE), data = CASchools)
+
+# set up hypothesis matrix
+H0 <- rbind(c(0, 0, 1, 0),
+            c(0, 0, 0, 1))
+
+# set up hypothesis matrix
+H1 <- rbind(c(linear_model$coefficients["(Intercept)"], 0, 0, 0),
+            c(0, linear_model$coefficients["income"], 0, 0),
+            c(0, 0, 1, 0),
+            c(0, 0, 0, 1))
+H1
+
+# obtain the model summary
+linearHypothesis(cubic_model,
+                 hypothesis.matrix = H0,
+                 white.adj = "hc1")
+
+# obtain the model summary
+linearHypothesis(cubic_model,
+                 c(Intercept= linear_model$coefficients["(Intercept)"],income=linear_model$coefficients["income"], 'poly(income, degree = 3, raw = TRUE)2' = 0, 'poly(income, degree = 3, raw = TRUE)3'= 0),
+                 white.adj = "hc1",
+                 vcov.=vcovHC(cubic_model, type = "HC1")
+                 )
+
+#pFtest(cubic_model, linear_model)
+```
+
+
+### Log-Model
+``` {r}
+# set up new data
+LinearLog_model <- lm(score ~ log(income), data = CASchools)
+new_data <- data.frame(income = c(10, 11, 40, 44))
+
+# predict the outcomes 
+Y_hat <- predict(LinearLog_model, newdata = new_data)
+
+# compute the expected difference
+Y_hat_matrix <- matrix(Y_hat, nrow = 2, byrow = TRUE)
+Y_hat_matrix[, 2] - Y_hat_matrix[, 1]
+
+
+Linear_model <- lm(score ~ income, data = CASchools)
+new_data_lm <- data.frame(income = c(10, 11, 40, 41))
+
+# predict the outcomes 
+Y_hat_lm <- predict(Linear_model, newdata = new_data_lm)
+
+# compute the expected difference
+Y_hat_matrix_lm <- matrix(Y_hat_lm, nrow = 2, byrow = TRUE)
+Y_hat_matrix_lm[, 2] - Y_hat_matrix_lm[, 1]
+
+
+LogLinear_model <- lm(log(score) ~ income, data = CASchools)
+new_data_loglin <- data.frame(income = c(10, 11, 40, 41))
+
+# predict the outcomes 
+Y_hat_loglin <- predict(LogLinear_model, newdata = new_data_loglin)
+
+# compute the expected difference
+Y_hat_matrix_loglin <- matrix(Y_hat_loglin, nrow = 2, byrow = TRUE)
+Y_hat_matrix_loglin[, 2] - Y_hat_matrix_loglin[, 1]
+
+
+LogLog_model <- lm(log(score) ~ log(income), data = CASchools)
+new_data_loglog <- data.frame(income = c(10, 11, 40, 44))
+
+# predict the outcomes 
+Y_hat_loglog <- predict(LogLog_model, newdata = new_data_loglog)
+
+# compute the expected difference
+Y_hat_matrix_loglog <- matrix(Y_hat_loglog, nrow = 2, byrow = TRUE)
+Y_hat_matrix_loglog[, 2] - Y_hat_matrix_loglog[, 1]
+```
+
+# Chapter 10
+```{r}
+# define the fatality rate
+Fatalities$fatal_rate <- Fatalities$fatal / Fatalities$pop * 10000
+
+# subset the data
+Fatalities1982 <- subset(Fatalities, year == "1982")
+Fatalities1988 <- subset(Fatalities, year == "1988")
+# estimate simple regression models using 1982 and 1988 data
+fatal1982_mod <- lm(fatal_rate ~ beertax, data = Fatalities1982)
+fatal1988_mod <- lm(fatal_rate ~ beertax, data = Fatalities1988)
+
+coeftest(fatal1982_mod, vcov. = vcovHC, type = "HC1")
+
+coeftest(fatal1988_mod, vcov. = vcovHC, type = "HC1")
+
+```
+
+## Differenz zwischen Zeitreihen betrachten
+```{r}
+# compute the differences 
+diff_fatal_rate <- Fatalities1988$fatal_rate - Fatalities1982$fatal_rate
+diff_beertax <- Fatalities1988$beertax - Fatalities1982$beertax
+
+# estimate a regression using differenced data
+fatal_diff_mod <- lm(diff_fatal_rate ~ diff_beertax)
+
+coeftest(fatal_diff_mod, vcov = vcovHC, type = "HC1")
+
+# plot the differenced data
+plot(x = as.double(diff_beertax), 
+     y = as.double(diff_fatal_rate), 
+     xlab = "Change in beer tax (in 1988 dollars)",
+     ylab = "Change in fatality rate (fatalities per 10000)",
+     main = "Changes in Traffic Fatality Rates and Beer Taxes in 1982-1988",
+     xlim = c(-0.6, 0.6),
+     ylim = c(-1.5, 1),
+     pch = 20, 
+     col = "steelblue")
+
+# add the regression line to plot
+abline(fatal_diff_mod, lwd = 1.5)
+
+```
+## Fixed Effects Regression
+```{r}
+fatal_fe_lm_mod <- lm(fatal_rate ~ beertax + state - 1, data = Fatalities)
+fatal_fe_lm_mod
+
+# obtain demeaned data
+Fatalities_demeaned <- with(Fatalities,
+            data.frame(fatal_rate = fatal_rate - ave(fatal_rate, state),
+            beertax = beertax - ave(beertax, state)))
+
+# estimate the regression
+summary(lm(fatal_rate ~ beertax - 1, data = Fatalities_demeaned))
+
+##Alternative mit plm
+# estimate the fixed effects regression with plm()
+fatal_fe_mod <- plm(fatal_rate ~ beertax, 
+                    data = Fatalities,
+                    index = c("state", "year"), 
+                    model = "within")
+
+# print summary using robust standard errors
+fatal_fe_mod
+coeftest(fatal_fe_mod, vcov. = vcovHC, type = "HC1") # Bereinigt um Heteroskedastizität 
+
+
+```
+
+## Kombiniertes Modell
+```{r}
+# estimate a combined time and entity fixed effects regression model
+
+# via lm()
+fatal_tefe_lm_mod <- lm(fatal_rate ~ beertax + state + year - 1, data = Fatalities)
+fatal_tefe_lm_mod
+
+
+# via plm()
+fatal_tefe_mod <- plm(fatal_rate ~ beertax, 
+                      data = Fatalities,
+                      index = c("state", "year"), 
+                      model = "within", 
+                      effect = "twoways")
+fatal_tefe_mod
+coeftest(fatal_tefe_mod, vcov = vcovHC, type = "HC1")
+
+
+```
+
+# Kapitel 11
+```{r}
+data(HMDA)
+
+# convert 'deny' to numeric
+HMDA$deny <- as.numeric(HMDA$deny) - 1 ## -1 damit deny-Variable Wert [0,1]
+
+# estimate a simple linear probabilty model
+denymod1 <- lm(deny ~ pirat, data = HMDA)
+denymod1
+summary(denymod1)
+
+# plot the data
+plot(x = HMDA$pirat, 
+     y = HMDA$deny,
+     main = "Scatterplot Mortgage Application Denial and the Payment-to-Income Ratio",
+     xlab = "P/I ratio",
+     ylab = "Deny",
+     pch = 20,
+     ylim = c(-0.4, 1.4),
+     cex.main = 0.8)
+
+# add horizontal dashed lines and text
+abline(h = 1, lty = 2, col = "darkred")
+abline(h = 0, lty = 2, col = "darkred")
+text(2.5, 0.9, cex = 0.8, "Mortgage denied")
+text(2.5, -0.1, cex= 0.8, "Mortgage approved")
+
+# add the estimated regression line
+abline(denymod1, 
+       lwd = 1.8, 
+       col = "steelblue")
+
+coeftest(denymod1, vcov. = vcovHC, type = "HC1")
+# rename the variable 'afam' for consistency
+colnames(HMDA)[colnames(HMDA) == "afam"] <- "black"
+
+# estimate the model
+denymod2 <- lm(deny ~ pirat + black, data = HMDA)
+coeftest(denymod2, vcov. = vcovHC)
+
+```
+
+### Probit und Logit Regression
+```{r}
+# estimate the simple probit model
+denyprobit <- glm(deny ~ pirat, 
+                  family = binomial(link = "probit"), 
+                  data = HMDA)
+
+coeftest(denyprobit, vcov. = vcovHC, type = "HC1")
+# plot data
+plot(x = HMDA$pirat, 
+     y = HMDA$deny,
+     main = "Probit Model of the Probability of Denial, Given P/I Ratio",
+     xlab = "P/I ratio",
+     ylab = "Deny",
+     pch = 20,
+     ylim = c(-0.4, 1.4),
+     cex.main = 0.85)
+
+# add horizontal dashed lines and text
+abline(h = 1, lty = 2, col = "darkred")
+abline(h = 0, lty = 2, col = "darkred")
+text(2.5, 0.9, cex = 0.8, "Mortgage denied")
+text(2.5, -0.1, cex= 0.8, "Mortgage approved")
+
+# add estimated regression line
+x <- seq(0, 3, 0.01)
+y <- predict(denyprobit, list(pirat = x), type = "response")
+
+lines(x, y, lwd = 1.5, col = "steelblue")
+
+## Vorhersagen
+# 1. compute predictions for P/I ratio = 0.3, 0.4
+predictions <- predict(denyprobit, 
+                       newdata = data.frame("pirat" = c(0.4, 0.5)),
+                       type = "response")
+
+# 2. Compute difference in probabilities
+diff(predictions)
+
+
+#As a remainder, we have renamed the variable "afam" to "black" in Chapter 11.1
+#colnames(HMDA)[colnames(HMDA) == "afam"] <- "black"
+#We continue by using an augmented
+denyprobit2 <- glm(deny ~ pirat + black, 
+                   family = binomial(link = "probit"), 
+                   data = HMDA)
+
+coeftest(denyprobit2, vcov. = vcovHC, type = "HC1")
+
+```
+
+### Logit Regression
+```{r}
+denylogit <- glm(deny ~ pirat, 
+                 family = binomial(link = "logit"), 
+                 data = HMDA)
+
+coeftest(denylogit, vcov. = vcovHC, type = "HC1")
+
+# plot data
+plot(x = HMDA$pirat, 
+     y = HMDA$deny,
+     main = "Probit and Logit Models Model of the Probability of Denial, Given P/I Ratio",
+     xlab = "P/I ratio",
+     ylab = "Deny",
+     pch = 20,
+     ylim = c(-0.4, 1.4),
+     cex.main = 0.9)
+
+# add horizontal dashed lines and text
+abline(h = 1, lty = 2, col = "darkred")
+abline(h = 0, lty = 2, col = "darkred")
+text(2.5, 0.9, cex = 0.8, "Mortgage denied")
+text(2.5, -0.1, cex= 0.8, "Mortgage approved")
+
+# add estimated regression line of Probit and Logit models
+x <- seq(0, 3, 0.01)
+y_probit <- predict(denyprobit, list(pirat = x), type = "response")
+y_logit <- predict(denylogit, list(pirat = x), type = "response")
+
+lines(x, y_probit, lwd = 1.5, col = "steelblue")
+lines(x, y_logit, lwd = 1.5, col = "black", lty = 2)
+
+# add a legend
+legend("topleft",
+       horiz = TRUE,
+       legend = c("Probit", "Logit"),
+       col = c("steelblue", "black"), 
+       lty = c(1, 2))
+
+# estimate a Logit regression with multiple regressors
+denylogit2 <- glm(deny ~ pirat + black, 
+                  family = binomial(link = "logit"), 
+                  data = HMDA)
+
+coeftest(denylogit2, vcov. = vcovHC, type = "HC1")
+
+
+# 1. compute predictions for P/I ratio = 0.3
+predictions <- predict(denylogit2, 
+                       newdata = data.frame("black" = c("no", "yes"), 
+                                            "pirat" = c(0.3, 0.3)),
+                       type = "response")
+
+predictions
+#>          1          2 
+#> 0.07485143 0.22414592
+
+# 2. Compute difference in probabilities
+diff(predictions)
+
+## Gütebestimmuing mit Pseudo-R
+# compute pseudo-R2 for the probit model of mortgage denial
+pseudoR2 <- 1 - (denyprobit2$deviance) / (denyprobit2$null.deviance)
+pseudoR2
+#> [1] 0.08594259
+#> 
+#> # compute the null model
+denyprobit_null <- glm(formula = deny ~ 1, 
+                       family = binomial(link = "probit"), 
+                       data = HMDA)
+
+# compute the pseudo-R2 using 'logLik'
+1 - logLik(denyprobit2)[1]/logLik(denyprobit_null)[1]
+#> [1] 0.08594259
+```
+
+## Anwendungsbeispiel:
+
+```{r}
+# define low, medium and high loan-to-value ratio
+HMDA$lvrat <- factor(
+  ifelse(HMDA$lvrat < 0.8, "low",
+  ifelse(HMDA$lvrat >= 0.8 & HMDA$lvrat <= 0.95, "medium", "high")),
+  levels = c("low", "medium", "high"))
+
+# convert credit scores to numeric
+#HMDA$mhist <- as.numeric(HMDA$mhist)
+#HMDA$chist <- as.numeric(HMDA$chist)
+
+# estimate all 6 models for the denial probability
+lpm_HMDA <- lm(deny ~ black + pirat + hirat + lvrat + chist + mhist + phist 
+               + insurance + selfemp, data = HMDA)
+
+logit_HMDA <- glm(deny ~ black + pirat + hirat + lvrat + chist + mhist + phist 
+                  + insurance + selfemp, 
+                  family = binomial(link = "logit"), 
+                  data = HMDA)
+
+probit_HMDA_1 <- glm(deny ~ black + pirat + hirat + lvrat + chist + mhist + phist 
+                     + insurance + selfemp, 
+                     family = binomial(link = "probit"), 
+                     data = HMDA)
+
+probit_HMDA_2 <- glm(deny ~ black + pirat + hirat + lvrat + chist + mhist + phist 
+                     + insurance + selfemp + single + hschool + unemp, 
+                     family = binomial(link = "probit"), 
+                     data = HMDA)
+
+probit_HMDA_3 <- glm(deny ~ black + pirat + hirat + lvrat + chist + mhist 
+                     + phist + insurance + selfemp + single + hschool + unemp + condomin 
+                     + I(mhist==3) + I(mhist==4) + I(chist==3) + I(chist==4) + I(chist==5) 
+                     + I(chist==6), 
+                     family = binomial(link = "probit"), 
+                     data = HMDA)
+
+probit_HMDA_4 <- glm(deny ~ black * (pirat + hirat) + lvrat + chist + mhist + phist 
+                     + insurance + selfemp + single + hschool + unemp, 
+                     family = binomial(link = "probit"), 
+                     data = HMDA)
+
+rob_se <- list(sqrt(diag(vcovHC(lpm_HMDA, type = "HC1"))),
+               sqrt(diag(vcovHC(logit_HMDA, type = "HC1"))),
+               sqrt(diag(vcovHC(probit_HMDA_1, type = "HC1"))),
+               sqrt(diag(vcovHC(probit_HMDA_2, type = "HC1"))),
+               sqrt(diag(vcovHC(probit_HMDA_3, type = "HC1"))),
+               sqrt(diag(vcovHC(probit_HMDA_4, type = "HC1"))))
+
+stargazer(lpm_HMDA, logit_HMDA, probit_HMDA_1, 
+          probit_HMDA_2, probit_HMDA_3,
+          digits = 3,
+          type = "text", 
+          header = FALSE,
+          se = rob_se,
+          model.numbers = FALSE,
+          column.labels = c("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"))
+
+# comppute regressor values for an average black person
+new <- data.frame(
+  "pirat" = mean(HMDA$pirat),
+  "hirat" = mean(HMDA$hirat),
+  "lvrat" = "low",
+  "chist" = "1",
+  "mhist" = "2",
+  "phist" = "no",
+  "insurance" = "no",
+  "selfemp" = "no",
+  "black" = c("no", "yes"),
+  "single" = "no",
+  "hschool" = "yes",
+  "unemp" = mean(HMDA$unemp),
+  "condomin" = "no")
+
+# differnce predicted by the LPM
+predictions <- predict(lpm_HMDA, newdata = new)
+diff(predictions)
+#>          2 
+#> 0.08369674
+
+# differnce predicted by the logit model
+predictions <- predict(logit_HMDA, newdata = new, type = "response")
+diff(predictions)
+#>          2 
+#> 0.04042135
+
+# difference predicted by probit model (3)
+predictions <- predict(probit_HMDA_1, newdata = new, type = "response")
+diff(predictions)
+#>          2 
+#> 0.05049716
+
+# difference predicted by probit model (4)
+predictions <- predict(probit_HMDA_2, newdata = new, type = "response")
+diff(predictions)
+#>          2 
+#> 0.03978918
+
+# difference predicted by probit model (5)
+predictions <- predict(probit_HMDA_3, newdata = new, type = "response")
+diff(predictions)
+#>          2 
+#> 0.04972468
+
+# difference predicted by probit model (6)
+predictions <- predict(probit_HMDA_4, newdata = new, type = "response")
+diff(predictions)
+#>          2 
+#> 0.03955893
+
+```
+
+### Beispiel
+```{r}
+# attach the dataset `Titanic`
+Titanic_1 <- Titanic
+
+# get an overview over the data
+summary(Titanic_1)
+# or
+str(Titanic_1)
+# or
+head(Titanic_1)
+
+# print the data the console
+Titanic_1
+
+# plot a mosaic
+mosaicplot(Titanic_1, main = "Survival on the Titanic")
+```
+# Kapitel 12
+```{r Zigaretten-Beispiel}
+data("CigarettesSW")
+# compute real per capita prices
+CigarettesSW$rprice <- with(CigarettesSW, price / cpi)
+
+#  compute the sales tax
+CigarettesSW$salestax <- with(CigarettesSW, (taxs - tax) / cpi)
+
+# check the correlation between sales tax and price
+cor(CigarettesSW$salestax, CigarettesSW$price)
+#> [1] 0.6141228
+
+# generate a subset for the year 1995
+c1995 <- subset(CigarettesSW, year == "1995")
+
+# perform TSLS using 'ivreg()'
+cig_ivreg <- ivreg(log(packs) ~ log(rprice) | salestax, data = c1995)
+
+coeftest(cig_ivreg, vcov = vcovHC, type = "HC1")
+#> 
+#> t test of coefficients:
+#> 
+#>             Estimate Std. Error t value  Pr(>|t|)    
+#> (Intercept)  9.71988    1.52832  6.3598 8.346e-08 ***
+#> log(rprice) -1.08359    0.31892 -3.3977  0.001411 ** 
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+summary(cig_ivreg)
+#> 
+
+```
+
+
+
+
+
+
+
+
+
+
+
