@@ -35,12 +35,13 @@ knit: (function(inputFile, encoding) {
                         output_file=file.path(dirname(inputFile), out_dir, 'M715_Hausarbeit_Dalessandro_David_400324571.html')) })
 
 ---
-
+# Vorwort {.unnumbered}
 ```{r setup, include=FALSE}
 # load libraries
 #### zuvor geladen:
 #library(rmarkdown)
 #library(knitr)
+#library(bookdown)
 #library(yaml)
 
 # globaloptions
@@ -53,49 +54,42 @@ library(feather)
 # load datasets
 
 
+# Load self scripted functions
+source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global()) #supports the analysis, interpretation and visualization and provides a better understanding of what a function/section do.
+source("./00_Skripte/inputDataSets.r", local = knitr::knit_global())
 
-# Funktionenladen
-source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global())
-kommaSetzen(3452345)
-#> [1] "3,452,345"
-kommaSetzen(.12358124331)
 ```
-<!-- ohne Nummerierung -->
-# Vorwort {.unnumbered} 
+<!-- ohne Nummerierung   -->
 
 
 
-# Kriminalitässtatistik
-https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2021/PKSTabellen/StadtOpfertabellen/stadtOpfertabellen_node.html
-https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/PKS2021/PKSTabellen/KreisOpfertabellen/kreisOpfertabellen_node.html--> Kann verworfen werden
+# Introduction (1 page) {#Chapter1}
 
-https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/Gemeindeverzeichnis/Administrativ/04-kreise.html
+***
+#	Methodology (4-5 pages): {#Chapter2}
+Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Dataset of the Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data set of the Federal Statistical Office]).Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation])notwendig sind, um die Fallzahlen zu modellieren. ([Sec. 2.4][Modeling by using linear regression])
 
-https://www.destatis.de/DE/Themen/Laender-Regionen/Regionales/_inhalt.html# 
+##	Dataset of the Federal Criminal Police Office
 
-https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=13111#abreadcrumb 
+##	Data set of the Federal Statistical Office
+##	Data Preparation
+##	Modeling by using linear regression
+***
+#	Analysis & Results: Plots and tables from the data (3 pages).
 
-https://www.regionalstatistik.de/genesis/online?operation=abruftabelleBearbeiten&levelindex=2&levelid=1685395674289&auswahloperation=abruftabelleAuspraegungAuswaehlen&auswahlverzeichnis=ordnungsstruktur&auswahlziel=werteabruf&code=13111-02-02-4&auswahltext=&werteabruf=Werteabruf#abreadcrumb 
+***
+#	Discussion: anomalies and limitations (0.5 - 1 page).
+***
+#	Conclusion: findings and implications (0.5 - 1 page).
 
-Bevölkerung in Gemeinde https://www.regionalstatistik.de/genesis//online?operation=table&code=12411-01-01-4&bypass=true&levelindex=1&levelid=1685395910046#abreadcrumb
+# Kriminalitässtatistik 
 
-Wahlstimmen-nicht sinnvoll https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=14338#abreadcrumb
-
-Absolventen und Schule^[https://www.regionalstatistik.de/genesis/online?operation=statistic&levelindex=0&levelid=1685395020968&code=21111#abreadcrumb]
 
 ***
 
 ## Datenbanken zu mehr Inhalt 
-- https://www.statistikportal.de/de/gesundheit#datenbanken
 
-- Regionalatlas Deutschland Themenbereich "Soziales" Indikatoren zu "Armutsgefährdung"
-  - https://www.regionalstatistik.de/genesis/online?operation=abruftabelleBearbeiten&levelindex=0&levelid=1685530852339&auswahloperation=abruftabelleAuspraegungAuswaehlen&auswahlverzeichnis=ordnungsstruktur&auswahlziel=werteabruf&code=AI-S-02&auswahltext=&werteabruf=Werteabruf#abreadcrumb
 
-- https://www.statistikportal.de/de/arbeitsmarkt#datenbanken
-
-- https://www.regionalstatistik.de/genesis/online?language=de&sequenz=statistikTabellen&selectionname=23111#abreadcrumb
-
-\newpage
 
 ***
 ## Arbeitnehmerentgelte in Kreisen
@@ -114,7 +108,7 @@ knitr::kable(head(cars),
 
 ```
 
-## Slide with Plot
+## Slide with Plot 
 
 ```{r pressure}
 plot(pressure)
