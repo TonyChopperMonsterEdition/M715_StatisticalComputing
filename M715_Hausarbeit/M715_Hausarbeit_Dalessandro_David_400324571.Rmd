@@ -37,7 +37,7 @@ knit: (function(inputFile, encoding) {
 ---
 # Vorwort {.unnumbered}
 ```{r setup, include=FALSE}
-# load libraries
+# load libraries from before
 #### zuvor geladen:
 #library(rmarkdown)
 #library(knitr)
@@ -47,29 +47,37 @@ knit: (function(inputFile, encoding) {
 # globaloptions
 knitr::opts_chunk$set(echo = FALSE)
 
-### zu laden für die Bearbeitung
-library(tidyverse)
-library(feather)
-
-# load datasets
-
-
-# Load self scripted functions
-source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global()) #supports the analysis, interpretation and visualization and provides a better understanding of what a function/section do.
-source("./00_Skripte/inputDataSets.r", local = knitr::knit_global())
-
 ```
 <!-- ohne Nummerierung   -->
 
-
-
 # Introduction (1 page) {#Chapter1}
-
 ***
 #	Methodology (4-5 pages): {#Chapter2}
 Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Dataset of the Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data set of the Federal Statistical Office]).Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation])notwendig sind, um die Fallzahlen zu modellieren. ([Sec. 2.4][Modeling by using linear regression])
 
+This work uses the 
+```{r Bibliotheken, warning=FALSE}
+### zu laden für die Bearbeitung
+library(tidyverse)
+library(dplyr)
+library(purrr)
+library(devtools)
+
+# load datasets
+# Load self scripted functions
+#supports the analysis, interpretation and visualization and provides a better understanding of what a function/section do.
+source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global()) 
+#loads the relevant data to the rmd environment
+source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())
+```
 ##	Dataset of the Federal Criminal Police Office
+
+Der Eintrag "Bund echte Zählung der Tatverdächtigen" ist eine separate Aufführung von Straftaten einer Person, die in verschiedenen Bundesländern registriert wurde. Dies ist ein Sammelposten für mehrfach geführte Zählungen und verhindert, dass die Fälle in einzelnen Bundesländern zu Verzerrungen führen.
+
+<!-- So bedeutet, dass in der folgenden Ausgabe \n
+\t `r knitr::kable(caseNumbers_2014[caseNumbers_2014$Straftat %like% "Diebstahl unter" & caseNumbers_2014$Bundesland %like% "echte",])`
+`r caseNumbers_2014$'erfasste Fälle'[caseNumbers_2014$Straftat %like% "Diebstahl unter" & caseNumbers_2014$Bundesland %like% "echte"]` Diebstähle erfasst wurden, die von einer Person in mehreren Bundesländern verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten der Bundesländer, sondern in diesem Sammelposten geführt.-->
+
 
 ##	Data set of the Federal Statistical Office
 ##	Data Preparation
@@ -156,3 +164,4 @@ sessionInfo()[4]
 ```
 
 # References
+Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link
