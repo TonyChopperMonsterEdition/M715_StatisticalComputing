@@ -1657,8 +1657,8 @@ source(&quot;./00_Skripte/selbstgeschriebeneFunktionen.r&quot;, local = knitr::k
 #loads the relevant data to the rmd environment
 source(&quot;./00_Skripte/read_datafiles.r&quot;, local = knitr::knit_global())
 
-Beispiel &lt;- caseNumbers_2014[caseNumbers_2014$Straftat %like% &quot;Diebstahl unter &quot; &amp; caseNumbers_2014$Bundesland %like% &quot;echte&quot;,]
-Diebstähle &lt;- as.numeric(caseNumbers_2014$&#39;erfasste Fälle&#39;[caseNumbers_2014$Straftat %like% &quot;Diebstahl unter&quot; &amp; caseNumbers_2014$Bundesland %like% &quot;echte&quot;])</code></pre>
+Beispiel &lt;- caseNumbers_2014[caseNumbers_2014$Crimetype %like% &quot;Diebstahl unter &quot; &amp; caseNumbers_2014$FederalState %like% &quot;echte&quot;,]
+Diebstähle &lt;- as.numeric(caseNumbers_2014$Casenumbers[caseNumbers_2014$Crimetype %like% &quot;Diebstahl unter&quot; &amp; caseNumbers_2014$FederalState %like% &quot;echte&quot;])</code></pre>
 <div id="dataset-of-the-federal-criminal-police-office" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Dataset of the
 Federal Criminal Police Office</h2>
@@ -1670,15 +1670,15 @@ Bundesländern zu Verzerrungen führen.</p>
 <p>So bedeutet, dass in der folgenden Ausgabe </p>
 <table>
 <colgroup>
-<col width="55%" />
-<col width="32%" />
-<col width="12%" />
+<col width="56%" />
+<col width="33%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Straftat</th>
-<th align="left">Bundesland</th>
-<th align="right">erfasste Fälle</th>
+<th align="left">Crimetype</th>
+<th align="left">FederalState</th>
+<th align="right">Casenumbers</th>
 </tr>
 </thead>
 <tbody>

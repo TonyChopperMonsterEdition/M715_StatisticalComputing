@@ -72,8 +72,8 @@ source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global
 #loads the relevant data to the rmd environment
 source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())
 
-Beispiel <- caseNumbers_2014[caseNumbers_2014$Straftat %like% "Diebstahl unter " & caseNumbers_2014$Bundesland %like% "echte",]
-Diebstähle <- as.numeric(caseNumbers_2014$'erfasste Fälle'[caseNumbers_2014$Straftat %like% "Diebstahl unter" & caseNumbers_2014$Bundesland %like% "echte"])
+Beispiel <- caseNumbers_2014[caseNumbers_2014$Crimetype %like% "Diebstahl unter " & caseNumbers_2014$FederalState %like% "echte",]
+Diebstähle <- as.numeric(caseNumbers_2014$Casenumbers[caseNumbers_2014$Crimetype %like% "Diebstahl unter" & caseNumbers_2014$FederalState %like% "echte"])
 ```
 ##	Dataset of the Federal Criminal Police Office
 
