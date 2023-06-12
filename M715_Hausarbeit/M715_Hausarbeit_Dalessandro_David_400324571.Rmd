@@ -64,6 +64,7 @@ library(purrr)
 library(base)
 library(data.table)
 library(devtools)
+library(htmlTable)
 
 # load datasets
 # Load self scripted functions
@@ -73,18 +74,17 @@ source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global
 source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())
 
 Beispiel <- caseNumbers_2014[caseNumbers_2014$Crimetype %like% "Diebstahl unter " & caseNumbers_2014$FederalState %like% "echte",]
+Beispiel[1,1] <- "Diebstahl"
 Diebstähle <- as.numeric(caseNumbers_2014$Casenumbers[caseNumbers_2014$Crimetype %like% "Diebstahl unter" & caseNumbers_2014$FederalState %like% "echte"])
+Table1 <- addHtmlTableStyle(Beispiel, pos.caption = "bottom", align="lcr",align.header = "lcr")
 ```
 ##	Dataset of the Federal Criminal Police Office
 
-Der Eintrag "Bund echte Zählung der Tatverdächtigen" ist eine separate Aufführung von Straftaten einer Person, die in verschiedenen Bundesländern registriert wurde. Dies ist ein Sammelposten für mehrfach geführte Zählungen und verhindert, dass die Fälle in einzelnen Bundesländern zu Verzerrungen führen.
+Der Eintrag "Bund echte Zählung der Tatverdächtigen" ist eine separate Aufführung von Straftaten einer Person, die in verschiedenen Bundesländern registriert wurde. Dies ist ein Sammelposten für mehrfach geführte Zählungen und verhindert, dass die Fälle in einzelnen Bundesländern zu Verzerrungen führen.\newline
 
-So bedeutet, dass in der folgenden Ausgabe \newline
-`r knitr::kable(Beispiel)`
-\newline
-
-Es wurden demnach `r toString(Diebstähle)` Diebstähle erfasst, die von einer Person in mehreren Bundesländern verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten der Bundesländer, sondern in diesem Sammelposten geführt.
-
+`r htmlTable(Table1, rnames=NULL, caption="Tab. 1: Zahl der Diebstähle, jeweils einer Person in mehreren Ländern", label="Tab1")` \newline 
+ 
+So zeigt die folgenden Ausgabe in [Tab. 1](#Tab1), dass demnach `r toString(Diebstähle)` Diebstähle erfasst, die von einer Person in mehreren Bundesländern verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten der Bundesländer, sondern in diesem Sammelposten geführt.
 
 ##	Data set of the Federal Statistical Office
 ##	Data Preparation
@@ -99,12 +99,9 @@ Es wurden demnach `r toString(Diebstähle)` Diebstähle erfasst, die von einer P
 
 # Kriminalitässtatistik 
 
-
 ***
 
 ## Datenbanken zu mehr Inhalt 
-
-
 
 ***
 ## Arbeitnehmerentgelte in Kreisen

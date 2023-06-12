@@ -42,10 +42,13 @@ list_of_packages <- c(
     "GGally",
     "plot3D",
     "readr",
-    "magrittr"
+    "magrittr",
+    "devtools",
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
 if (length(new_packages) > 0) install.packages(new_packages)
+
     
            
+
