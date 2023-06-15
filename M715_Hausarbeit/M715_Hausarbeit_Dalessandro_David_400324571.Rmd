@@ -21,9 +21,9 @@ output:
     toc: yes
     toc_depth: 3
   github_document: default
-bibliography: "./10_Literatur_Quellen/references.bib"
+bibliography: "./10_Literatur_Quellen/m715_references.bib"
 csl: "https://www.zotero.org/styles/apa-with-abstract"
-lang: de
+lang: en
 
 ##Formatierung
 geometry: left=2cm,right=4cm,top=2cm,bottom=2cm
@@ -53,11 +53,9 @@ knitr::opts_chunk$set(echo = FALSE)
 # Introduction (1 page) {#Chapter1}
 ***
 #	Methodology (4-5 pages): {#Chapter2}
-Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Dataset of the Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data set of the Federal Statistical Office]).Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation])notwendig sind, um die Fallzahlen zu modellieren. ([Sec. 2.4][Modeling by using linear regression])
-
-This work uses the 
-```{r Bibliotheken, echo=TRUE, message=FALSE, warning=FALSE}
-### zu laden für die Bearbeitung
+Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Dataset of the Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data set of the Federal Statistical Office]). Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation]) notwendig sind, um die Fallzahlen zu modellieren ([Sec. 2.4][Modeling by using linear regression]). Unterstützend verwendet die Arbeit die nachfolgenden Bibliotheken.
+```{r Libraries, echo=TRUE, message=FALSE, warning=FALSE}
+# Libraries needed for the data exploration 
 library(tidyverse)
 library(dplyr)
 library(purrr)
@@ -65,26 +63,35 @@ library(base)
 library(data.table)
 library(devtools)
 library(htmlTable)
-
-# load datasets
-# Load self scripted functions
-#supports the analysis, interpretation and visualization and provides a better understanding of what a function/section do.
-source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global()) 
-#loads the relevant data to the rmd environment
-source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())
-
-Beispiel <- caseNumbers_2014[caseNumbers_2014$Crimetype %like% "Diebstahl unter " & caseNumbers_2014$FederalState %like% "echte",]
-Beispiel[1,1] <- "Diebstahl"
-Diebstähle <- as.numeric(caseNumbers_2014$Casenumbers[caseNumbers_2014$Crimetype %like% "Diebstahl unter" & caseNumbers_2014$FederalState %like% "echte"])
-Table1 <- addHtmlTableStyle(Beispiel, pos.caption = "bottom", align="lcr",align.header = "lcr")
 ```
+
 ##	Dataset of the Federal Criminal Police Office
+In diesem Abschnitt fokusiert das Kapitel die Daten des Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und erläutert, welche Maßnahmen ([Sec. 2.3][Data Preparation]) ergreifen muss, um ein Regressionsmodell abzuleiten. Für die Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk aufgeführten Skripte. Sie laden einerseits die Datensätze des Bundeskriminalamts in die Umgebung des RMarkdown und bereiten andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem Abschnitt einbettet.
+
+``` {r Datasets & Scripts,echo=TRUE, message=FALSE, warning=FALSE}
+# Loading Datasets over the following scripts
+source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())
+# Load self scripted functions for analysis, interpretation and visualization.
+source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global()) 
+
+
+# Calculating and creating variables to embed and use them in the paper
+
+example_NationWide <- caseNumbers_2020[caseNumbers_2020$Crimetype %like% "Diebstahl" & caseNumbers_2020$Crimetype %like% "insg" & !(caseNumbers_2020$Crimetype %like% "versucht")  & caseNumbers_2020$FederalState %like% "echte" ,] 
+example_NationWide <- arrange(example_NationWide,desc(Casenumbers))
+
+#Beispiel[1,1] <- "Diebstahl"
+thefts_NationWide <- as.numeric(sum(example_NationWide$Casenumbers))
+Table_thefts_NationWide <- addHtmlTableStyle(example_NationWide, pos.caption = "bottom", align="lcr",align.header = "lcr")
+```
+
+Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Download zur Verfügung.^[cf. @Bundeskriminalamt.2023] Für die Arbeit relevant sind die Falltabellen der Länder im Zeitraum von einschließlich 2014 bis 2020. Diese geben die gezählten Straftaten nach Delikt und Ländern getrennt wieder.^[cf. @Bundeskriminalamt.2021, S.17] Diese führen unterschiedliche Delikte auf, welche nach einem Schlüssel gruppiert und durch funf Ebenen detailliert sind. Auf zusätzliche Informationen zur Erfassung und etwaiger Schwierigkeiten, wie Verzerrungen, weist die Interpretationshilfe des Bundeskriminalamts hin. ^[cf. @Bundeskriminalamt.2021b, S.4]
 
 Der Eintrag "Bund echte Zählung der Tatverdächtigen" ist eine separate Aufführung von Straftaten einer Person, die in verschiedenen Bundesländern registriert wurde. Dies ist ein Sammelposten für mehrfach geführte Zählungen und verhindert, dass die Fälle in einzelnen Bundesländern zu Verzerrungen führen.\newline
 
-`r htmlTable(Table1, rnames=NULL, caption="Tab. 1: Zahl der Diebstähle, jeweils einer Person in mehreren Ländern", label="Tab1")` \newline 
+`r htmlTable(Table_thefts_NationWide, rnames=NULL, caption="Tab. 1: Zahl der Diebstähle, jeweils einer Person in mehreren Ländern", label="Tab1")` \newline 
  
-So zeigt die folgenden Ausgabe in [Tab. 1](#Tab1), dass demnach `r toString(Diebstähle)` Diebstähle erfasst, die von einer Person in mehreren Bundesländern verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten der Bundesländer, sondern in diesem Sammelposten geführt.
+So zeigt die folgenden Ausgabe in [Tab. 1](#Tab1), dass demnach `r toString(thefts_NationWide)` Diebstähle erfasst, die von einer Person in mehreren Bundesländern verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten der Bundesländer, sondern in diesem Sammelposten geführt.
 
 ##	Data set of the Federal Statistical Office
 ##	Data Preparation

@@ -11,7 +11,7 @@
 
 <meta name="author" content="D’Alessandro David" />
 
-<meta name="date" content="2023-06-12" />
+<meta name="date" content="2023-06-16" />
 
 <title>Regression der Opferstatistik</title>
 
@@ -1445,7 +1445,7 @@ margin-left: 2em;
 }
 </style>
 
-<style type="text/css">body{font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }[role="doc-noteref"] {counter-increment: footnotes; font-size: 10pt;line-height: 1;}h1{font-size: 16pt;font-weight: bold;text-indent: 0cm;line-height: 12pt;}h2{font-size: 14pt;font-weight: bold;text-indent: 0,39cm;}h3{font-size: 12pt;font-weight: bold;text-indent: 0,78cm;}</style>
+<style type="text/css">body{font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }[role="doc-noteref"] {counter-increment: footnotes; font-size: 10pt;line-height: 1;}h1{font-size: 16pt;font-weight: bold;text-indent: 0cm;line-height: 12pt;}h2{font-size: 14pt;font-weight: bold;text-indent: 0,39cm;}h3{font-size: 12pt;font-weight: bold;text-indent: 0,78cm;}table{margin-left: auto;margin-right: auto;}</style>
 
 
 
@@ -1617,7 +1617,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Regression der Opferstatistik</h1>
 <h3 class="subtitle">Modul 715 - Statistical Computing</h3>
 <h4 class="author">D’Alessandro David</h4>
-<h4 class="date">2023-06-12</h4>
+<h4 class="date">2023-06-16</h4>
 
 </div>
 
@@ -1636,35 +1636,56 @@ page)</h1>
 pages):</h1>
 <p>Dieses Kapitel beschreibt und erläutert zum einen die Daten des
 Bundeskriminalamts (<a href="#dataset-of-the-federal-criminal-police-office">Sec. 2.1</a>),
-sowie, die des Statistischen Bundesamts (<a href="#data-set-of-the-federal-statistical-office">Sec. 2.2</a>).Die
+sowie, die des Statistischen Bundesamts (<a href="#data-set-of-the-federal-statistical-office">Sec. 2.2</a>). Die
 Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit
-hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände (<a href="#data-preparation">Sec. 2.3</a>)notwendig sind, um die Fallzahlen
-zu modellieren. (<a href="#modeling-by-using-linear-regression">Sec.
-2.4</a>)</p>
-<p>This work uses the</p>
-<pre class="r"><code>### zu laden für die Bearbeitung
+hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände (<a href="#data-preparation">Sec. 2.3</a>) notwendig sind, um die Fallzahlen
+zu modellieren (<a href="#modeling-by-using-linear-regression">Sec.
+2.4</a>). Unterstützend verwendet die Arbeit die nachfolgenden
+Bibliotheken.</p>
+<pre class="r"><code># Libraries needed for the data exploration 
 library(tidyverse)
 library(dplyr)
 library(purrr)
 library(base)
 library(data.table)
 library(devtools)
-library(htmlTable)
-
-# load datasets
-# Load self scripted functions
-#supports the analysis, interpretation and visualization and provides a better understanding of what a function/section do.
-source(&quot;./00_Skripte/selbstgeschriebeneFunktionen.r&quot;, local = knitr::knit_global()) 
-#loads the relevant data to the rmd environment
-source(&quot;./00_Skripte/read_datafiles.r&quot;, local = knitr::knit_global())
-
-Beispiel &lt;- caseNumbers_2014[caseNumbers_2014$Crimetype %like% &quot;Diebstahl unter &quot; &amp; caseNumbers_2014$FederalState %like% &quot;echte&quot;,]
-Beispiel[1,1] &lt;- &quot;Diebstahl&quot;
-Diebstähle &lt;- as.numeric(caseNumbers_2014$Casenumbers[caseNumbers_2014$Crimetype %like% &quot;Diebstahl unter&quot; &amp; caseNumbers_2014$FederalState %like% &quot;echte&quot;])
-Table1 &lt;- addHtmlTableStyle(Beispiel, pos.caption = &quot;bottom&quot;, align=&quot;lcr&quot;,align.header = &quot;lcr&quot;)</code></pre>
+library(htmlTable)</code></pre>
 <div id="dataset-of-the-federal-criminal-police-office" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Dataset of the
 Federal Criminal Police Office</h2>
+<p>In diesem Abschnitt fokusiert das Kapitel die Daten des
+Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und
+erläutert, welche Maßnahmen (<a href="#data-preparation">Sec. 2.3</a>)
+ergreifen muss, um ein Regressionsmodell abzuleiten. Für die
+Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk
+aufgeführten Skripte. Sie laden einerseits die Datensätze des
+Bundeskriminalamts in die Umgebung des RMarkdown und bereiten
+andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem
+Abschnitt einbettet.</p>
+<pre class="r"><code># Loading Datasets over the following scripts
+source(&quot;./00_Skripte/read_datafiles.r&quot;, local = knitr::knit_global())
+# Load self scripted functions for analysis, interpretation and visualization.
+source(&quot;./00_Skripte/selbstgeschriebeneFunktionen.r&quot;, local = knitr::knit_global()) 
+
+
+# Calculating and creating variables to embed and use them in the paper
+
+example_NationWide &lt;- caseNumbers_2020[caseNumbers_2020$Crimetype %like% &quot;Diebstahl&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;insg&quot; &amp; !(caseNumbers_2020$Crimetype %like% &quot;versucht&quot;)  &amp; caseNumbers_2020$FederalState %like% &quot;echte&quot; ,] 
+example_NationWide &lt;- arrange(example_NationWide,desc(Casenumbers))
+
+#Beispiel[1,1] &lt;- &quot;Diebstahl&quot;
+thefts_NationWide &lt;- as.numeric(sum(example_NationWide$Casenumbers))
+Table_thefts_NationWide &lt;- addHtmlTableStyle(example_NationWide, pos.caption = &quot;bottom&quot;, align=&quot;lcr&quot;,align.header = &quot;lcr&quot;)</code></pre>
+<p>Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer
+Website zum Download zur Verfügung.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Für die Arbeit relevant sind die
+Falltabellen der Länder im Zeitraum von einschließlich 2014 bis 2020.
+Diese geben die gezählten Straftaten nach Delikt und Ländern getrennt
+wieder.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
+Diese führen unterschiedliche Delikte auf, welche nach einem Schlüssel
+gruppiert und durch funf Ebenen detailliert sind. Auf zusätzliche
+Informationen zur Erfassung und etwaiger Schwierigkeiten, wie
+Verzerrungen, weist die Interpretationshilfe des Bundeskriminalamts hin.
+<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p>Der Eintrag “Bund echte Zählung der Tatverdächtigen” ist eine
 separate Aufführung von Straftaten einer Person, die in verschiedenen
 Bundesländern registriert wurde. Dies ist ein Sammelposten für mehrfach
@@ -1673,8 +1694,6 @@ Bundesländern zu Verzerrungen führen.</p>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Tab1">
 <thead>
 <tr>
-<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
-</th>
 <th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
 Crimetype
 </th>
@@ -1687,31 +1706,16 @@ Casenumbers
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="border-bottom: 2px solid grey; text-align: left;">
-1
-</td>
-<td style="border-bottom: 2px solid grey; text-align: left;">
-Diebstahl
-</td>
-<td style="border-bottom: 2px solid grey; text-align: center;">
-Bund echte Zählung der Tatverdächtigen
-</td>
-<td style="border-bottom: 2px solid grey; text-align: right;">
-1117916
-</td>
-</tr>
 </tbody>
 <tr>
-<td colspan="4" style="text-align: left;">
-Tab. 1: Zahl der Diebstähle, die jeweils von einer Person in mehreren
-Ländern erfasst wurde
+<td colspan="3" style="text-align: left;">
+Tab. 1: Zahl der Diebstähle, jeweils einer Person in mehreren Ländern
 </td>
 </tr>
 </table>
 <p></p>
 <p>So zeigt die folgenden Ausgabe in <a href="#Tab1">Tab. 1</a>, dass
-demnach 1117916 Diebstähle erfasst, die von einer Person in mehreren
+demnach 0 Diebstähle erfasst, die von einer Person in mehreren
 Bundesländern verübt wurden. Diese werden aber nicht in den jeweils
 einzelnen Posten der Bundesländer, sondern in diesem Sammelposten
 geführt.</p>
@@ -1757,7 +1761,7 @@ Inhalt</h2>
 in Kreisen</h2>
 <ul>
 <li><a href="https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise" class="uri">https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise</a></li>
-<li>Zitation<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></li>
+<li>Zitation<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></li>
 </ul>
 </div>
 <div id="slide-with-r-output-und-gut-formatierter-tabellen-ausgabe" class="section level2" number="6.3">
@@ -1961,20 +1965,16 @@ Tabs erscheinen:</p>
 <div id="info-zu-geladenen-paketen" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Info zu geladenen
 Paketen</h1>
-<pre><code>## R version 4.3.0 (2023-04-21 ucrt)
+<pre><code>## R version 4.2.0 (2022-04-22 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19045)
 ## 
 ## Matrix products: default
 ## 
-## 
 ## locale:
 ## [1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
 ## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
 ## [5] LC_TIME=German_Germany.utf8    
-## 
-## time zone: Europe/Berlin
-## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -1986,49 +1986,61 @@ Paketen</h1>
 ## [13] ggplot2_3.4.2     tidyverse_2.0.0  
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] gtable_0.3.3      xfun_0.39         bslib_0.5.0       htmlwidgets_1.6.2
-##  [5] remotes_2.4.2     processx_3.8.1    callr_3.7.3       tzdb_0.4.0       
-##  [9] vctrs_0.6.2       tools_4.3.0       ps_1.7.5          generics_0.1.3   
-## [13] parallel_4.3.0    fansi_1.0.4       highr_0.10        pkgconfig_2.0.3  
-## [17] checkmate_2.2.0   lifecycle_1.0.3   compiler_4.3.0    munsell_0.5.0    
-## [21] httpuv_1.6.11     htmltools_0.5.5   sass_0.4.6        yaml_2.3.7       
-## [25] urlchecker_1.0.1  pillar_1.9.0      later_1.3.1       crayon_1.5.2     
-## [29] jquerylib_0.1.4   ellipsis_0.3.2    cachem_1.0.8      sessioninfo_1.2.2
-## [33] mime_0.12         tidyselect_1.2.0  digest_0.6.31     stringi_1.7.12   
-## [37] fastmap_1.1.1     grid_4.3.0        colorspace_2.1-0  cli_3.6.1        
-## [41] magrittr_2.0.3    pkgbuild_1.4.0    utf8_1.2.3        withr_2.5.0      
-## [45] backports_1.4.1   prettyunits_1.1.1 scales_1.2.1      promises_1.2.0.1 
-## [49] bit64_4.0.5       timechange_0.2.0  rmarkdown_2.22    bit_4.0.5        
-## [53] hms_1.1.3         memoise_2.0.1     shiny_1.7.4       evaluate_0.21    
-## [57] knitr_1.43        miniUI_0.1.1.1    profvis_0.3.8     rlang_1.1.1      
-## [61] Rcpp_1.0.10       xtable_1.8-4      glue_1.6.2        pkgload_1.3.2    
-## [65] vroom_1.6.3       rstudioapi_0.14   jsonlite_1.8.5    R6_2.5.1         
-## [69] fs_1.6.2</code></pre>
-<pre><code>##  [1] &quot;R.version&quot;       &quot;platform&quot;        &quot;locale&quot;          &quot;tzone&quot;          
-##  [5] &quot;tzcode_type&quot;     &quot;running&quot;         &quot;RNGkind&quot;         &quot;basePkgs&quot;       
-##  [9] &quot;otherPkgs&quot;       &quot;loadedOnly&quot;      &quot;matprod&quot;         &quot;BLAS&quot;           
-## [13] &quot;LAPACK&quot;          &quot;LA_version&quot;      &quot;system.codepage&quot; &quot;codepage&quot;</code></pre>
-<pre><code>## $tzone
-## [1] &quot;Europe/Berlin&quot;</code></pre>
+##  [1] sass_0.4.6        pkgload_1.3.2     bit64_4.0.5       vroom_1.6.3      
+##  [5] jsonlite_1.8.5    bslib_0.4.2       shiny_1.7.4       highr_0.10       
+##  [9] yaml_2.3.7        remotes_2.4.2     sessioninfo_1.2.2 pillar_1.9.0     
+## [13] backports_1.4.1   glue_1.6.2        digest_0.6.31     promises_1.2.0.1 
+## [17] checkmate_2.2.0   colorspace_2.1-0  htmltools_0.5.5   httpuv_1.6.11    
+## [21] pkgconfig_2.0.3   xtable_1.8-4      scales_1.2.1      processx_3.8.1   
+## [25] later_1.3.1       tzdb_0.4.0        timechange_0.2.0  generics_0.1.3   
+## [29] ellipsis_0.3.2    cachem_1.0.8      withr_2.5.0       cli_3.6.1        
+## [33] magrittr_2.0.3    crayon_1.5.2      mime_0.12         memoise_2.0.1    
+## [37] evaluate_0.21     ps_1.7.5          fs_1.6.2          fansi_1.0.4      
+## [41] pkgbuild_1.4.0    profvis_0.3.8     tools_4.2.0       prettyunits_1.1.1
+## [45] hms_1.1.3         lifecycle_1.0.3   munsell_0.5.0     callr_3.7.3      
+## [49] compiler_4.2.0    jquerylib_0.1.4   rlang_1.1.1       grid_4.2.0       
+## [53] rstudioapi_0.14   htmlwidgets_1.6.2 miniUI_0.1.1.1    rmarkdown_2.22   
+## [57] gtable_0.3.3      R6_2.5.1          knitr_1.43        fastmap_1.1.1    
+## [61] bit_4.0.5         utf8_1.2.3        stringi_1.7.12    parallel_4.2.0   
+## [65] Rcpp_1.0.10       vctrs_0.6.2       tidyselect_1.2.0  xfun_0.39        
+## [69] urlchecker_1.0.1</code></pre>
+<pre><code>##  [1] &quot;R.version&quot;       &quot;platform&quot;        &quot;locale&quot;          &quot;running&quot;        
+##  [5] &quot;RNGkind&quot;         &quot;basePkgs&quot;        &quot;otherPkgs&quot;       &quot;loadedOnly&quot;     
+##  [9] &quot;matprod&quot;         &quot;BLAS&quot;            &quot;LAPACK&quot;          &quot;system.codepage&quot;
+## [13] &quot;codepage&quot;</code></pre>
+<pre><code>## $running
+## [1] &quot;Windows 10 x64 (build 19045)&quot;</code></pre>
 </div>
 <div id="references" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> References</h1>
 <p>Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den
 link</p>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
-<div id="ref-Bankhofer.2008" class="csl-entry">
-Bankhofer, U., &amp; Vogel, J. (2008). <em>Datenanalyse und Statistik:
-Eine Einf<span>ü</span>hrung f<span>ü</span>r <span>Ö</span>konomen im
-Bachelor</em>. <span>Betriebswirtschaftlicher Verlag Dr. Th. Gabler /
-GWV Fachverlage GmbH Wiesbaden</span>. <a href="https://doi.org/10.1007/978-3-8349-9654-1">https://doi.org/10.1007/978-3-8349-9654-1</a>
+<div id="ref-Bundeskriminalamt.2021" class="csl-entry">
+Bundeskriminalamt (Hrsg.). (2021a). <em>Tabellenbeschreibung 2020:
+Polizeiliche Kriminalstatistik Bundesrepublik Deutschland</em>. <a href="https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Tabellenbeschreibung.pdf?__blob=publicationFile&amp;v=6">https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Tabellenbeschreibung.pdf?__blob=publicationFile&amp;v=6</a>
+</div>
+<div id="ref-Bundeskriminalamt.2021b" class="csl-entry">
+Bundeskriminalamt (Hrsg.). (2021b). <em>WICHTIGE HINWEISE ZUR
+DATENINTERPRETATION: Polizeiliche Kriminalstatistik 2020</em> (V1.0
+Aufl.). <a href="https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Wichtige-Hinweise-zur-Interpretation.pdf?__blob=publicationFile&amp;v=5">https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Wichtige-Hinweise-zur-Interpretation.pdf?__blob=publicationFile&amp;v=5</a>
+</div>
+<div id="ref-Bundeskriminalamt.2023" class="csl-entry">
+Bundeskriminalamt (Hrsg.). (2023). <em>Polizeiliche Kriminalstatistik
+(PKS)</em>. <a href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html</a>
 </div>
 </div>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />
 <ol>
-<li id="fn1"><p>Vgl. <span class="citation">Bankhofer &amp; Vogel
-(2008)</span>,S. 32<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>cf. <span class="citation">Bundeskriminalamt
+(2023)</span><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>cf. <span class="citation">Bundeskriminalamt
+(2021a)</span>, S.17<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>cf. <span class="citation">Bundeskriminalamt
+(2021b)</span>, S.4<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Vgl. <span class="citation">(<strong>Bankhofer.2008?</strong>)</span>,S. 32<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

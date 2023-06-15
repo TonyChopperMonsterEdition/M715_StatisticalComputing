@@ -44,6 +44,7 @@ list_of_packages <- c(
     "readr",
     "magrittr",
     "devtools",
+    "htmlTable"
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
