@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="de" xml:lang="de">
+<html lang="en" xml:lang="en">
 
 <head>
 
@@ -11,7 +11,7 @@
 
 <meta name="author" content="D’Alessandro David" />
 
-<meta name="date" content="2023-06-16" />
+<meta name="date" content="2023-06-17" />
 
 <title>Regression der Opferstatistik</title>
 
@@ -1617,7 +1617,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Regression der Opferstatistik</h1>
 <h3 class="subtitle">Modul 715 - Statistical Computing</h3>
 <h4 class="author">D’Alessandro David</h4>
-<h4 class="date">2023-06-16</h4>
+<h4 class="date">2023-06-17</h4>
 
 </div>
 
@@ -1663,38 +1663,77 @@ Bundeskriminalamts in die Umgebung des RMarkdown und bereiten
 andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem
 Abschnitt einbettet.</p>
 <pre class="r"><code># Loading Datasets over the following scripts
-source(&quot;./00_Skripte/read_datafiles.r&quot;, local = knitr::knit_global())
+source(&quot;./00_Skripte/read_datafiles.r&quot;, local = knitr::knit_global())  ## Probleme mit dem Komma wo dezimal punkt und füllt nummern mit 000 auf am Ende
 # Load self scripted functions for analysis, interpretation and visualization.
 source(&quot;./00_Skripte/selbstgeschriebeneFunktionen.r&quot;, local = knitr::knit_global()) 
 
 
 # Calculating and creating variables to embed and use them in the paper
+# Smaller Thefts in Berlin in 2020 to show the example of the layers and how the figures are calculated
+example_Ber &lt;-  caseNumbers_2020[caseNumbers_2020$FederalState %like% &quot;Berlin&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;Diebstahl&quot;,]
+example_Ber_TheftOnly &lt;- example_Ber[ str_detect(example_Ber$CrimeKey, &quot;^31&quot;),]
+options(table_counter = TRUE, table_counter_str = &quot;&lt;b&gt;Tab. %s:&lt;/b&gt;&quot;)
+cssCell_4_Ber_TheftOnly &lt;- matrix(&quot;&quot;,ncol=ncol(example_Ber_TheftOnly), nrow=nrow(example_Ber_TheftOnly))
+cssCell_4_Ber_TheftOnly[str_detect(example_Ber_TheftOnly$CrimeKey, &quot;^310\\*&quot;) | str_detect(example_Ber_TheftOnly$CrimeKey, &quot;^315\\*&quot;,)] &lt;- &quot;font.size: 1.1; font-weight: bold&quot;
 
-example_NationWide &lt;- caseNumbers_2020[caseNumbers_2020$Crimetype %like% &quot;Diebstahl&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;insg&quot; &amp; !(caseNumbers_2020$Crimetype %like% &quot;versucht&quot;)  &amp; caseNumbers_2020$FederalState %like% &quot;echte&quot; ,] 
-example_NationWide &lt;- arrange(example_NationWide,desc(Casenumbers))
+Table_Ber_TheftOnly &lt;- addHtmlTableStyle(example_Ber_TheftOnly, 
+                                           pos.caption = &quot;bottom&quot;, 
+                                           align=&quot;lllr&quot;,
+                                           align.header = &quot;lccr&quot;,
+                                           css.cell= cssCell_4_Ber_TheftOnly)
+Table_Ber_TheftOnly &lt;- htmlTable(Table_Ber_TheftOnly, 
+                                   rnames=FALSE, 
+                                   tspanner = &quot;Einfacher Diebstahl Ebene 2&quot;,
+                                   n.tspanner = nrow(Table_Ber_TheftOnly),
+                                   rgroup = c(&quot;Betriebsräumlichkeiten (Ebene 3)&quot;, &quot;Gastronomieräumelichkeiten (Ebene 3)&quot;),
+                                   n.rgroup = c(9,nrow(Table_Ber_TheftOnly)-9),
+                                   caption=&quot;Zahl der Diebstähle auf der 3. Detailebene im Bundesland Berlin im Jahr 2020&quot;,
+                                   label=&quot;Table_Ber_TheftOnly&quot;)
+
+# Crimes in Bremen in 2020 to show upperlayer for each crimetype and the relevant figures for the paper
+example_Bremen_totalCrimeTypes &lt;- caseNumbers_2020[caseNumbers_2020$FederalState %like% &quot;Bremen&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;insgesamt und zwar:&quot;,]
+Table_Bremen_totalCrimeTypes &lt;- addHtmlTableStyle(example_Bremen_totalCrimeTypes, 
+                                           pos.caption = &quot;bottom&quot;, 
+                                           align=&quot;lllr&quot;,
+                                           align.header = &quot;lccr&quot;)
+Table_Bremen_totalCrimeTypes &lt;- htmlTable(Table_Bremen_totalCrimeTypes, 
+                                   rnames=FALSE, 
+                                   tspanner = &quot;Crimecases in total per Crimetype&quot;,
+                                   n.tspanner = nrow(Table_Bremen_totalCrimeTypes),
+                                   caption=&quot;Total Numbers per Crimetype in Berlin in 2020&quot;,
+                                   label=&quot;Table_Bremen_totalCrimeTypes&quot;)
+
+
+example_NationWideUntil2017 &lt;- caseNumbers_2017[caseNumbers_2017$FederalState %like% &quot;Bund echte&quot; &amp; caseNumbers_2017$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,] 
+example_NationWideUntil2017 &lt;- arrange(example_NationWideUntil2017,desc(Casenumbers))
+
+example_NationWideSince2018 &lt;- caseNumbers_2018[caseNumbers_2018$FederalState %like% &quot;Bundesrepublik&quot; &amp; caseNumbers_2018$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,] 
+example_NationWideSince2018 &lt;- arrange(example_NationWideSince2018,desc(Casenumbers))
 
 #Beispiel[1,1] &lt;- &quot;Diebstahl&quot;
-thefts_NationWide &lt;- as.numeric(sum(example_NationWide$Casenumbers))
-Table_thefts_NationWide &lt;- addHtmlTableStyle(example_NationWide, pos.caption = &quot;bottom&quot;, align=&quot;lcr&quot;,align.header = &quot;lcr&quot;)</code></pre>
+thefts_NationWideUntil2017&lt;- as.numeric(sum(example_NationWideUntil2017$Casenumbers))
+Table_thefts_NationWideUntil2017 &lt;- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle, jeweils einer Person in mehreren Ländern&quot;, label=&quot;Table_thefts_NationWideUntil2017&quot;)
+
+thefts_NationWideSince2018&lt;- as.numeric(sum(example_NationWideSince2018$Casenumbers))
+Table_thefts_NationWideSince2018 &lt;- addHtmlTableStyle(example_NationWideSince2018, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle, jeweils einer Person in mehreren Ländern&quot;, label=&quot;Table_thefts_NationWideSince2018&quot;)</code></pre>
 <p>Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer
 Website zum Download zur Verfügung.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Für die Arbeit relevant sind die
 Falltabellen der Länder im Zeitraum von einschließlich 2014 bis 2020.
 Diese geben die gezählten Straftaten nach Delikt und Ländern getrennt
 wieder.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
-Diese führen unterschiedliche Delikte auf, welche nach einem Schlüssel
-gruppiert und durch funf Ebenen detailliert sind. Auf zusätzliche
-Informationen zur Erfassung und etwaiger Schwierigkeiten, wie
-Verzerrungen, weist die Interpretationshilfe des Bundeskriminalamts hin.
-<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
-<p>Der Eintrag “Bund echte Zählung der Tatverdächtigen” ist eine
-separate Aufführung von Straftaten einer Person, die in verschiedenen
-Bundesländern registriert wurde. Dies ist ein Sammelposten für mehrfach
-geführte Zählungen und verhindert, dass die Fälle in einzelnen
-Bundesländern zu Verzerrungen führen.</p>
-<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Tab1">
+Deliktschlüssel differenzieren und gruppieren die Fälle. Insgesamt
+detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen
+durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten
+oder möglichen Verzerrungen, auaführt. Zum Beispiel das im Jahr 2018 bis
+19 in Thüringen durch die Einführung eines neuen Systems, nicht alle
+Fallzahlen erfasst wurden.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_Ber_TheftOnly">
 <thead>
 <tr>
 <th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
 Crimetype
 </th>
 <th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
@@ -1706,19 +1745,376 @@ Casenumbers
 </tr>
 </thead>
 <tbody>
+<tr>
+<td colspan="4" style="font-weight: 900; text-align: left;">
+Einfacher Diebstahl Ebene 2
+</td>
+</tr>
+<tr>
+<td colspan="4" style="font-weight: 900;">
+Betriebsräumlichkeiten (Ebene 3)
+</td>
+</tr>
+<tr>
+<td style="font.size: 1.1; font-weight: bold; text-align: left;">
+310*00
+</td>
+<td style="font.size: 1.1; font-weight: bold; text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen
+</td>
+<td style="font.size: 1.1; font-weight: bold; text-align: left;">
+Berlin
+</td>
+<td style="font.size: 1.1; font-weight: bold; text-align: right;">
+1007
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310000
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von sonstigem Gut
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+937
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310100
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von Kraftwagen
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310200
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von Mopeds und Krafträdern
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310300
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von Fahrrädern
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310400
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von Schusswaffen
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310500
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von unbaren Zahlungsmitteln
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+57
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310700
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von/aus Automaten
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+310800
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Dienst-, Büro-, Fabrikations-, Werkstatt- und
+Lagerräumen von Antiquitäten, Kunst- und sakralen Gegenständen
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+0
+</td>
+</tr>
+<tr>
+<td colspan="4" style="font-weight: 900;">
+Gastronomieräumelichkeiten (Ebene 3)
+</td>
+</tr>
+<tr>
+<td style="font.size: 1.1; font-weight: bold; text-align: left;">
+315*00
+</td>
+<td style="font.size: 1.1; font-weight: bold; text-align: left;">
+Einfacher Diebstahl in/aus Gaststätten, Kantinen, Hotels und Pensionen
+</td>
+<td style="font.size: 1.1; font-weight: bold; text-align: left;">
+Berlin
+</td>
+<td style="font.size: 1.1; font-weight: bold; text-align: right;">
+2237
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+315000
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Gaststätten, Kantinen, Hotels und Pensionen
+von sonstigem Gut
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+1962
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+315500
+</td>
+<td style="text-align: left;">
+Einfacher Diebstahl in/aus Gaststätten, Kantinen, Hotels und Pensionen
+von unbaren Zahlungsmitteln
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+263
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+315700
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Einfacher Diebstahl in/aus Gaststätten, Kantinen, Hotels und Pensionen
+von/aus Automaten
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Berlin
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+12
+</td>
+</tr>
 </tbody>
 <tr>
-<td colspan="3" style="text-align: left;">
-Tab. 1: Zahl der Diebstähle, jeweils einer Person in mehreren Ländern
+<td colspan="4" style="text-align: left;">
+<b>Tab. 1:</b> Zahl der Diebstähle auf der 3. Detailebene im Bundesland
+Berlin im Jahr 2020
 </td>
 </tr>
 </table>
+<p><a href="#Table_Ber_TheftOnly">Tab. 1</a> zeigt Fälle leichter
+Diebstähle in Berlin, insgesamt ergeben sich …, bestehend aus der Gruppe
+Diebstähle in Betrieblichen oder Gastronomischen Räumlichkeiten. Dies
+verdeutlicht die Ebenen der Detailierung und muss mit vorsicht berechnet
+werden. Das heißt die Gesamtzahl aus Ebene 2 errechnet sich aus der
+Summe der beiden gezeigten Untergruppen aus Ebene 3.</p>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_Bremen_totalCrimeTypes">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="4" style="font-weight: 900; text-align: left;">
+Crimecases in total per Crimetype
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bremen
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+30740
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 2:</b> Total Numbers per Crimetype in Berlin in 2020
+</td>
+</tr>
+</table>
+<p>Für die Arbeit interessanter sind deshalb die Fallzahl auf höchster
+Ebene. Representativ hierfür ist <a href="#Table_Bremen_totalCrimeTypes">Tab. 2</a>, sie offenbart für
+Diebstähle insgesamt eine Menge an…</p>
+<p>Der Eintrag “Bund echte Zählung der Tatverdächtigen” ist eine
+separate Aufführung von Straftaten einer Person, die in verschiedenen
+Bundesländern registriert wurde. Dies ist ein kummulierter Sammelposten
+für alle Zählungen, aber exkludiert Straftaten, die in verschiedenen
+Bundesländern von einem Täter durchgeführt wurden.</p>
+<table class="kable_wrapper">
+<tbody>
+<tr>
+<td>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_thefts_NationWideUntil2017">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bund echte Zählung der Tatverdächtigen
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+2092994
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 3:</b> Zahl der Diebstähle, jeweils einer Person in mehreren
+Ländern
+</td>
+</tr>
+</table>
+</td>
+<td>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_thefts_NationWideSince2018">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bundesrepublik Deutschland
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+1936315
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 4:</b> Zahl der Diebstähle, jeweils einer Person in mehreren
+Ländern
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
 <p></p>
-<p>So zeigt die folgenden Ausgabe in <a href="#Tab1">Tab. 1</a>, dass
-demnach 0 Diebstähle erfasst, die von einer Person in mehreren
-Bundesländern verübt wurden. Diese werden aber nicht in den jeweils
-einzelnen Posten der Bundesländer, sondern in diesem Sammelposten
-geführt.</p>
+<p>So zeigt die folgenden Ausgabe in <a href="#Table_thefts_NationWide">Tab. 3</a>, dass demnach 2092994
+Diebstähle erfasst, die von einer Person in mehreren Bundesländern
+verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten
+der Bundesländer, sondern in diesem Sammelposten geführt.</p>
 </div>
 <div id="data-set-of-the-federal-statistical-office" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data set of the
@@ -1983,7 +2379,7 @@ Paketen</h1>
 ##  [1] htmlTable_2.4.1   devtools_2.4.5    usethis_2.2.0     data.table_1.14.8
 ##  [5] lubridate_1.9.2   forcats_1.0.0     stringr_1.5.0     dplyr_1.1.2      
 ##  [9] purrr_1.0.1       readr_2.1.4       tidyr_1.3.0       tibble_3.2.1     
-## [13] ggplot2_3.4.2     tidyverse_2.0.0  
+## [13] ggplot2_3.4.2     tidyverse_2.0.0   knitr_1.43       
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] sass_0.4.6        pkgload_1.3.2     bit64_4.0.5       vroom_1.6.3      
@@ -2000,10 +2396,9 @@ Paketen</h1>
 ## [45] hms_1.1.3         lifecycle_1.0.3   munsell_0.5.0     callr_3.7.3      
 ## [49] compiler_4.2.0    jquerylib_0.1.4   rlang_1.1.1       grid_4.2.0       
 ## [53] rstudioapi_0.14   htmlwidgets_1.6.2 miniUI_0.1.1.1    rmarkdown_2.22   
-## [57] gtable_0.3.3      R6_2.5.1          knitr_1.43        fastmap_1.1.1    
-## [61] bit_4.0.5         utf8_1.2.3        stringi_1.7.12    parallel_4.2.0   
-## [65] Rcpp_1.0.10       vctrs_0.6.2       tidyselect_1.2.0  xfun_0.39        
-## [69] urlchecker_1.0.1</code></pre>
+## [57] gtable_0.3.3      R6_2.5.1          fastmap_1.1.1     bit_4.0.5        
+## [61] utf8_1.2.3        stringi_1.7.12    parallel_4.2.0    Rcpp_1.0.10      
+## [65] vctrs_0.6.2       tidyselect_1.2.0  xfun_0.39         urlchecker_1.0.1</code></pre>
 <pre><code>##  [1] &quot;R.version&quot;       &quot;platform&quot;        &quot;locale&quot;          &quot;running&quot;        
 ##  [5] &quot;RNGkind&quot;         &quot;basePkgs&quot;        &quot;otherPkgs&quot;       &quot;loadedOnly&quot;     
 ##  [9] &quot;matprod&quot;         &quot;BLAS&quot;            &quot;LAPACK&quot;          &quot;system.codepage&quot;
@@ -2017,16 +2412,16 @@ Paketen</h1>
 link</p>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-Bundeskriminalamt.2021" class="csl-entry">
-Bundeskriminalamt (Hrsg.). (2021a). <em>Tabellenbeschreibung 2020:
-Polizeiliche Kriminalstatistik Bundesrepublik Deutschland</em>. <a href="https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Tabellenbeschreibung.pdf?__blob=publicationFile&amp;v=6">https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Tabellenbeschreibung.pdf?__blob=publicationFile&amp;v=6</a>
+Bundeskriminalamt (Ed.). (2021a). <em>Tabellenbeschreibung 2020:
+Polizeiliche kriminalstatistik bundesrepublik deutschland</em>. <a href="https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Tabellenbeschreibung.pdf?__blob=publicationFile&amp;v=6">https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Tabellenbeschreibung.pdf?__blob=publicationFile&amp;v=6</a>
 </div>
 <div id="ref-Bundeskriminalamt.2021b" class="csl-entry">
-Bundeskriminalamt (Hrsg.). (2021b). <em>WICHTIGE HINWEISE ZUR
-DATENINTERPRETATION: Polizeiliche Kriminalstatistik 2020</em> (V1.0
-Aufl.). <a href="https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Wichtige-Hinweise-zur-Interpretation.pdf?__blob=publicationFile&amp;v=5">https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Wichtige-Hinweise-zur-Interpretation.pdf?__blob=publicationFile&amp;v=5</a>
+Bundeskriminalamt (Ed.). (2021b). <em>WICHTIGE HINWEISE ZUR
+DATENINTERPRETATION: Polizeiliche kriminalstatistik 2020</em> (V1.0
+ed.). <a href="https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Wichtige-Hinweise-zur-Interpretation.pdf?__blob=publicationFile&amp;v=5">https://www.bka.de/SharedDocs/Downloads/DE/Publikationen/PolizeilicheKriminalstatistik/2020/Interpretation/01_div_Dok/Wichtige-Hinweise-zur-Interpretation.pdf?__blob=publicationFile&amp;v=5</a>
 </div>
 <div id="ref-Bundeskriminalamt.2023" class="csl-entry">
-Bundeskriminalamt (Hrsg.). (2023). <em>Polizeiliche Kriminalstatistik
+Bundeskriminalamt (Ed.). (2023). <em>Polizeiliche kriminalstatistik
 (PKS)</em>. <a href="https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html">https://www.bka.de/DE/AktuelleInformationen/StatistikenLagebilder/PolizeilicheKriminalstatistik/pks_node.html</a>
 </div>
 </div>
