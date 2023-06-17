@@ -67,7 +67,6 @@ library(htmlTable)
 
 ##	Dataset of the Federal Criminal Police Office
 In diesem Abschnitt fokusiert das Kapitel die Daten des Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und erläutert, welche Maßnahmen ([Sec. 2.3][Data Preparation]) ergreifen muss, um ein Regressionsmodell abzuleiten. Für die Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk aufgeführten Skripte. Sie laden einerseits die Datensätze des Bundeskriminalamts in die Umgebung des RMarkdown und bereiten andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem Abschnitt einbettet.
-
 ``` {r Datasets & Scripts,echo=TRUE, message=FALSE, warning=FALSE}
 # Loading Datasets over the following scripts
 source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())  ## Probleme mit dem Komma wo dezimal punkt und füllt nummern mit 000 auf am Ende
@@ -76,18 +75,20 @@ source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global
 
 
 # Calculating and creating variables to embed and use them in the paper
+## Numbering of Tabels done with option()
+options(table_counter = TRUE, table_counter_str = "<b>Tab. %s:</b>")
+
 # Smaller Thefts in Berlin in 2020 to show the example of the layers and how the figures are calculated
 example_Ber <-  caseNumbers_2020[caseNumbers_2020$FederalState %like% "Berlin" & caseNumbers_2020$Crimetype %like% "Diebstahl",]
 example_Ber_TheftOnly <- example_Ber[ str_detect(example_Ber$CrimeKey, "^31"),]
-options(table_counter = TRUE, table_counter_str = "<b>Tab. %s:</b>")
 cssCell_4_Ber_TheftOnly <- matrix("",ncol=ncol(example_Ber_TheftOnly), nrow=nrow(example_Ber_TheftOnly))
 cssCell_4_Ber_TheftOnly[str_detect(example_Ber_TheftOnly$CrimeKey, "^310\\*") | str_detect(example_Ber_TheftOnly$CrimeKey, "^315\\*",)] <- "font.size: 1.1; font-weight: bold"
 
 Table_Ber_TheftOnly <- addHtmlTableStyle(example_Ber_TheftOnly, 
-                                           pos.caption = "bottom", 
-                                           align="lllr",
-                                           align.header = "lccr",
-                                           css.cell= cssCell_4_Ber_TheftOnly)
+                                   pos.caption = "bottom", 
+                                   align="lllr",
+                                   align.header = "lccr",
+                                   css.cell= cssCell_4_Ber_TheftOnly)
 Table_Ber_TheftOnly <- htmlTable(Table_Ber_TheftOnly, 
                                    rnames=FALSE, 
                                    tspanner = "Einfacher Diebstahl Ebene 2",
@@ -97,20 +98,41 @@ Table_Ber_TheftOnly <- htmlTable(Table_Ber_TheftOnly,
                                    caption="Zahl der Diebstähle auf der 3. Detailebene im Bundesland Berlin im Jahr 2020",
                                    label="Table_Ber_TheftOnly")
 
-# Crimes in Bremen in 2020 to show upperlayer for each crimetype and the relevant figures for the paper
-example_Bremen_totalCrimeTypes <- caseNumbers_2020[caseNumbers_2020$FederalState %like% "Bremen" & caseNumbers_2020$Crimetype %like% "insgesamt und zwar:",]
-Table_Bremen_totalCrimeTypes <- addHtmlTableStyle(example_Bremen_totalCrimeTypes, 
-                                           pos.caption = "bottom", 
-                                           align="lllr",
-                                           align.header = "lccr")
-Table_Bremen_totalCrimeTypes <- htmlTable(Table_Bremen_totalCrimeTypes, 
+## Example for smaller Thefts
+sum_Ber_TheftOnly_total <- sum(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "\\*", "Casenumbers"])
+example_Ber_TheftOnly_gastronomic <- as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "315\\*", "Casenumbers"])
+example_Ber_TheftOnly_nonGastro <- as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "310\\*", "Casenumbers"])
+# Crimes in Berlin in 2020 to show upperlayer for each crimetype and the relevant figures for the paper
+example_Ber2_totalCrimeTypes <- caseNumbers_2020[caseNumbers_2020$FederalState %like% "Berlin" & caseNumbers_2020$Crimetype %like% "insgesamt und zwar:",]
+Table_Ber2_totalCrimeTypes <- addHtmlTableStyle(example_Ber2_totalCrimeTypes, 
+                                   pos.caption = "bottom", 
+                                   align="lllr",
+                                   align.header = "lccr")
+Table_Ber2_totalCrimeTypes <- htmlTable(Table_Ber2_totalCrimeTypes, 
                                    rnames=FALSE, 
                                    tspanner = "Crimecases in total per Crimetype",
-                                   n.tspanner = nrow(Table_Bremen_totalCrimeTypes),
+                                   n.tspanner = nrow(Table_Ber2_totalCrimeTypes),
                                    caption="Total Numbers per Crimetype in Berlin in 2020",
-                                   label="Table_Bremen_totalCrimeTypes")
+                                   label="Table_Ber2_totalCrimeTypes")
+example_Ber2_Total <- as.numeric(example_Ber2_totalCrimeTypes[,"Casenumbers"])
 
+# Create Variable and Table for total amount of thefts for all states and years in germany
+## Parts of the tables will be displayed in the appendix
+thefts_allStates_2014 <-  caseNumbers_2014[ caseNumbers_2014$Crimetype %like% "Diebstahl insgesamt und zwar:",]
+thefts_allStates_2015 <-  caseNumbers_2015[ caseNumbers_2015$Crimetype %like% "Diebstahl insgesamt und zwar:",]
+thefts_allStates_2017 <-  caseNumbers_2017[ caseNumbers_2017$Crimetype %like% "Diebstahl insgesamt und zwar:",]
+thefts_allStates_2018 <-  caseNumbers_2018[ caseNumbers_2018$Crimetype %like% "Diebstahl insgesamt und zwar:",]
+thefts_allStates_2020 <-  caseNumbers_2020[ caseNumbers_2020$Crimetype %like% "Diebstahl insgesamt und zwar:",]
 
+## Not clear why, but "Diebstahl insgesamt und zwar" is not working for them that's why additionally CrimeKey is used
+thefts_allStates_2016 <-  caseNumbers_2016[ caseNumbers_2016$Crimetype %like% "Diebstahl insgesamt und zwar:" | caseNumbers_2016$CrimeKey %like% "\\*\\*\\*\\*00",]
+thefts_allStates_2019 <-  caseNumbers_2019[ caseNumbers_2019$Crimetype %like% "Diebstahl insgesamt und zwar:" | caseNumbers_2019$CrimeKey %like% "\\*\\*\\*\\*00" ,]
+
+table_thefts_allStates2014 <- addHtmlTableStyle(thefts_allStates_2014, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2014)", label="table_thefts_allStates2014")
+
+table_thefts_allStates2020 <- addHtmlTableStyle(thefts_allStates_2020, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2020)", label="table_thefts_allStates2020")
+
+## Variables to show the changes in naming of a variable
 example_NationWideUntil2017 <- caseNumbers_2017[caseNumbers_2017$FederalState %like% "Bund echte" & caseNumbers_2017$Crimetype %like% "Diebstahl insgesamt und zwar:",] 
 example_NationWideUntil2017 <- arrange(example_NationWideUntil2017,desc(Casenumbers))
 
@@ -119,29 +141,43 @@ example_NationWideSince2018 <- arrange(example_NationWideSince2018,desc(Casenumb
 
 #Beispiel[1,1] <- "Diebstahl"
 thefts_NationWideUntil2017<- as.numeric(sum(example_NationWideUntil2017$Casenumbers))
-Table_thefts_NationWideUntil2017 <- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle, jeweils einer Person in mehreren Ländern", label="Table_thefts_NationWideUntil2017")
+Table_thefts_NationWideUntil2017 <- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2017", label="Table_thefts_NationWideUntil2017")
 
 thefts_NationWideSince2018<- as.numeric(sum(example_NationWideSince2018$Casenumbers))
-Table_thefts_NationWideSince2018 <- addHtmlTableStyle(example_NationWideSince2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle, jeweils einer Person in mehreren Ländern", label="Table_thefts_NationWideSince2018")
+Table_thefts_NationWideSince2018 <- addHtmlTableStyle(example_NationWideSince2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2018", label="Table_thefts_NationWideSince2018")
 ```
-
-Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Download zur Verfügung.^[cf. @Bundeskriminalamt.2023] Für die Arbeit relevant sind die Falltabellen der Länder im Zeitraum von einschließlich 2014 bis 2020. Diese geben die gezählten Straftaten nach Delikt und Ländern getrennt wieder.^[cf. @Bundeskriminalamt.2021, S.17] Deliktschlüssel differenzieren und gruppieren die Fälle. Insgesamt detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten oder möglichen Verzerrungen, auaführt. Zum Beispiel das im Jahr 2018 bis 19 in Thüringen durch die Einführung eines neuen Systems, nicht alle Fallzahlen erfasst wurden.^[cf. @Bundeskriminalamt.2021b, S.4]
+Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Download zur Verfügung.^[cf. @Bundeskriminalamt.2023] Für die Arbeit relevant sind die Falltabellen der Länder im Zeitraum von jeweils 2014 bis 2020. Sie enthalten einen Umfang von  `r  toString(totalAmount_CrimeCasesObservations) ` Observationen. Diese geben, getrennt nach Delikt und Ländern, die Anzahl an Straftaten  wieder.^[cf. @Bundeskriminalamt.2021, S.17]. Die angegebenen Deliktschlüssel erlauben es die Fälle zu differenzieren und zu gruppieren. Insgesamt detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten oder möglichen Verzerrungen, ausführt. Zum Beispiel, dass durch die Einführung eines neuen Systems im Jahr 2019 in Thüringen nicht alle Fallzahlen erfasst wurden.^[cf. @Bundeskriminalamt.2021b, S.4]
 
 `r Table_Ber_TheftOnly`
 
-[Tab. 1](#Table_Ber_TheftOnly) zeigt Fälle leichter Diebstähle in Berlin, insgesamt ergeben sich ..., bestehend aus der Gruppe Diebstähle in Betrieblichen oder Gastronomischen Räumlichkeiten. Dies verdeutlicht die Ebenen der Detailierung und muss mit vorsicht berechnet werden. Das heißt die Gesamtzahl aus Ebene 2 errechnet sich aus der Summe der beiden gezeigten Untergruppen aus Ebene 3. 
+[Tab. 1](#Table_Ber_TheftOnly) verdeutlicht exemplarisch die Bedeutung der Ebenen für leichte Diebstähle in Berlin. Die Gesamtzahl leichter Diebstähle `r sum_Ber_TheftOnly_total` ergibt sich aus den Fallzahlen des regulären Betriebs (`r example_Ber_TheftOnly_nonGastro`) und des gastronomischen Betriebs (`r example_Ber_TheftOnly_gastronomic`). Die dargestellten Zahlen stammen aus der zweiten Ebene der Diebstähle, darunter spezifiziert die dritte Ebene welche Fallunterscheidungen existieren. Zum Beispiel, dass Kraftfahrzeuge im regulären Betrieb gestohlen wurden. Alle Fälle dieser Ebene ergeben in Summe die Fallzahl der darüberliegenden Ebene. Das heißt, dass ein Kummulieren der Fallzahlen nicht notwenig ist, da jede Ebene die Anzahl der Fälle aus der unteren Ebene zusammenfasst. 
 
-`r Table_Bremen_totalCrimeTypes`
+`r Table_Ber2_totalCrimeTypes`
 
-Für die Arbeit interessanter sind deshalb die Fallzahl auf höchster Ebene. Representativ hierfür ist [Tab. 2](#Table_Bremen_totalCrimeTypes), sie offenbart für Diebstähle insgesamt eine Menge an...
+Für die Arbeit interessant sind deshalb die Fallzahl auf höchster Ebene, die im Deliktschlüssel mit mindestens einem "\*" beginnen. Repräsentativ hierfür ist [Tab. 2](#Table_Ber2_totalCrimeTypes), sie zeigt für Berlin mit `r  toString(example_Ber2_Total)` die Gesamtzahl der Diebstähle. Außerdem ist in der Tabelle ersichtlich, dass die höchste Ebene einer Fallart mit den Wörtern *"insgesamt und zwar:"* endet. Somit bietet die Selektion der Daten über die Spalte Crimetype eine Alternative zur Selektion über den Schlüssel.
 
+<div class = "row">
+  <div class = "column">
+  `r table_thefts_allStates2014`
+  </div>
+  <div class = "column">
+  `r table_thefts_allStates2020`
+  </div>
+</div>
 
+[Tab. 3](#table_thefts_allStates2017) bis [Tab. 9](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit des Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet.<br>
+Wichtig zu wissen ist, dass sie nicht die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle doppelt erfasst. Demnach könnten die Fallzahlen der einzelnen Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen Jahren. 
 
-Der Eintrag "Bund echte Zählung der Tatverdächtigen" ist eine separate Aufführung von Straftaten einer Person, die in verschiedenen Bundesländern registriert wurde. Dies ist ein kummulierter Sammelposten für alle Zählungen, aber exkludiert Straftaten, die in verschiedenen Bundesländern von einem Täter durchgeführt wurden.\n
-
-`r knitr::kables(list(Table_thefts_NationWideUntil2017, Table_thefts_NationWideSince2018))` \n 
- 
-So zeigt die folgenden Ausgabe in [Tab. 3](#Table_thefts_NationWide), dass demnach `r toString(thefts_NationWideUntil2017)` Diebstähle erfasst, die von einer Person in mehreren Bundesländern verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten der Bundesländer, sondern in diesem Sammelposten geführt.
+```{undefined echo=TRUE, message=TRUE, warning=FALSE}
+!(sum(thefts_allStates_2014[1:16,"Casenumbers"]) == thefts_allStates_2014[17,"Casenumbers"] &
+sum(thefts_allStates_2015[1:16,"Casenumbers"]) == thefts_allStates_2015[17,"Casenumbers"] &
+sum(thefts_allStates_2016[1:16,"Casenumbers"]) == thefts_allStates_2016[17,"Casenumbers"] &
+sum(thefts_allStates_2017[1:16,"Casenumbers"]) == thefts_allStates_2017[17,"Casenumbers"] &
+sum(thefts_allStates_2018[1:16,"Casenumbers"]) == thefts_allStates_2018[17,"Casenumbers"] &
+sum(thefts_allStates_2019[1:16,"Casenumbers"]) == thefts_allStates_2019[17,"Casenumbers"] &
+sum(thefts_allStates_2020[1:16,"Casenumbers"]) == thefts_allStates_2020[17,"Casenumbers"] )
+```
+Abschließend bedeutet die Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern gilt jedes Bundesland als eigenständige Entität, zumindest im Rahmen der Diebstähle. Für [Sec. 2.3][Data Preparation] ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
 
 ##	Data set of the Federal Statistical Office
 ##	Data Preparation
@@ -163,7 +199,6 @@ So zeigt die folgenden Ausgabe in [Tab. 3](#Table_thefts_NationWide), dass demna
 ***
 ## Arbeitnehmerentgelte in Kreisen
 - https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise
-- Zitation^[Vgl. @Bankhofer.2008,S. 32]
 
 
 ## Slide with R Output und gut formatierter tabellen ausgabe
@@ -223,6 +258,33 @@ names(sessionInfo())
 sessionInfo()[4]
 
 ```
+
+
+
+# Appendix
+## Appendix 1 {.unlisted .unnumbered .tabset .tabset-fade}
+```{r renderRemaining Tabels for Cases, echo=TRUE, warning=FALSE}
+table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)", label="table_thefts_allStates2015")
+table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)", label="table_thefts_allStates2017")
+table_thefts_allStates2016 <- addHtmlTableStyle(thefts_allStates_2016, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)", label="table_thefts_allStates2016")
+table_thefts_allStates2018 <- addHtmlTableStyle(thefts_allStates_2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)", label="table_thefts_allStates2018")
+table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)", label="table_thefts_allStates2019")
+```
+
+### 2014 {-}
+`r table_thefts_allStates2014`
+### 2015 {-}
+`r table_thefts_allStates2015`
+### 2016 {-}
+`r table_thefts_allStates2016`
+### 2017 {-}
+`r table_thefts_allStates2017`
+### 2018 {-}
+`r table_thefts_allStates2018`
+### 2019 {-}
+`r table_thefts_allStates2019`
+### 2020 {-}
+`r table_thefts_allStates2020`
 
 # References
 Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link

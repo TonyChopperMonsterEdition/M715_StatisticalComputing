@@ -51,3 +51,11 @@ for(x in seq_along(caseNumbers)){
 }
 #var=get(caseNumbers[1])
 #var <- var[,-4]
+
+## Calculation of total amount of observations
+totalAmount_CrimeCasesObservations=0
+
+for(x in seq_along(caseNumbers)){
+  var=get(caseNumbers[x])
+  totalAmount_CrimeCasesObservations= totalAmount_CrimeCasesObservations + nrow(var)
+}

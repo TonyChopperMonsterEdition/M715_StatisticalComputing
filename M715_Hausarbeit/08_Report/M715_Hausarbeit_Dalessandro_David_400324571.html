@@ -1445,7 +1445,7 @@ margin-left: 2em;
 }
 </style>
 
-<style type="text/css">body{font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }[role="doc-noteref"] {counter-increment: footnotes; font-size: 10pt;line-height: 1;}h1{font-size: 16pt;font-weight: bold;text-indent: 0cm;line-height: 12pt;}h2{font-size: 14pt;font-weight: bold;text-indent: 0,39cm;}h3{font-size: 12pt;font-weight: bold;text-indent: 0,78cm;}table{margin-left: auto;margin-right: auto;}</style>
+<style type="text/css">body{font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }[role="doc-noteref"] {counter-increment: footnotes; font-size: 10pt;line-height: 1;}h1{font-size: 16pt;font-weight: bold;text-indent: 0cm;line-height: 12pt;}h2{font-size: 14pt;font-weight: bold;text-indent: 0,39cm;}h3{font-size: 12pt;font-weight: bold;text-indent: 0,78cm;}table{max-width: 92.5%;margin-left: auto;margin-right: auto;font-family: "Times New Roman"font-size: 10pt;line-height: 1;border-spacing: 2.5px;}th, td {padding-top: 2.5px;padding-bottom: 2.5px;padding-left: 5px;padding-right: 5px;}.main-container {max-width: 90%;}.row {display: flex;}.column {flex: 50%; margin: 2px}</style>
 
 
 
@@ -1669,18 +1669,20 @@ source(&quot;./00_Skripte/selbstgeschriebeneFunktionen.r&quot;, local = knitr::k
 
 
 # Calculating and creating variables to embed and use them in the paper
+## Numbering of Tabels done with option()
+options(table_counter = TRUE, table_counter_str = &quot;&lt;b&gt;Tab. %s:&lt;/b&gt;&quot;)
+
 # Smaller Thefts in Berlin in 2020 to show the example of the layers and how the figures are calculated
 example_Ber &lt;-  caseNumbers_2020[caseNumbers_2020$FederalState %like% &quot;Berlin&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;Diebstahl&quot;,]
 example_Ber_TheftOnly &lt;- example_Ber[ str_detect(example_Ber$CrimeKey, &quot;^31&quot;),]
-options(table_counter = TRUE, table_counter_str = &quot;&lt;b&gt;Tab. %s:&lt;/b&gt;&quot;)
 cssCell_4_Ber_TheftOnly &lt;- matrix(&quot;&quot;,ncol=ncol(example_Ber_TheftOnly), nrow=nrow(example_Ber_TheftOnly))
 cssCell_4_Ber_TheftOnly[str_detect(example_Ber_TheftOnly$CrimeKey, &quot;^310\\*&quot;) | str_detect(example_Ber_TheftOnly$CrimeKey, &quot;^315\\*&quot;,)] &lt;- &quot;font.size: 1.1; font-weight: bold&quot;
 
 Table_Ber_TheftOnly &lt;- addHtmlTableStyle(example_Ber_TheftOnly, 
-                                           pos.caption = &quot;bottom&quot;, 
-                                           align=&quot;lllr&quot;,
-                                           align.header = &quot;lccr&quot;,
-                                           css.cell= cssCell_4_Ber_TheftOnly)
+                                   pos.caption = &quot;bottom&quot;, 
+                                   align=&quot;lllr&quot;,
+                                   align.header = &quot;lccr&quot;,
+                                   css.cell= cssCell_4_Ber_TheftOnly)
 Table_Ber_TheftOnly &lt;- htmlTable(Table_Ber_TheftOnly, 
                                    rnames=FALSE, 
                                    tspanner = &quot;Einfacher Diebstahl Ebene 2&quot;,
@@ -1690,20 +1692,41 @@ Table_Ber_TheftOnly &lt;- htmlTable(Table_Ber_TheftOnly,
                                    caption=&quot;Zahl der Diebstähle auf der 3. Detailebene im Bundesland Berlin im Jahr 2020&quot;,
                                    label=&quot;Table_Ber_TheftOnly&quot;)
 
-# Crimes in Bremen in 2020 to show upperlayer for each crimetype and the relevant figures for the paper
-example_Bremen_totalCrimeTypes &lt;- caseNumbers_2020[caseNumbers_2020$FederalState %like% &quot;Bremen&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;insgesamt und zwar:&quot;,]
-Table_Bremen_totalCrimeTypes &lt;- addHtmlTableStyle(example_Bremen_totalCrimeTypes, 
-                                           pos.caption = &quot;bottom&quot;, 
-                                           align=&quot;lllr&quot;,
-                                           align.header = &quot;lccr&quot;)
-Table_Bremen_totalCrimeTypes &lt;- htmlTable(Table_Bremen_totalCrimeTypes, 
+## Example for smaller Thefts
+sum_Ber_TheftOnly_total &lt;- sum(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% &quot;\\*&quot;, &quot;Casenumbers&quot;])
+example_Ber_TheftOnly_gastronomic &lt;- as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% &quot;315\\*&quot;, &quot;Casenumbers&quot;])
+example_Ber_TheftOnly_nonGastro &lt;- as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% &quot;310\\*&quot;, &quot;Casenumbers&quot;])
+# Crimes in Berlin in 2020 to show upperlayer for each crimetype and the relevant figures for the paper
+example_Ber2_totalCrimeTypes &lt;- caseNumbers_2020[caseNumbers_2020$FederalState %like% &quot;Berlin&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;insgesamt und zwar:&quot;,]
+Table_Ber2_totalCrimeTypes &lt;- addHtmlTableStyle(example_Ber2_totalCrimeTypes, 
+                                   pos.caption = &quot;bottom&quot;, 
+                                   align=&quot;lllr&quot;,
+                                   align.header = &quot;lccr&quot;)
+Table_Ber2_totalCrimeTypes &lt;- htmlTable(Table_Ber2_totalCrimeTypes, 
                                    rnames=FALSE, 
                                    tspanner = &quot;Crimecases in total per Crimetype&quot;,
-                                   n.tspanner = nrow(Table_Bremen_totalCrimeTypes),
+                                   n.tspanner = nrow(Table_Ber2_totalCrimeTypes),
                                    caption=&quot;Total Numbers per Crimetype in Berlin in 2020&quot;,
-                                   label=&quot;Table_Bremen_totalCrimeTypes&quot;)
+                                   label=&quot;Table_Ber2_totalCrimeTypes&quot;)
+example_Ber2_Total &lt;- as.numeric(example_Ber2_totalCrimeTypes[,&quot;Casenumbers&quot;])
 
+# Create Variable and Table for total amount of thefts for all states and years in germany
+## Parts of the tables will be displayed in the appendix
+thefts_allStates_2014 &lt;-  caseNumbers_2014[ caseNumbers_2014$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,]
+thefts_allStates_2015 &lt;-  caseNumbers_2015[ caseNumbers_2015$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,]
+thefts_allStates_2017 &lt;-  caseNumbers_2017[ caseNumbers_2017$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,]
+thefts_allStates_2018 &lt;-  caseNumbers_2018[ caseNumbers_2018$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,]
+thefts_allStates_2020 &lt;-  caseNumbers_2020[ caseNumbers_2020$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,]
 
+## Not clear why, but &quot;Diebstahl insgesamt und zwar&quot; is not working for them that&#39;s why additionally CrimeKey is used
+thefts_allStates_2016 &lt;-  caseNumbers_2016[ caseNumbers_2016$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot; | caseNumbers_2016$CrimeKey %like% &quot;\\*\\*\\*\\*00&quot;,]
+thefts_allStates_2019 &lt;-  caseNumbers_2019[ caseNumbers_2019$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot; | caseNumbers_2019$CrimeKey %like% &quot;\\*\\*\\*\\*00&quot; ,]
+
+table_thefts_allStates2014 &lt;- addHtmlTableStyle(thefts_allStates_2014, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2014)&quot;, label=&quot;table_thefts_allStates2014&quot;)
+
+table_thefts_allStates2020 &lt;- addHtmlTableStyle(thefts_allStates_2020, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2020)&quot;, label=&quot;table_thefts_allStates2020&quot;)
+
+## Variables to show the changes in naming of a variable
 example_NationWideUntil2017 &lt;- caseNumbers_2017[caseNumbers_2017$FederalState %like% &quot;Bund echte&quot; &amp; caseNumbers_2017$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,] 
 example_NationWideUntil2017 &lt;- arrange(example_NationWideUntil2017,desc(Casenumbers))
 
@@ -1712,21 +1735,21 @@ example_NationWideSince2018 &lt;- arrange(example_NationWideSince2018,desc(Casen
 
 #Beispiel[1,1] &lt;- &quot;Diebstahl&quot;
 thefts_NationWideUntil2017&lt;- as.numeric(sum(example_NationWideUntil2017$Casenumbers))
-Table_thefts_NationWideUntil2017 &lt;- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle, jeweils einer Person in mehreren Ländern&quot;, label=&quot;Table_thefts_NationWideUntil2017&quot;)
+Table_thefts_NationWideUntil2017 &lt;- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2017&quot;, label=&quot;Table_thefts_NationWideUntil2017&quot;)
 
 thefts_NationWideSince2018&lt;- as.numeric(sum(example_NationWideSince2018$Casenumbers))
-Table_thefts_NationWideSince2018 &lt;- addHtmlTableStyle(example_NationWideSince2018, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle, jeweils einer Person in mehreren Ländern&quot;, label=&quot;Table_thefts_NationWideSince2018&quot;)</code></pre>
+Table_thefts_NationWideSince2018 &lt;- addHtmlTableStyle(example_NationWideSince2018, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2018&quot;, label=&quot;Table_thefts_NationWideSince2018&quot;)</code></pre>
 <p>Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer
 Website zum Download zur Verfügung.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Für die Arbeit relevant sind die
-Falltabellen der Länder im Zeitraum von einschließlich 2014 bis 2020.
-Diese geben die gezählten Straftaten nach Delikt und Ländern getrennt
-wieder.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
-Deliktschlüssel differenzieren und gruppieren die Fälle. Insgesamt
-detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen
-durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten
-oder möglichen Verzerrungen, auaführt. Zum Beispiel das im Jahr 2018 bis
-19 in Thüringen durch die Einführung eines neuen Systems, nicht alle
-Fallzahlen erfasst wurden.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+Falltabellen der Länder im Zeitraum von jeweils 2014 bis 2020. Sie
+enthalten einen Umfang von 124611 Observationen. Diese geben, getrennt
+nach Delikt und Ländern, die Anzahl an Straftaten wieder.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Die angegebenen
+Deliktschlüssel erlauben es die Fälle zu differenzieren und zu
+gruppieren. Insgesamt detaillieren sie die Delikte auf 5 Ebenen. Ergänzt
+werden die Tabellen durch die Interpretationshilfe, die Hinweise zur
+Erfassung der Daten oder möglichen Verzerrungen, ausführt. Zum Beispiel,
+dass durch die Einführung eines neuen Systems im Jahr 2019 in Thüringen
+nicht alle Fallzahlen erfasst wurden.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_Ber_TheftOnly">
 <thead>
 <tr>
@@ -1962,13 +1985,18 @@ Berlin im Jahr 2020
 </td>
 </tr>
 </table>
-<p><a href="#Table_Ber_TheftOnly">Tab. 1</a> zeigt Fälle leichter
-Diebstähle in Berlin, insgesamt ergeben sich …, bestehend aus der Gruppe
-Diebstähle in Betrieblichen oder Gastronomischen Räumlichkeiten. Dies
-verdeutlicht die Ebenen der Detailierung und muss mit vorsicht berechnet
-werden. Das heißt die Gesamtzahl aus Ebene 2 errechnet sich aus der
-Summe der beiden gezeigten Untergruppen aus Ebene 3.</p>
-<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_Bremen_totalCrimeTypes">
+<p><a href="#Table_Ber_TheftOnly">Tab. 1</a> verdeutlicht exemplarisch
+die Bedeutung der Ebenen für leichte Diebstähle in Berlin. Die
+Gesamtzahl leichter Diebstähle 3244 ergibt sich aus den Fallzahlen des
+regulären Betriebs (1007) und des gastronomischen Betriebs (2237). Die
+dargestellten Zahlen stammen aus der zweiten Ebene der Diebstähle,
+darunter spezifiziert die dritte Ebene welche Fallunterscheidungen
+existieren. Zum Beispiel, dass Kraftfahrzeuge im regulären Betrieb
+gestohlen wurden. Alle Fälle dieser Ebene ergeben in Summe die Fallzahl
+der darüberliegenden Ebene. Das heißt, dass ein Kummulieren der
+Fallzahlen nicht notwenig ist, da jede Ebene die Anzahl der Fälle aus
+der unteren Ebene zusammenfasst.</p>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_Ber2_totalCrimeTypes">
 <thead>
 <tr>
 <th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
@@ -1999,10 +2027,10 @@ Crimecases in total per Crimetype
 Diebstahl insgesamt und zwar:
 </td>
 <td style="border-bottom: 2px solid grey; text-align: left;">
-Bremen
+Berlin
 </td>
 <td style="border-bottom: 2px solid grey; text-align: right;">
-30740
+198962
 </td>
 </tr>
 </tbody>
@@ -2012,19 +2040,17 @@ Bremen
 </td>
 </tr>
 </table>
-<p>Für die Arbeit interessanter sind deshalb die Fallzahl auf höchster
-Ebene. Representativ hierfür ist <a href="#Table_Bremen_totalCrimeTypes">Tab. 2</a>, sie offenbart für
-Diebstähle insgesamt eine Menge an…</p>
-<p>Der Eintrag “Bund echte Zählung der Tatverdächtigen” ist eine
-separate Aufführung von Straftaten einer Person, die in verschiedenen
-Bundesländern registriert wurde. Dies ist ein kummulierter Sammelposten
-für alle Zählungen, aber exkludiert Straftaten, die in verschiedenen
-Bundesländern von einem Täter durchgeführt wurden.</p>
-<table class="kable_wrapper">
-<tbody>
-<tr>
-<td>
-<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_thefts_NationWideUntil2017">
+<p>Für die Arbeit interessant sind deshalb die Fallzahl auf höchster
+Ebene, die im Deliktschlüssel mit mindestens einem “*” beginnen.
+Repräsentativ hierfür ist <a href="#Table_Ber2_totalCrimeTypes">Tab.
+2</a>, sie zeigt für Berlin mit 198962 die Gesamtzahl der Diebstähle.
+Außerdem ist in der Tabelle ersichtlich, dass die höchste Ebene einer
+Fallart mit den Wörtern <em>“insgesamt und zwar:”</em> endet. Somit
+bietet die Selektion der Daten über die Spalte Crimetype eine
+Alternative zur Selektion über den Schlüssel.</p>
+<div class="row">
+<div class="column">
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2014">
 <thead>
 <tr>
 <th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
@@ -2042,6 +2068,230 @@ Casenumbers
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+217220
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+194099
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+242899
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+84722
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+40005
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+120950
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+150275
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+42435
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+208973
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+667315
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+84650
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+28420
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+144751
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+81069
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+88232
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+44045
+</td>
+</tr>
 <tr>
 <td style="border-bottom: 2px solid grey; text-align: left;">
 ****00
@@ -2053,20 +2303,20 @@ Diebstahl insgesamt und zwar:
 Bund echte Zählung der Tatverdächtigen
 </td>
 <td style="border-bottom: 2px solid grey; text-align: right;">
-2092994
+2440060
 </td>
 </tr>
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Tab. 3:</b> Zahl der Diebstähle, jeweils einer Person in mehreren
-Ländern
+<b>Tab. 3:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2014)
 </td>
 </tr>
 </table>
-</td>
-<td>
-<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="Table_thefts_NationWideSince2018">
+</div>
+<div class="column">
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2020">
 <thead>
 <tr>
 <th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
@@ -2085,6 +2335,230 @@ Casenumbers
 </thead>
 <tbody>
 <tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+135586
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+132216
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+198962
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+54862
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+30740
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+81983
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+97867
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+26484
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+146035
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+436369
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+55406
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+20842
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+102670
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+61976
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+61630
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+38982
+</td>
+</tr>
+<tr>
 <td style="border-bottom: 2px solid grey; text-align: left;">
 ****00
 </td>
@@ -2095,26 +2569,61 @@ Diebstahl insgesamt und zwar:
 Bundesrepublik Deutschland
 </td>
 <td style="border-bottom: 2px solid grey; text-align: right;">
-1936315
+1682610
 </td>
 </tr>
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Tab. 4:</b> Zahl der Diebstähle, jeweils einer Person in mehreren
-Ländern
+<b>Tab. 4:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2020)
 </td>
 </tr>
 </table>
-</td>
-</tr>
-</tbody>
-</table>
-<p></p>
-<p>So zeigt die folgenden Ausgabe in <a href="#Table_thefts_NationWide">Tab. 3</a>, dass demnach 2092994
-Diebstähle erfasst, die von einer Person in mehreren Bundesländern
-verübt wurden. Diese werden aber nicht in den jeweils einzelnen Posten
-der Bundesländer, sondern in diesem Sammelposten geführt.</p>
+</div>
+</div>
+<p><a href="#table_thefts_allStates2017">Tab. 3</a> bis <a href="#table_thefts_allStates2020">Tab. 9</a> gewähren einen Überblick
+aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die
+Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der
+Datenaufbereitung müssen diese Observationen von den verbleibenden
+extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen
+und dabei die Jahreszugehörigkeit des Observation erhalten. Die
+Beobachtung mit FederalState <em>“Bund echte Zählung der
+Tatverdächtigen”</em> oder <em>“Bundesrepublik Deutschland”</em> ist
+eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen
+der Länder. Einen Unterschied zwischen der Bezeichnung <em>“Bund echte
+Zählung der Tatverdächtigen”</em> oder <em>“Bundesrepublik
+Deutschland”</em> gibt es nicht, bis 2017 wurde die erstgenannte und ab
+2018 die letztere verwendet.<br> Wichtig zu wissen ist, dass sie nicht
+die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass
+Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur
+einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine
+Fälle doppelt erfasst. Demnach könnten die Fallzahlen der einzelnen
+Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern
+ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt
+diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller
+Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen
+Jahren.</p>
+<pre class="undefined"><code>!(sum(thefts_allStates_2014[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2014[17,&quot;Casenumbers&quot;] &amp;
+sum(thefts_allStates_2015[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2015[17,&quot;Casenumbers&quot;] &amp;
+sum(thefts_allStates_2016[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2016[17,&quot;Casenumbers&quot;] &amp;
+sum(thefts_allStates_2017[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2017[17,&quot;Casenumbers&quot;] &amp;
+sum(thefts_allStates_2018[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2018[17,&quot;Casenumbers&quot;] &amp;
+sum(thefts_allStates_2019[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2019[17,&quot;Casenumbers&quot;] &amp;
+sum(thefts_allStates_2020[1:16,&quot;Casenumbers&quot;]) == thefts_allStates_2020[17,&quot;Casenumbers&quot;] )</code></pre>
+<p>Abschließend bedeutet die Überprüfung, dass die Observationen der
+jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern gilt jedes
+Bundesland als eigenständige Entität, zumindest im Rahmen der
+Diebstähle. Für <a href="#data-preparation">Sec. 2.3</a> ergab die
+Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre
+zusammenzuführen und die Observationen auf den Falltyp “Diebstahl
+insgesamt und zwar:” zu beschränken. Ein weiteres Ziel ist, dass bei der
+Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der
+Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht
+vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das
+Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt
+werden die Daten durch die unabhängigen Variablen, deren Herkunft und
+Bedeutung der nächsten Abschnitt erläutert.</p>
 </div>
 <div id="data-set-of-the-federal-statistical-office" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data set of the
@@ -2157,7 +2666,6 @@ Inhalt</h2>
 in Kreisen</h2>
 <ul>
 <li><a href="https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise" class="uri">https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise</a></li>
-<li>Zitation<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></li>
 </ul>
 </div>
 <div id="slide-with-r-output-und-gut-formatierter-tabellen-ausgabe" class="section level2" number="6.3">
@@ -2406,8 +2914,1888 @@ Paketen</h1>
 <pre><code>## $running
 ## [1] &quot;Windows 10 x64 (build 19045)&quot;</code></pre>
 </div>
-<div id="references" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> References</h1>
+<div id="appendix" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Appendix</h1>
+<div id="appendix-1" class="section level2 unlisted unnumbered tabset tabset-fade">
+<h2 class="unlisted unnumbered tabset tabset-fade">Appendix 1</h2>
+<pre class="r"><code>table_thefts_allStates2015 &lt;- addHtmlTableStyle(thefts_allStates_2015, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)&quot;, label=&quot;table_thefts_allStates2015&quot;)
+table_thefts_allStates2017 &lt;- addHtmlTableStyle(thefts_allStates_2017, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)&quot;, label=&quot;table_thefts_allStates2017&quot;)
+table_thefts_allStates2016 &lt;- addHtmlTableStyle(thefts_allStates_2016, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)&quot;, label=&quot;table_thefts_allStates2016&quot;)
+table_thefts_allStates2018 &lt;- addHtmlTableStyle(thefts_allStates_2018, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)&quot;, label=&quot;table_thefts_allStates2018&quot;)
+table_thefts_allStates2019 &lt;- addHtmlTableStyle(thefts_allStates_2019, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)&quot;, label=&quot;table_thefts_allStates2019&quot;)</code></pre>
+<div id="section" class="section level3 unnumbered">
+<h3 class="unnumbered">2014</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2014">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+217220
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+194099
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+242899
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+84722
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+40005
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+120950
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+150275
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+42435
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+208973
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+667315
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+84650
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+28420
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+144751
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+81069
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+88232
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+44045
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bund echte Zählung der Tatverdächtigen
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+2440060
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 3:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2014)
+</td>
+</tr>
+</table>
+</div>
+<div id="section-1" class="section level3 unnumbered">
+<h3 class="unnumbered">2015</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2015">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+222096
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+185250
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+267124
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+79368
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+43092
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+123798
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+151995
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+41188
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+214060
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+691801
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+85246
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+25680
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+136541
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+84912
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+87222
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+44321
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bund echte Zählung der Tatverdächtigen
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+2483694
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 7:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2015)
+</td>
+</tr>
+</table>
+</div>
+<div id="section-2" class="section level3 unnumbered">
+<h3 class="unnumbered">2016</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2016">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Wuerttemberg
+</td>
+<td style="text-align: right;">
+213022
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+180260
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+270880
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+75556
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+44098
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+117234
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+141410
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+39393
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+206053
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+636007
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+78852
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+24776
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+137922
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+79599
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+83654
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thueringen
+</td>
+<td style="text-align: right;">
+45058
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bund echte Zaehlung der Tatverdaechtigen
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+2373774
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 9:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2016)
+</td>
+</tr>
+</table>
+</div>
+<div id="section-3" class="section level3 unnumbered">
+<h3 class="unnumbered">2017</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2017">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+187899
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+163178
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+228072
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+66889
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+36566
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+106591
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+126655
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+34708
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+183166
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+549916
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+69837
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+22866
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+126533
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+73498
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+76463
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+40157
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bund echte Zählung der Tatverdächtigen
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+2092994
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 8:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2017)
+</td>
+</tr>
+</table>
+</div>
+<div id="section-4" class="section level3 unnumbered">
+<h3 class="unnumbered">2018</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2018">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+168828
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+155924
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+217148
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+62356
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+32608
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+96894
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+117445
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+31990
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+171158
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+499101
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+66534
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+23011
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+113511
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+68151
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+73833
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+37823
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bundesrepublik Deutschland
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+1936315
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 10:</b> Zahl der Diebstähle in den Ländern und der
+Bundesrepublik (2018)
+</td>
+</tr>
+</table>
+</div>
+<div id="section-5" class="section level3 unnumbered">
+<h3 class="unnumbered">2019</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2019">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+159423
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+144886
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+207106
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+59079
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+33672
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+90176
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+107541
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+30857
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+163336
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+462574
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+62195
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+22945
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+111179
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+62738
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+69553
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+34952
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bundesrepublik Deutschland
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+1822212
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 11:</b> Zahl der Diebstähle in den Ländern und der
+Bundesrepublik (2019)
+</td>
+</tr>
+</table>
+</div>
+<div id="section-6" class="section level3 unnumbered">
+<h3 class="unnumbered">2020</h3>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2020">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CrimeKey
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Crimetype
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+Casenumbers
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Baden-Württemberg
+</td>
+<td style="text-align: right;">
+135586
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bayern
+</td>
+<td style="text-align: right;">
+132216
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: right;">
+198962
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Brandenburg
+</td>
+<td style="text-align: right;">
+54862
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: right;">
+30740
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: right;">
+81983
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Hessen
+</td>
+<td style="text-align: right;">
+97867
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Mecklenburg-Vorpommern
+</td>
+<td style="text-align: right;">
+26484
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Niedersachsen
+</td>
+<td style="text-align: right;">
+146035
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Nordrhein-Westfalen
+</td>
+<td style="text-align: right;">
+436369
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Rheinland-Pfalz
+</td>
+<td style="text-align: right;">
+55406
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Saarland
+</td>
+<td style="text-align: right;">
+20842
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen
+</td>
+<td style="text-align: right;">
+102670
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Sachsen-Anhalt
+</td>
+<td style="text-align: right;">
+61976
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Schleswig-Holstein
+</td>
+<td style="text-align: right;">
+61630
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+****00
+</td>
+<td style="text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="text-align: left;">
+Thüringen
+</td>
+<td style="text-align: right;">
+38982
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+****00
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Diebstahl insgesamt und zwar:
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Bundesrepublik Deutschland
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+1682610
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="4" style="text-align: left;">
+<b>Tab. 4:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik
+(2020)
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="references" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> References</h1>
 <p>Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den
 link</p>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
@@ -2435,7 +4823,6 @@ Bundeskriminalamt (Ed.). (2023). <em>Polizeiliche kriminalstatistik
 (2021a)</span>, S.17<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>cf. <span class="citation">Bundeskriminalamt
 (2021b)</span>, S.4<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>Vgl. <span class="citation">(<strong>Bankhofer.2008?</strong>)</span>,S. 32<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
