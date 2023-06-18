@@ -11,7 +11,7 @@
 
 <meta name="author" content="D’Alessandro David" />
 
-<meta name="date" content="2023-06-17" />
+<meta name="date" content="2023-06-19" />
 
 <title>Regression der Opferstatistik</title>
 
@@ -1617,7 +1617,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Regression der Opferstatistik</h1>
 <h3 class="subtitle">Modul 715 - Statistical Computing</h3>
 <h4 class="author">D’Alessandro David</h4>
-<h4 class="date">2023-06-17</h4>
+<h4 class="date">2023-06-19</h4>
 
 </div>
 
@@ -1663,14 +1663,15 @@ Bundeskriminalamts in die Umgebung des RMarkdown und bereiten
 andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem
 Abschnitt einbettet.</p>
 <pre class="r"><code># Loading Datasets over the following scripts
-source(&quot;./00_Skripte/read_datafiles.r&quot;, local = knitr::knit_global())  ## Probleme mit dem Komma wo dezimal punkt und füllt nummern mit 000 auf am Ende
+source(&quot;./00_Skripte/read_PKSdatafiles.r&quot;, local = knitr::knit_global())  
+
 # Load self scripted functions for analysis, interpretation and visualization.
 source(&quot;./00_Skripte/selbstgeschriebeneFunktionen.r&quot;, local = knitr::knit_global()) 
 
 
 # Calculating and creating variables to embed and use them in the paper
 ## Numbering of Tabels done with option()
-options(table_counter = TRUE, table_counter_str = &quot;&lt;b&gt;Tab. %s:&lt;/b&gt;&quot;)
+
 
 # Smaller Thefts in Berlin in 2020 to show the example of the layers and how the figures are calculated
 example_Ber &lt;-  caseNumbers_2020[caseNumbers_2020$FederalState %like% &quot;Berlin&quot; &amp; caseNumbers_2020$Crimetype %like% &quot;Diebstahl&quot;,]
@@ -1731,14 +1732,7 @@ example_NationWideUntil2017 &lt;- caseNumbers_2017[caseNumbers_2017$FederalState
 example_NationWideUntil2017 &lt;- arrange(example_NationWideUntil2017,desc(Casenumbers))
 
 example_NationWideSince2018 &lt;- caseNumbers_2018[caseNumbers_2018$FederalState %like% &quot;Bundesrepublik&quot; &amp; caseNumbers_2018$Crimetype %like% &quot;Diebstahl insgesamt und zwar:&quot;,] 
-example_NationWideSince2018 &lt;- arrange(example_NationWideSince2018,desc(Casenumbers))
-
-#Beispiel[1,1] &lt;- &quot;Diebstahl&quot;
-thefts_NationWideUntil2017&lt;- as.numeric(sum(example_NationWideUntil2017$Casenumbers))
-Table_thefts_NationWideUntil2017 &lt;- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2017&quot;, label=&quot;Table_thefts_NationWideUntil2017&quot;)
-
-thefts_NationWideSince2018&lt;- as.numeric(sum(example_NationWideSince2018$Casenumbers))
-Table_thefts_NationWideSince2018 &lt;- addHtmlTableStyle(example_NationWideSince2018, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2018&quot;, label=&quot;Table_thefts_NationWideSince2018&quot;)</code></pre>
+example_NationWideSince2018 &lt;- arrange(example_NationWideSince2018,desc(Casenumbers))</code></pre>
 <p>Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer
 Website zum Download zur Verfügung.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Für die Arbeit relevant sind die
 Falltabellen der Länder im Zeitraum von jeweils 2014 bis 2020. Sie
@@ -2582,7 +2576,7 @@ Bundesrepublik Deutschland
 </table>
 </div>
 </div>
-<p><a href="#table_thefts_allStates2017">Tab. 3</a> bis <a href="#table_thefts_allStates2020">Tab. 9</a> gewähren einen Überblick
+<p><a href="#table_thefts_allStates2017">Tab. 3</a> bis <a href="#table_thefts_allStates2020">Tab. 4</a> gewähren einen Überblick
 aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die
 Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der
 Datenaufbereitung müssen diese Observationen von den verbleibenden
@@ -2594,11 +2588,12 @@ eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen
 der Länder. Einen Unterschied zwischen der Bezeichnung <em>“Bund echte
 Zählung der Tatverdächtigen”</em> oder <em>“Bundesrepublik
 Deutschland”</em> gibt es nicht, bis 2017 wurde die erstgenannte und ab
-2018 die letztere verwendet.<br> Wichtig zu wissen ist, dass sie nicht
-die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass
-Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur
-einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine
-Fälle doppelt erfasst. Demnach könnten die Fallzahlen der einzelnen
+2018 die letztere verwendet (<a href="#appendix-1">see Appendix
+1</a>).<br> Wichtig zu wissen ist, dass sie nicht die Summe aller
+Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die
+übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig
+erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle
+doppelt erfasst. Demnach könnten die Fallzahlen der einzelnen
 Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern
 ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt
 diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller
@@ -2628,6 +2623,295 @@ Bedeutung der nächsten Abschnitt erläutert.</p>
 <div id="data-set-of-the-federal-statistical-office" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data set of the
 Federal Statistical Office</h2>
+<pre class="r"><code># Loading Datasets over the following scripts
+source(&quot;./00_Skripte/read_GENESISdatafiles.r&quot;, local = knitr::knit_global())
+
+# Variables for Chapter
+
+# Missings in Expenditure
+expenditure4Education_missings&lt;- expenditure4Education[is.na(expenditure4Education$CulturalTotalExpenditure),]
+table_expenditure4Education_missings &lt;- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = &quot;bottom&quot;, align=&quot;llllr&quot;,align.header = &quot;llllr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Missings in Expenditure Documentation for local authorities&quot;, label=&quot;table_expenditure4Education_missings&quot;)
+summary_expenditure4Education_missings &lt;- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = &quot;bottom&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of Expenditure Missings&quot;, label=&quot;summary_expenditure4Education_missings&quot;)</code></pre>
+<div id="section" class="section level3 unlisted unnumbered tabset tabset-fade">
+<h3 class="unlisted unnumbered tabset tabset-fade"></h3>
+<div id="missings-in-expenditure-documentation" class="section level4 unnumbered">
+<h4 class="unnumbered">Missings in Expenditure Documentation</h4>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_expenditure4Education_missings">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Year
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+LevelOfAggregation
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+CulturalTotalExpenditure
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: right;">
+CulturalExpenditurePerInhabitant
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+2014
+</td>
+<td style="text-align: left;">
+Gemeinden
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: left;">
+</td>
+<td style="text-align: right;">
+.
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2014
+</td>
+<td style="text-align: left;">
+Gemeinden
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: left;">
+</td>
+<td style="text-align: right;">
+.
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2014
+</td>
+<td style="text-align: left;">
+Gemeinden
+</td>
+<td style="text-align: left;">
+Hamburg
+</td>
+<td style="text-align: left;">
+</td>
+<td style="text-align: right;">
+.
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2015
+</td>
+<td style="text-align: left;">
+Gemeinden
+</td>
+<td style="text-align: left;">
+Berlin
+</td>
+<td style="text-align: left;">
+</td>
+<td style="text-align: right;">
+.
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2015
+</td>
+<td style="text-align: left;">
+Gemeinden
+</td>
+<td style="text-align: left;">
+Bremen
+</td>
+<td style="text-align: left;">
+</td>
+<td style="text-align: right;">
+.
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+2015
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Gemeinden
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Hamburg
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: right;">
+.
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="5" style="text-align: left;">
+<b>Tab. 5:</b> Missings in Expenditure Documentation for local
+authorities
+</td>
+</tr>
+</table>
+</div>
+<div id="prove-only-local-authorities-are-missing" class="section level4 unnumbered">
+<h4 class="unnumbered">Prove only local authorities are missing</h4>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="summary_expenditure4Education_missings">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Year
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+LevelOfAggregation
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+CulturalTotalExpenditure
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+CulturalExpenditurePerInhabitant
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">
+2014 :3
+</td>
+<td style="text-align: center;">
+Gemeinden:27
+</td>
+<td style="text-align: center;">
+Berlin :9
+</td>
+<td style="text-align: center;">
+Min. : NA
+</td>
+<td style="text-align: center;">
+Length:27
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2015 :3
+</td>
+<td style="text-align: center;">
+Insgesamt: 0
+</td>
+<td style="text-align: center;">
+Bremen :9
+</td>
+<td style="text-align: center;">
+1st Qu.: NA
+</td>
+<td style="text-align: center;">
+Class :character
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2016 :3
+</td>
+<td style="text-align: center;">
+Länder : 0
+</td>
+<td style="text-align: center;">
+Hamburg :9
+</td>
+<td style="text-align: center;">
+Median : NA
+</td>
+<td style="text-align: center;">
+Mode :character
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2017 :3
+</td>
+<td style="text-align: center;">
+</td>
+<td style="text-align: center;">
+Baden-Württemberg:0
+</td>
+<td style="text-align: center;">
+Mean :NaN
+</td>
+<td style="text-align: center;">
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2018 :3
+</td>
+<td style="text-align: center;">
+</td>
+<td style="text-align: center;">
+Bayern :0
+</td>
+<td style="text-align: center;">
+3rd Qu.: NA
+</td>
+<td style="text-align: center;">
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2019 :3
+</td>
+<td style="text-align: center;">
+</td>
+<td style="text-align: center;">
+Brandenburg :0
+</td>
+<td style="text-align: center;">
+Max. : NA
+</td>
+<td style="text-align: center;">
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+(Other):9
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+(Other) :0
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+NA’s :27
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="5" style="text-align: left;">
+<b>Tab. 6:</b> Summary of Expenditure Missings
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="section-1" class="section level2 unlisted unnumbered">
+<h2 class="unlisted unnumbered"></h2>
+<p>Ersichtlich das Missing <a href="#table_expenditure4Education_missings">Tab. 5</a> vorhanden für
+Gemeinde, da aber insgesamtbetrachtet nachgeprüft und in der
+zusammenfassung in <a href="#summary_expenditure4Education_missings">Tab. 6</a> nur Gemeinde
+ersichtlich.</p>
 </div>
 <div id="data-preparation" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Data Preparation</h2>
@@ -2916,14 +3200,14 @@ Paketen</h1>
 </div>
 <div id="appendix" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> Appendix</h1>
-<div id="appendix-1" class="section level2 unlisted unnumbered tabset tabset-fade">
-<h2 class="unlisted unnumbered tabset tabset-fade">Appendix 1</h2>
+<div id="appendix-1" class="section level2 unnumbered tabset tabset-fade">
+<h2 class="unnumbered tabset tabset-fade">Appendix 1</h2>
 <pre class="r"><code>table_thefts_allStates2015 &lt;- addHtmlTableStyle(thefts_allStates_2015, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)&quot;, label=&quot;table_thefts_allStates2015&quot;)
 table_thefts_allStates2017 &lt;- addHtmlTableStyle(thefts_allStates_2017, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)&quot;, label=&quot;table_thefts_allStates2017&quot;)
 table_thefts_allStates2016 &lt;- addHtmlTableStyle(thefts_allStates_2016, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)&quot;, label=&quot;table_thefts_allStates2016&quot;)
 table_thefts_allStates2018 &lt;- addHtmlTableStyle(thefts_allStates_2018, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)&quot;, label=&quot;table_thefts_allStates2018&quot;)
 table_thefts_allStates2019 &lt;- addHtmlTableStyle(thefts_allStates_2019, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)&quot;, label=&quot;table_thefts_allStates2019&quot;)</code></pre>
-<div id="section" class="section level3 unnumbered">
+<div id="section-2" class="section level3 unnumbered">
 <h3 class="unnumbered">2014</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2014">
 <thead>
@@ -3190,7 +3474,7 @@ Bund echte Zählung der Tatverdächtigen
 </tr>
 </table>
 </div>
-<div id="section-1" class="section level3 unnumbered">
+<div id="section-3" class="section level3 unnumbered">
 <h3 class="unnumbered">2015</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2015">
 <thead>
@@ -3457,7 +3741,7 @@ Bund echte Zählung der Tatverdächtigen
 </tr>
 </table>
 </div>
-<div id="section-2" class="section level3 unnumbered">
+<div id="section-4" class="section level3 unnumbered">
 <h3 class="unnumbered">2016</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2016">
 <thead>
@@ -3724,7 +4008,7 @@ Bund echte Zaehlung der Tatverdaechtigen
 </tr>
 </table>
 </div>
-<div id="section-3" class="section level3 unnumbered">
+<div id="section-5" class="section level3 unnumbered">
 <h3 class="unnumbered">2017</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2017">
 <thead>
@@ -3991,7 +4275,7 @@ Bund echte Zählung der Tatverdächtigen
 </tr>
 </table>
 </div>
-<div id="section-4" class="section level3 unnumbered">
+<div id="section-6" class="section level3 unnumbered">
 <h3 class="unnumbered">2018</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2018">
 <thead>
@@ -4258,7 +4542,7 @@ Bundesrepublik (2018)
 </tr>
 </table>
 </div>
-<div id="section-5" class="section level3 unnumbered">
+<div id="section-7" class="section level3 unnumbered">
 <h3 class="unnumbered">2019</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2019">
 <thead>
@@ -4525,7 +4809,7 @@ Bundesrepublik (2019)
 </tr>
 </table>
 </div>
-<div id="section-6" class="section level3 unnumbered">
+<div id="section-8" class="section level3 unnumbered">
 <h3 class="unnumbered">2020</h3>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_thefts_allStates2020">
 <thead>

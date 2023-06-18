@@ -46,6 +46,8 @@ library(knitr)
 
 # globaloptions
 knitr::opts_chunk$set(echo = FALSE)
+# Tabellnaming and Counting activated --> Tab. X 
+options(table_counter = TRUE, table_counter_str = "<b>Tab. %s:</b>")
 
 ```
 <!-- ohne Nummerierung   -->
@@ -69,14 +71,15 @@ library(htmlTable)
 In diesem Abschnitt fokusiert das Kapitel die Daten des Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und erläutert, welche Maßnahmen ([Sec. 2.3][Data Preparation]) ergreifen muss, um ein Regressionsmodell abzuleiten. Für die Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk aufgeführten Skripte. Sie laden einerseits die Datensätze des Bundeskriminalamts in die Umgebung des RMarkdown und bereiten andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem Abschnitt einbettet.
 ``` {r Datasets & Scripts,echo=TRUE, message=FALSE, warning=FALSE}
 # Loading Datasets over the following scripts
-source("./00_Skripte/read_datafiles.r", local = knitr::knit_global())  ## Probleme mit dem Komma wo dezimal punkt und füllt nummern mit 000 auf am Ende
+source("./00_Skripte/read_PKSdatafiles.r", local = knitr::knit_global())  
+
 # Load self scripted functions for analysis, interpretation and visualization.
 source("./00_Skripte/selbstgeschriebeneFunktionen.r", local = knitr::knit_global()) 
 
 
 # Calculating and creating variables to embed and use them in the paper
 ## Numbering of Tabels done with option()
-options(table_counter = TRUE, table_counter_str = "<b>Tab. %s:</b>")
+
 
 # Smaller Thefts in Berlin in 2020 to show the example of the layers and how the figures are calculated
 example_Ber <-  caseNumbers_2020[caseNumbers_2020$FederalState %like% "Berlin" & caseNumbers_2020$Crimetype %like% "Diebstahl",]
@@ -138,13 +141,6 @@ example_NationWideUntil2017 <- arrange(example_NationWideUntil2017,desc(Casenumb
 
 example_NationWideSince2018 <- caseNumbers_2018[caseNumbers_2018$FederalState %like% "Bundesrepublik" & caseNumbers_2018$Crimetype %like% "Diebstahl insgesamt und zwar:",] 
 example_NationWideSince2018 <- arrange(example_NationWideSince2018,desc(Casenumbers))
-
-#Beispiel[1,1] <- "Diebstahl"
-thefts_NationWideUntil2017<- as.numeric(sum(example_NationWideUntil2017$Casenumbers))
-Table_thefts_NationWideUntil2017 <- addHtmlTableStyle(example_NationWideUntil2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2017", label="Table_thefts_NationWideUntil2017")
-
-thefts_NationWideSince2018<- as.numeric(sum(example_NationWideSince2018$Casenumbers))
-Table_thefts_NationWideSince2018 <- addHtmlTableStyle(example_NationWideSince2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in der gesamten Bundesrepublik im Jahr 2018", label="Table_thefts_NationWideSince2018")
 ```
 Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Download zur Verfügung.^[cf. @Bundeskriminalamt.2023] Für die Arbeit relevant sind die Falltabellen der Länder im Zeitraum von jeweils 2014 bis 2020. Sie enthalten einen Umfang von  `r  toString(totalAmount_CrimeCasesObservations) ` Observationen. Diese geben, getrennt nach Delikt und Ländern, die Anzahl an Straftaten  wieder.^[cf. @Bundeskriminalamt.2021, S.17]. Die angegebenen Deliktschlüssel erlauben es die Fälle zu differenzieren und zu gruppieren. Insgesamt detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten oder möglichen Verzerrungen, ausführt. Zum Beispiel, dass durch die Einführung eines neuen Systems im Jahr 2019 in Thüringen nicht alle Fallzahlen erfasst wurden.^[cf. @Bundeskriminalamt.2021b, S.4]
 
@@ -165,7 +161,7 @@ Für die Arbeit interessant sind deshalb die Fallzahl auf höchster Ebene, die i
   </div>
 </div>
 
-[Tab. 3](#table_thefts_allStates2017) bis [Tab. 9](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit des Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet.<br>
+[Tab. 3](#table_thefts_allStates2017) bis [Tab. 4](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit des Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet ([see Appendix 1][Appendix 1]).<br>
 Wichtig zu wissen ist, dass sie nicht die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle doppelt erfasst. Demnach könnten die Fallzahlen der einzelnen Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen Jahren. 
 
 ```{undefined echo=TRUE, message=TRUE, warning=FALSE}
@@ -180,6 +176,28 @@ sum(thefts_allStates_2020[1:16,"Casenumbers"]) == thefts_allStates_2020[17,"Case
 Abschließend bedeutet die Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern gilt jedes Bundesland als eigenständige Entität, zumindest im Rahmen der Diebstähle. Für [Sec. 2.3][Data Preparation] ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
 
 ##	Data set of the Federal Statistical Office
+```{r fedaralData, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Loading Datasets over the following scripts
+source("./00_Skripte/read_GENESISdatafiles.r", local = knitr::knit_global())
+
+# Variables for Chapter
+
+# Missings in Expenditure
+expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$CulturalTotalExpenditure),]
+table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities", label="table_expenditure4Education_missings")
+summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings", label="summary_expenditure4Education_missings")
+
+```
+### {.unlisted .unnumbered .tabset .tabset-fade}
+#### Missings in Expenditure Documentation {-}
+`r table_expenditure4Education_missings `
+#### Prove only local authorities are missing {-}
+`r summary_expenditure4Education_missings`
+## {.unlisted .unnumbered}
+Ersichtlich das Missing [Tab. 5](#table_expenditure4Education_missings) vorhanden für Gemeinde, da aber insgesamtbetrachtet nachgeprüft und in der zusammenfassung in [Tab. 6](#summary_expenditure4Education_missings) nur Gemeinde ersichtlich.
+
+
 ##	Data Preparation
 ##	Modeling by using linear regression
 ***
@@ -262,7 +280,7 @@ sessionInfo()[4]
 
 
 # Appendix
-## Appendix 1 {.unlisted .unnumbered .tabset .tabset-fade}
+## Appendix 1 {.unnumbered .tabset .tabset-fade}
 ```{r renderRemaining Tabels for Cases, echo=TRUE, warning=FALSE}
 table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)", label="table_thefts_allStates2015")
 table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)", label="table_thefts_allStates2017")

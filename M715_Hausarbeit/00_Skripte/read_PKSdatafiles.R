@@ -47,6 +47,7 @@ for(x in seq_along(caseNumbers)){
  var=get(caseNumbers[x])
  var$Casenumbers = gsub(",","",var$Casenumbers)
  var$Casenumbers = as.numeric(var$Casenumbers)
+ var$FederalState = as.factor(var$FederalState)
  assign(caseNumbers[x],var)
 }
 #var=get(caseNumbers[1])
