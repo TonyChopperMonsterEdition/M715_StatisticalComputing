@@ -11,7 +11,7 @@
 
 <meta name="author" content="D’Alessandro David" />
 
-<meta name="date" content="2023-06-19" />
+<meta name="date" content="2023-06-20" />
 
 <title>Regression der Opferstatistik</title>
 
@@ -1617,7 +1617,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Regression der Opferstatistik</h1>
 <h3 class="subtitle">Modul 715 - Statistical Computing</h3>
 <h4 class="author">D’Alessandro David</h4>
-<h4 class="date">2023-06-19</h4>
+<h4 class="date">2023-06-20</h4>
 
 </div>
 
@@ -2912,6 +2912,134 @@ NA’s :27
 Gemeinde, da aber insgesamtbetrachtet nachgeprüft und in der
 zusammenfassung in <a href="#summary_expenditure4Education_missings">Tab. 6</a> nur Gemeinde
 ersichtlich.</p>
+<pre><code>## # A tibble: 119 × 11
+##    Year  FederalState           Theater_Musik Libraries Musseeum_Exhibitions
+##    &lt;fct&gt; &lt;fct&gt;                          &lt;dbl&gt;     &lt;dbl&gt;                &lt;dbl&gt;
+##  1 2014  Baden-Württemberg          478700000 151400000            219600000
+##  2 2014  Bayern                     486300000 196100000            258100000
+##  3 2014  Berlin                     328300000  67500000             75200000
+##  4 2014  Brandenburg                 44400000  31200000             20400000
+##  5 2014  Bremen                      52000000  12500000             17900000
+##  6 2014  Hamburg                    260200000  45100000             49800000
+##  7 2014  Hessen                     234000000  92500000             91300000
+##  8 2014  Mecklenburg-Vorpommern      66500000  15700000             42000000
+##  9 2014  Niedersachsen              220700000 102900000            110500000
+## 10 2014  Nordrhein-Westfalen        677200000 220400000            358100000
+## # ℹ 109 more rows
+## # ℹ 6 more variables: Protection_CareOfMonuments &lt;dbl&gt;,
+## #   CulturalAffairsAbroad &lt;dbl&gt;, PublicArtColleges &lt;dbl&gt;,
+## #   OtherCulturalCare &lt;dbl&gt;, Administration4CulturalAffairs &lt;dbl&gt;,
+## #   CulturalTotalExpenditure &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 432 × 5
+##    Year  LevelOfAggregation FederalState           CulturalTotalExpenditure
+##    &lt;fct&gt; &lt;fct&gt;              &lt;fct&gt;                                     &lt;dbl&gt;
+##  1 2014  Länder             Baden-Württemberg                   11903243680
+##  2 2014  Länder             Bayern                              12937603180
+##  3 2014  Länder             Berlin                               5780431260
+##  4 2014  Länder             Brandenburg                          1713523320
+##  5 2014  Länder             Bremen                                961604320
+##  6 2014  Länder             Hamburg                              3072237670
+##  7 2014  Länder             Hessen                               6384533330
+##  8 2014  Länder             Mecklenburg-Vorpommern               1481164020
+##  9 2014  Länder             Niedersachsen                        7112476670
+## 10 2014  Länder             Nordrhein-Westfalen                 19809170620
+## # ℹ 422 more rows
+## # ℹ 1 more variable: CulturalExpenditurePerInhabitant &lt;chr&gt;</code></pre>
+<pre><code>## # A tibble: 17 × 8
+##    FederalState           `2014`  `2015`  `2016`  `2017`  `2018`  `2019`  `2020`
+##    &lt;fct&gt;                   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Baden-Württemberg     4.43e11 4.63e11 4.75e11 4.97e11 5.17e11 5.25e11 5.09e11
+##  2 Bayern                5.34e11 5.55e11 5.78e11 6.06e11 6.20e11 6.44e11 6.31e11
+##  3 Berlin                1.19e11 1.25e11 1.33e11 1.41e11 1.49e11 1.57e11 1.57e11
+##  4 Brandenburg           6.37e10 6.53e10 6.75e10 7.06e10 7.27e10 7.60e10 7.58e10
+##  5 Bremen                2.98e10 3.05e10 3.14e10 3.24e10 3.29e10 3.32e10 3.22e10
+##  6 Hamburg               1.03e11 1.08e11 1.11e11 1.17e11 1.19e11 1.25e11 1.20e11
+##  7 Hessen                2.54e11 2.60e11 2.71e11 2.80e11 2.86e11 2.96e11 2.88e11
+##  8 Mecklenburg-Vorpomme… 3.94e10 4.01e10 4.11e10 4.42e10 4.43e10 4.76e10 4.69e10
+##  9 Niedersachsen         2.59e11 2.61e11 2.81e11 2.88e11 2.98e11 3.11e11 3.04e11
+## 10 Nordrhein-Westfalen   6.17e11 6.37e11 6.53e11 6.79e11 7.03e11 7.17e11 7.07e11
+## 11 Rheinland-Pfalz       1.28e11 1.33e11 1.36e11 1.40e11 1.43e11 1.47e11 1.45e11
+## 12 Saarland              3.33e10 3.40e10 3.43e10 3.53e10 3.59e10 3.59e10 3.46e10
+## 13 Sachsen               1.09e11 1.14e11 1.17e11 1.22e11 1.25e11 1.30e11 1.29e11
+## 14 Sachsen-Anhalt        5.63e10 5.74e10 5.90e10 6.09e10 6.20e10 6.47e10 6.42e10
+## 15 Schleswig-Holstein    8.29e10 8.48e10 8.75e10 9.26e10 9.50e10 9.96e10 9.97e10
+## 16 Thüringen             5.62e10 5.75e10 5.90e10 6.12e10 6.22e10 6.38e10 6.32e10
+## 17 Deutschland           2.93e12 3.03e12 3.13e12 3.27e12 3.37e12 3.47e12 3.41e12</code></pre>
+<pre><code>## # A tibble: 9 × 17
+##   Year  `Baden-Württemberg` Bayern Berlin Brandenburg Bremen Hamburg Hessen
+##   &lt;fct&gt;               &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1 2013               233956 264532 210093      132329  37198   71560 185612
+## 2 2014               230372 264603 202927      124628  37091   73663 184378
+## 3 2015               227098 256527 194812      114873  37355   73291 177944
+## 4 2016               226421 250623 181018      105555  36393   70666 172826
+## 5 2017               212837 231353 168991       92648  35687   69248 166287
+## 6 2018               195128 214017 156230       83669  34904   65589 154337
+## 7 2019               196950 211965 152565       76888  35702   64774 149812
+## 8 2020               259940 275075 192644       82491  40822   80677 184955
+## 9 2021               247774 262186 198401       78463  39292   80395 178086
+## # ℹ 9 more variables: `Mecklenburg-Vorpommern` &lt;dbl&gt;, Niedersachsen &lt;dbl&gt;,
+## #   `Nordrhein-Westfalen` &lt;dbl&gt;, `Rheinland-Pfalz` &lt;dbl&gt;, Saarland &lt;dbl&gt;,
+## #   Sachsen &lt;dbl&gt;, `Sachsen-Anhalt` &lt;dbl&gt;, `Schleswig-Holstein` &lt;dbl&gt;,
+## #   Thüringen &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 16 × 8
+##    ...1         `31.12.2013` `31.12.2014` `31.12.2015` `31.12.2016` `31.12.2017`
+##    &lt;fct&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Baden-Württ…     10631278     10716644     10879618     10951893     11023425
+##  2 Bayern           12604244     12691568     12843514     12930751     12997204
+##  3 Berlin            3421829      3469849      3520031      3574830      3613495
+##  4 Brandenburg       2449193      2457872      2484826      2494648      2504040
+##  5 Bremen             657391       661888       671489       678753       681032
+##  6 Hamburg           1746342      1762791      1787408      1810438      1830584
+##  7 Hessen            6045425      6093888      6176172      6213088      6243262
+##  8 Mecklenburg…      1596505      1599138      1612362      1610674      1611119
+##  9 Niedersachs…      7790559      7826739      7926599      7945685      7962775
+## 10 Nordrhein-W…     17571856     17638098     17865516     17890100     17912134
+## 11 Rheinland-P…      3994366      4011582      4052803      4066053      4073679
+## 12 Saarland           990718       989035       995597       996651       994187
+## 13 Sachsen           4046385      4055274      4084851      4081783      4081308
+## 14 Sachsen-Anh…      2244577      2235548      2245470      2236252      2223081
+## 15 Schleswig-H…      2815955      2830864      2858714      2881926      2889821
+## 16 Thüringen         2160840      2156759      2170714      2158128      2151205
+## # ℹ 2 more variables: `31.12.2018` &lt;dbl&gt;, `31.12.2019` &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 16 × 8
+##    FederalState             `2014`   `2015`   `2016` `2017` `2018` `2019` `2020`
+##    &lt;fct&gt;                     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Baden-Württemberg      10631278 10716644 10879618 1.10e7 1.10e7 1.11e7 1.11e7
+##  2 Bayern                 12604244 12691568 12843514 1.29e7 1.30e7 1.31e7 1.31e7
+##  3 Berlin                  3421829  3469849  3520031 3.57e6 3.61e6 3.64e6 3.67e6
+##  4 Brandenburg             2449193  2457872  2484826 2.49e6 2.50e6 2.51e6 2.52e6
+##  5 Bremen                   657391   661888   671489 6.79e5 6.81e5 6.83e5 6.81e5
+##  6 Hamburg                 1746342  1762791  1787408 1.81e6 1.83e6 1.84e6 1.85e6
+##  7 Hessen                  6045425  6093888  6176172 6.21e6 6.24e6 6.27e6 6.29e6
+##  8 Mecklenburg-Vorpommern  1596505  1599138  1612362 1.61e6 1.61e6 1.61e6 1.61e6
+##  9 Niedersachsen           7790559  7826739  7926599 7.95e6 7.96e6 7.98e6 7.99e6
+## 10 Nordrhein-Westfalen    17571856 17638098 17865516 1.79e7 1.79e7 1.79e7 1.79e7
+## 11 Rheinland-Pfalz         3994366  4011582  4052803 4.07e6 4.07e6 4.08e6 4.09e6
+## 12 Saarland                 990718   989035   995597 9.97e5 9.94e5 9.91e5 9.87e5
+## 13 Sachsen                 4046385  4055274  4084851 4.08e6 4.08e6 4.08e6 4.07e6
+## 14 Sachsen-Anhalt          2244577  2235548  2245470 2.24e6 2.22e6 2.21e6 2.19e6
+## 15 Schleswig-Holstein      2815955  2830864  2858714 2.88e6 2.89e6 2.90e6 2.90e6
+## 16 Thüringen               2160840  2156759  2170714 2.16e6 2.15e6 2.14e6 2.13e6</code></pre>
+<pre><code>## # A tibble: 160 × 7
+##    FederalState      Year  Leistungen nach dem 5.-9. Ka…¹ Hilfen zur Gesundhei…²
+##    &lt;fct&gt;             &lt;fct&gt;                          &lt;dbl&gt; &lt;chr&gt;                 
+##  1 Baden-Württemberg 2012                          125530 2274                  
+##  2 Baden-Württemberg 2013                          129306 2520                  
+##  3 Baden-Württemberg 2014                          131054 2671                  
+##  4 Baden-Württemberg 2015                          134261 2769                  
+##  5 Baden-Württemberg 2016                          134405 2497                  
+##  6 Baden-Württemberg 2017                          132879 3990                  
+##  7 Baden-Württemberg 2018                          137500 4185                  
+##  8 Baden-Württemberg 2019                          138954 2173                  
+##  9 Baden-Württemberg 2020                           50845 1615                  
+## 10 Baden-Württemberg 2021                           51305 1485                  
+## # ℹ 150 more rows
+## # ℹ abbreviated names: ¹​`Leistungen nach dem 5.-9. Kapitel SGB XII...5`,
+## #   ²​`Hilfen zur Gesundheit...8`
+## # ℹ 3 more variables: `Eingliederungshilfe für behinderte Menschen...11` &lt;chr&gt;,
+## #   `Hilfe zur Pflege...14` &lt;chr&gt;,
+## #   `Hilfe z.Üb.bes.soz.Schwierigk.u.in and.Lebenslagen...17` &lt;chr&gt;</code></pre>
+<pre><code>## [1] &quot;./01_Datenquellen/&quot;</code></pre>
 </div>
 <div id="data-preparation" class="section level2" number="2.3">
 <h2><span class="header-section-number">2.3</span> Data Preparation</h2>
@@ -3153,16 +3281,20 @@ Tabs erscheinen:</p>
 <div id="info-zu-geladenen-paketen" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Info zu geladenen
 Paketen</h1>
-<pre><code>## R version 4.2.0 (2022-04-22 ucrt)
+<pre><code>## R version 4.3.0 (2023-04-21 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19045)
 ## 
 ## Matrix products: default
 ## 
+## 
 ## locale:
 ## [1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
 ## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
 ## [5] LC_TIME=German_Germany.utf8    
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -3174,29 +3306,29 @@ Paketen</h1>
 ## [13] ggplot2_3.4.2     tidyverse_2.0.0   knitr_1.43       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] sass_0.4.6        pkgload_1.3.2     bit64_4.0.5       vroom_1.6.3      
-##  [5] jsonlite_1.8.5    bslib_0.4.2       shiny_1.7.4       highr_0.10       
-##  [9] yaml_2.3.7        remotes_2.4.2     sessioninfo_1.2.2 pillar_1.9.0     
-## [13] backports_1.4.1   glue_1.6.2        digest_0.6.31     promises_1.2.0.1 
-## [17] checkmate_2.2.0   colorspace_2.1-0  htmltools_0.5.5   httpuv_1.6.11    
-## [21] pkgconfig_2.0.3   xtable_1.8-4      scales_1.2.1      processx_3.8.1   
-## [25] later_1.3.1       tzdb_0.4.0        timechange_0.2.0  generics_0.1.3   
-## [29] ellipsis_0.3.2    cachem_1.0.8      withr_2.5.0       cli_3.6.1        
-## [33] magrittr_2.0.3    crayon_1.5.2      mime_0.12         memoise_2.0.1    
-## [37] evaluate_0.21     ps_1.7.5          fs_1.6.2          fansi_1.0.4      
-## [41] pkgbuild_1.4.0    profvis_0.3.8     tools_4.2.0       prettyunits_1.1.1
-## [45] hms_1.1.3         lifecycle_1.0.3   munsell_0.5.0     callr_3.7.3      
-## [49] compiler_4.2.0    jquerylib_0.1.4   rlang_1.1.1       grid_4.2.0       
-## [53] rstudioapi_0.14   htmlwidgets_1.6.2 miniUI_0.1.1.1    rmarkdown_2.22   
-## [57] gtable_0.3.3      R6_2.5.1          fastmap_1.1.1     bit_4.0.5        
-## [61] utf8_1.2.3        stringi_1.7.12    parallel_4.2.0    Rcpp_1.0.10      
-## [65] vctrs_0.6.2       tidyselect_1.2.0  xfun_0.39         urlchecker_1.0.1</code></pre>
-<pre><code>##  [1] &quot;R.version&quot;       &quot;platform&quot;        &quot;locale&quot;          &quot;running&quot;        
-##  [5] &quot;RNGkind&quot;         &quot;basePkgs&quot;        &quot;otherPkgs&quot;       &quot;loadedOnly&quot;     
-##  [9] &quot;matprod&quot;         &quot;BLAS&quot;            &quot;LAPACK&quot;          &quot;system.codepage&quot;
-## [13] &quot;codepage&quot;</code></pre>
-<pre><code>## $running
-## [1] &quot;Windows 10 x64 (build 19045)&quot;</code></pre>
+##  [1] gtable_0.3.3      xfun_0.39         bslib_0.5.0       htmlwidgets_1.6.2
+##  [5] remotes_2.4.2     processx_3.8.1    callr_3.7.3       tzdb_0.4.0       
+##  [9] vctrs_0.6.2       tools_4.3.0       ps_1.7.5          generics_0.1.3   
+## [13] parallel_4.3.0    fansi_1.0.4       highr_0.10        pkgconfig_2.0.3  
+## [17] checkmate_2.2.0   lifecycle_1.0.3   compiler_4.3.0    munsell_0.5.0    
+## [21] httpuv_1.6.11     htmltools_0.5.5   sass_0.4.6        yaml_2.3.7       
+## [25] urlchecker_1.0.1  pillar_1.9.0      later_1.3.1       crayon_1.5.2     
+## [29] jquerylib_0.1.4   ellipsis_0.3.2    cachem_1.0.8      sessioninfo_1.2.2
+## [33] mime_0.12         tidyselect_1.2.0  digest_0.6.31     stringi_1.7.12   
+## [37] fastmap_1.1.1     grid_4.3.0        colorspace_2.1-0  cli_3.6.1        
+## [41] magrittr_2.0.3    pkgbuild_1.4.0    utf8_1.2.3        withr_2.5.0      
+## [45] backports_1.4.1   prettyunits_1.1.1 scales_1.2.1      promises_1.2.0.1 
+## [49] bit64_4.0.5       timechange_0.2.0  rmarkdown_2.22    bit_4.0.5        
+## [53] hms_1.1.3         memoise_2.0.1     shiny_1.7.4       evaluate_0.21    
+## [57] miniUI_0.1.1.1    profvis_0.3.8     rlang_1.1.1       Rcpp_1.0.10      
+## [61] xtable_1.8-4      glue_1.6.2        pkgload_1.3.2     vroom_1.6.3      
+## [65] rstudioapi_0.14   jsonlite_1.8.5    R6_2.5.1          fs_1.6.2</code></pre>
+<pre><code>##  [1] &quot;R.version&quot;       &quot;platform&quot;        &quot;locale&quot;          &quot;tzone&quot;          
+##  [5] &quot;tzcode_type&quot;     &quot;running&quot;         &quot;RNGkind&quot;         &quot;basePkgs&quot;       
+##  [9] &quot;otherPkgs&quot;       &quot;loadedOnly&quot;      &quot;matprod&quot;         &quot;BLAS&quot;           
+## [13] &quot;LAPACK&quot;          &quot;LA_version&quot;      &quot;system.codepage&quot; &quot;codepage&quot;</code></pre>
+<pre><code>## $tzone
+## [1] &quot;Europe/Berlin&quot;</code></pre>
 </div>
 <div id="appendix" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> Appendix</h1>

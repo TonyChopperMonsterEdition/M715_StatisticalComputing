@@ -197,6 +197,17 @@ summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4
 ## {.unlisted .unnumbered}
 Ersichtlich das Missing [Tab. 5](#table_expenditure4Education_missings) vorhanden für Gemeinde, da aber insgesamtbetrachtet nachgeprüft und in der zusammenfassung in [Tab. 6](#summary_expenditure4Education_missings) nur Gemeinde ersichtlich.
 
+```{r}
+expenditure4Culture
+expenditure4Education
+gdp_atMarketPrice
+jobless_people
+population_per_FederalState
+population_per_FederalState_headerAdjusted
+socialWealthfare_receiver
+workingDir
+```
+
 
 ##	Data Preparation
 ##	Modeling by using linear regression
