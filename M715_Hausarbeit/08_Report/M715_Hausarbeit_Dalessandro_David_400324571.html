@@ -11,7 +11,7 @@
 
 <meta name="author" content="D’Alessandro David" />
 
-<meta name="date" content="2023-06-23" />
+<meta name="date" content="2023-06-24" />
 
 <title>Regression der Opferstatistik</title>
 
@@ -1604,7 +1604,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Regression der Opferstatistik</h1>
 <h3 class="subtitle">Modul 715 - Statistical Computing</h3>
 <h4 class="author">D’Alessandro David</h4>
-<h4 class="date">2023-06-23</h4>
+<h4 class="date">2023-06-24</h4>
 
 </div>
 
@@ -3142,13 +3142,22 @@ Nordrhein-Westfalen
 Figure 2.1: Pivoting a table into a longer, tidy form<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>
 </p>
 </div>
+<pre><code>##  [1] &quot;setup&quot;                            &quot;Libraries&quot;                       
+##  [3] &quot;Datasets &amp; Scripts&quot;               &quot;CheckBias&quot;                       
+##  [5] &quot;Inhabitants&quot;                      &quot;unnamed-chunk-1&quot;                 
+##  [7] &quot;Cultural Expenditure&quot;             &quot;Educational Expenditure&quot;         
+##  [9] &quot;unnamed-chunk-2&quot;                  &quot;preparation&quot;                     
+## [11] &quot;cars&quot;                             &quot;pressure&quot;                        
+## [13] &quot;cars row1-5&quot;                      &quot;cars row6-10&quot;                    
+## [15] &quot;cars plot in tabs&quot;                &quot;renderRemaining Tabels for Cases&quot;
+## [17] &quot;Sessioninformation&quot;               &quot;List of Loaded Packages&quot;</code></pre>
 <hr />
-<p>Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit <a href="#fig:unnamed-chunk-2">Figure 2.1</a> vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von 16 auf 128 und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.</p>
+<p>Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit <a href="#fig:unnamed-chunk-1">Figure 2.1</a> vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von 16 auf 128 und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.</p>
 <pre class="r"><code>### Missings in Educational Expenditure
 #expenditure4Culture_&lt;- expenditure4Culture[expenditure4Culture$CulturalTotalExpenditure,]
 table_expenditure4Culture &lt;- addHtmlTableStyle(summary(expenditure4Culture[,c(-(3:6),-9)]), pos.caption = &quot;bottom&quot;, align=&quot;left&quot;,align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of the Expenditures in Culture (in K€)&quot;, label=&quot;table_expenditure4Culture&quot;)
 
-mean_CulturalExpenditure &lt;- mean(expenditure4Culture$CulturalTotalExpenditure)
+mean_CulturalExpenditure &lt;- round(mean(expenditure4Culture$CulturalTotalExpenditure))
 
 notSeenVariables &lt;- names(expenditure4Culture[,c(3:6,9)])
 missings_4_CulturalAffairsAbroad &lt;- expenditure4Culture[is.na(expenditure4Culture$CulturalAffairsAbroad),]
@@ -3329,7 +3338,7 @@ NA’s :10
 </td>
 </tr>
 </table>
-<p>In <a href="#table_expenditure4Culture">Tab 7</a> zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben zu den hier aufgezeigten fünf Variablen. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure 606582.142857143K€ für Kultur ausgegeben. Neben diesen, existieren noch Theater_Musik, Libraries, Musseeum_Exhibitions, Protection_CareOfMonuments, OtherCulturalCare. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Die Tabelle offenbart anhand der <em>NA’s</em>, dass unter anderem für die “Cultural Affairs Abroad” 40 Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potentielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher.</p>
+<p>In <a href="#table_expenditure4Culture">Tab 7</a> zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben zu den hier aufgezeigten fünf Variablen. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure 606582 K€ für Kultur ausgegeben. Neben diesen, existieren noch Theater_Musik, Libraries, Musseeum_Exhibitions, Protection_CareOfMonuments, OtherCulturalCare. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Die Tabelle offenbart anhand der <em>NA’s</em>, dass unter anderem für die “Cultural Affairs Abroad” 40 Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potentielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher.</p>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_missings_CulturalAffairsAbroad_detailed">
 <thead>
 <tr>
@@ -4146,60 +4155,8 @@ Zusammenfassend erarbeitete dieser Abschnitt die folgenden Ziele für die Datena
 </div>
 </div>
 </div>
-<div id="info-zu-geladenen-paketen" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Info zu geladenen Paketen</h1>
-<pre><code>## R version 4.3.0 (2023-04-21 ucrt)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 19045)
-## 
-## Matrix products: default
-## 
-## 
-## locale:
-## [1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
-## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
-## [5] LC_TIME=German_Germany.utf8    
-## 
-## time zone: Europe/Berlin
-## tzcode source: internal
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-##  [1] htmlTable_2.4.1   devtools_2.4.5    usethis_2.2.0     data.table_1.14.8
-##  [5] lubridate_1.9.2   forcats_1.0.0     stringr_1.5.0     dplyr_1.1.2      
-##  [9] purrr_1.0.1       readr_2.1.4       tidyr_1.3.0       tibble_3.2.1     
-## [13] ggplot2_3.4.2     tidyverse_2.0.0   knitr_1.43       
-## 
-## loaded via a namespace (and not attached):
-##  [1] gtable_0.3.3      xfun_0.39         bslib_0.5.0       remotes_2.4.2    
-##  [5] htmlwidgets_1.6.2 processx_3.8.1    callr_3.7.3       tzdb_0.4.0       
-##  [9] vctrs_0.6.2       tools_4.3.0       ps_1.7.5          generics_0.1.3   
-## [13] parallel_4.3.0    fansi_1.0.4       highr_0.10        pkgconfig_2.0.3  
-## [17] checkmate_2.2.0   lifecycle_1.0.3   compiler_4.3.0    munsell_0.5.0    
-## [21] httpuv_1.6.11     htmltools_0.5.5   sass_0.4.6        yaml_2.3.7       
-## [25] urlchecker_1.0.1  pillar_1.9.0      later_1.3.1       crayon_1.5.2     
-## [29] jquerylib_0.1.4   ellipsis_0.3.2    cachem_1.0.8      sessioninfo_1.2.2
-## [33] mime_0.12         tidyselect_1.2.0  digest_0.6.31     stringi_1.7.12   
-## [37] bookdown_0.34     fastmap_1.1.1     grid_4.3.0        colorspace_2.1-0 
-## [41] cli_3.6.1         magrittr_2.0.3    pkgbuild_1.4.0    utf8_1.2.3       
-## [45] withr_2.5.0       backports_1.4.1   prettyunits_1.1.1 scales_1.2.1     
-## [49] promises_1.2.0.1  bit64_4.0.5       timechange_0.2.0  rmarkdown_2.22   
-## [53] bit_4.0.5         hms_1.1.3         memoise_2.0.1     shiny_1.7.4      
-## [57] evaluate_0.21     miniUI_0.1.1.1    profvis_0.3.8     rlang_1.1.1      
-## [61] Rcpp_1.0.10       xtable_1.8-4      glue_1.6.2        pkgload_1.3.2    
-## [65] vroom_1.6.3       rstudioapi_0.14   jsonlite_1.8.5    R6_2.5.1         
-## [69] fs_1.6.2</code></pre>
-<pre><code>##  [1] &quot;R.version&quot;       &quot;platform&quot;        &quot;locale&quot;          &quot;tzone&quot;          
-##  [5] &quot;tzcode_type&quot;     &quot;running&quot;         &quot;RNGkind&quot;         &quot;basePkgs&quot;       
-##  [9] &quot;otherPkgs&quot;       &quot;loadedOnly&quot;      &quot;matprod&quot;         &quot;BLAS&quot;           
-## [13] &quot;LAPACK&quot;          &quot;LA_version&quot;      &quot;system.codepage&quot; &quot;codepage&quot;</code></pre>
-<pre><code>## $tzone
-## [1] &quot;Europe/Berlin&quot;</code></pre>
-</div>
-<div id="appendix" class="section level1" number="8">
-<h1><span class="header-section-number">8</span> Appendix</h1>
+<div id="appendix" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Appendix</h1>
 <div id="appendix-1" class="section level2 unnumbered tabset tabset-fade">
 <h2>Appendix 1</h2>
 <pre class="r"><code>table_thefts_allStates2015 &lt;- addHtmlTableStyle(thefts_allStates_2015, pos.caption = &quot;bottom&quot;, align=&quot;lllr&quot;,align.header = &quot;lccr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)&quot;, label=&quot;table_thefts_allStates2015&quot;)
@@ -6070,9 +6027,62 @@ Bundesrepublik Deutschland
 </table>
 </div>
 </div>
+<div id="appendix-2" class="section level2 unnumbered">
+<h2>Appendix 2</h2>
+<div id="information-about-runtime-environment" class="section level3 unnumbered">
+<h3>Information about Runtime Environment</h3>
+<pre class="r"><code>## Overall Session information
+sessionInfo()</code></pre>
+<pre><code>## R version 4.2.0 (2022-04-22 ucrt)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19045)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
+## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
+## [5] LC_TIME=German_Germany.utf8    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] htmlTable_2.4.1   devtools_2.4.5    usethis_2.2.0     data.table_1.14.8
+##  [5] lubridate_1.9.2   forcats_1.0.0     stringr_1.5.0     dplyr_1.1.2      
+##  [9] purrr_1.0.1       readr_2.1.4       tidyr_1.3.0       tibble_3.2.1     
+## [13] ggplot2_3.4.2     tidyverse_2.0.0   bookdown_0.34     knitr_1.43       
+## 
+## loaded via a namespace (and not attached):
+##  [1] sass_0.4.6        pkgload_1.3.2     bit64_4.0.5       vroom_1.6.3      
+##  [5] jsonlite_1.8.5    bslib_0.4.2       shiny_1.7.4       highr_0.10       
+##  [9] yaml_2.3.7        remotes_2.4.2     sessioninfo_1.2.2 pillar_1.9.0     
+## [13] backports_1.4.1   glue_1.6.2        digest_0.6.31     promises_1.2.0.1 
+## [17] checkmate_2.2.0   colorspace_2.1-0  htmltools_0.5.5   httpuv_1.6.11    
+## [21] pkgconfig_2.0.3   xtable_1.8-4      scales_1.2.1      processx_3.8.1   
+## [25] later_1.3.1       tzdb_0.4.0        timechange_0.2.0  generics_0.1.3   
+## [29] ellipsis_0.3.2    cachem_1.0.8      withr_2.5.0       cli_3.6.1        
+## [33] magrittr_2.0.3    crayon_1.5.2      mime_0.12         memoise_2.0.1    
+## [37] evaluate_0.21     ps_1.7.5          fs_1.6.2          fansi_1.0.4      
+## [41] pkgbuild_1.4.0    profvis_0.3.8     tools_4.2.0       prettyunits_1.1.1
+## [45] hms_1.1.3         lifecycle_1.0.3   munsell_0.5.0     callr_3.7.3      
+## [49] compiler_4.2.0    jquerylib_0.1.4   rlang_1.1.1       grid_4.2.0       
+## [53] rstudioapi_0.14   htmlwidgets_1.6.2 miniUI_0.1.1.1    rmarkdown_2.22   
+## [57] gtable_0.3.3      R6_2.5.1          fastmap_1.1.1     bit_4.0.5        
+## [61] utf8_1.2.3        stringi_1.7.12    parallel_4.2.0    Rcpp_1.0.10      
+## [65] vctrs_0.6.2       tidyselect_1.2.0  xfun_0.39         urlchecker_1.0.1</code></pre>
 </div>
-<div id="references" class="section level1" number="9">
-<h1><span class="header-section-number">9</span> References</h1>
+<div id="list-of-loaded-packages" class="section level3 unnumbered">
+<h3>List of Loaded Packages</h3>
+<pre class="r"><code>## only Packages loaded as a list
+sessionInfo_packages &lt;- sessionInfo()[8]
+toString(names(sessionInfo_packages$loadedOnly))</code></pre>
+<pre><code>## [1] &quot;sass, pkgload, bit64, vroom, jsonlite, bslib, shiny, highr, yaml, remotes, sessioninfo, pillar, backports, glue, digest, promises, checkmate, colorspace, htmltools, httpuv, pkgconfig, xtable, scales, processx, later, tzdb, timechange, generics, ellipsis, cachem, withr, cli, magrittr, crayon, mime, memoise, evaluate, ps, fs, fansi, pkgbuild, profvis, tools, prettyunits, hms, lifecycle, munsell, callr, compiler, jquerylib, rlang, grid, rstudioapi, htmlwidgets, miniUI, rmarkdown, gtable, R6, fastmap, bit, utf8, stringi, parallel, Rcpp, vctrs, tidyselect, xfun, urlchecker&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="references" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> References</h1>
 <p>Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link</p>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-Bundeskriminalamt.2021" class="csl-entry">

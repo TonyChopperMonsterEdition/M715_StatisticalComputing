@@ -38,7 +38,7 @@ knit: (function(inputFile, encoding) {
 #### zuvor geladen:
 #library(rmarkdown)
 library(knitr)
-#library(bookdown)
+library(bookdown)
 #library(yaml)
 
 # globaloptions
@@ -204,7 +204,7 @@ table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(popul
 knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png")
 ```
 ***
-Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-2) vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[cf. https://r4ds.had.co.nz/tidy-data.html#longer]. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
+Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-1) vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[cf. https://r4ds.had.co.nz/tidy-data.html#longer]. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
 
 
 ```{r Cultural Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
@@ -214,7 +214,7 @@ Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Gr
 #expenditure4Culture_<- expenditure4Culture[expenditure4Culture$CulturalTotalExpenditure,]
 table_expenditure4Culture <- addHtmlTableStyle(summary(expenditure4Culture[,c(-(3:6),-9)]), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the Expenditures in Culture (in K€)", label="table_expenditure4Culture")
 
-mean_CulturalExpenditure <- mean(expenditure4Culture$CulturalTotalExpenditure)
+mean_CulturalExpenditure <- round(mean(expenditure4Culture$CulturalTotalExpenditure))
 
 notSeenVariables <- names(expenditure4Culture[,c(3:6,9)])
 missings_4_CulturalAffairsAbroad <- expenditure4Culture[is.na(expenditure4Culture$CulturalAffairsAbroad),]
@@ -229,7 +229,7 @@ amount_missings_4_CulturalAffairsAbroad <- nrow(expenditure4Culture[is.na(expend
 ```
 `r table_expenditure4Culture `
 
-In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben zu den hier aufgezeigten fünf Variablen. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)`K€ für Kultur ausgegeben. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potentielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
+In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben zu den hier aufgezeigten fünf Variablen. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` K€ für Kultur ausgegeben. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potentielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
 
 `r table_missings_CulturalAffairsAbroad_detailed `
 
@@ -241,7 +241,6 @@ Am Beispiel von Hamburg verdeutlicht [Tab 9](#table_Hamburg_Administration4Cultu
 
 
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
-
 
 
 ### Missings in Educational Expenditure
@@ -360,17 +359,6 @@ cars[6:10,]
 plot(cars)
 ```
 
-# Info zu geladenen Paketen
-```{r Sessioninformationen laden}
-## Gewährleistet Nachvollziehbarkeit in den geladenen Packeten
-sessionInfo()
-names(sessionInfo())
-sessionInfo()[4]
-
-```
-
-
-
 # Appendix
 ## Appendix 1 {.unnumbered .tabset .tabset-fade}
 ```{r renderRemaining Tabels for Cases, echo=TRUE, warning=FALSE}
@@ -395,6 +383,19 @@ table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.capti
 `r table_thefts_allStates2019`
 ### 2020 {-}
 `r table_thefts_allStates2020`
+## Appendix 2 {.unnumbered}
+### Information about Runtime Environment {.unnumbered}
+```{r Sessioninformation, echo=TRUE, warning=FALSE, paged.print=TRUE}
+## Overall Session information
+sessionInfo()
 
+```
+### List of Loaded Packages {.unnumbered}
+```{r List of Loaded Packages, echo=TRUE, warning=FALSE, paged.print=TRUE}
+## only Packages loaded as a list
+sessionInfo_packages <- sessionInfo()[8]
+toString(names(sessionInfo_packages$loadedOnly))
+
+```
 # References
 Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link
