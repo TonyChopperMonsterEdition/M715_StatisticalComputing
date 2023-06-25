@@ -12,7 +12,7 @@ expenditure4Culture[,1:2] <- lapply(expenditure4Culture[,1:2], factor)
 
 # GENESIS-Tabelle: 21711-0010 import of expenditure for education je 1000 €
 expenditure4Education <- read_csv2(paste0(workingDir,"Education_Expenditure_per_state.csv") ,skip=7, na= c("-","NA",""),col_select=c(1:3,28:29), col_types= "cccnn",col_names= TRUE, show_col_types = FALSE, locale = locale(encoding = 'latin1', decimal_mark=","))
-names(expenditure4Education) <- c("Year", "LevelOfAggregation","FederalState", "TotalExpenditure4Education", "ExpenditurePerInhabitant4Education")
+names(expenditure4Education) <- c("Year", "LevelOfSeparation","FederalState", "TotalExpenditure4Education", "ExpenditurePerInhabitant4Education")
 expenditure4Education <- expenditure4Education[!(is.na(expenditure4Education$FederalState)),]
 
 expenditure4Education$TotalExpenditure4Education<- as.double(gsub(",",".",expenditure4Education$TotalExpenditure4Education))

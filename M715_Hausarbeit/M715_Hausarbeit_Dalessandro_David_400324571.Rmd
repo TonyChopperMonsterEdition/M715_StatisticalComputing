@@ -9,6 +9,7 @@ output:
   bookdown::html_document2:
     toc: true
     toc_float: true
+    toc_depth: 2
     highlight: default 
     theme: paper
     css: "./09_Formatierung/stylesheetCaseStudy.css"
@@ -96,7 +97,7 @@ Table_Ber_TheftOnly <- htmlTable(Table_Ber_TheftOnly,
                                    n.tspanner = nrow(Table_Ber_TheftOnly),
                                    rgroup = c("Betriebsräumlichkeiten (Ebene 3)", "Gastronomieräumelichkeiten (Ebene 3)"),
                                    n.rgroup = c(9,nrow(Table_Ber_TheftOnly)-9),
-                                   caption="Zahl der Diebstähle auf der 3. Detailebene im Bundesland Berlin im Jahr 2020",
+                                   caption="Zahl der Diebstähle auf der 3. Detailebene im Bundesland Berlin im Jahr 2020^[adapted from @Bundeskriminalamt.2023]",
                                    label="Table_Ber_TheftOnly")
 
 ## Example for smaller Thefts
@@ -113,7 +114,7 @@ Table_Ber2_totalCrimeTypes <- htmlTable(Table_Ber2_totalCrimeTypes,
                                    rnames=FALSE, 
                                    tspanner = "Crimecases in total per Crimetype",
                                    n.tspanner = nrow(Table_Ber2_totalCrimeTypes),
-                                   caption="Total Numbers per Crimetype in Berlin in 2020",
+                                   caption="Total Numbers per Crimetype in Berlin in 2020^[adapted from @Bundeskriminalamt.2023]",
                                    label="Table_Ber2_totalCrimeTypes")
 example_Ber2_Total <- as.numeric(example_Ber2_totalCrimeTypes[,"Casenumbers"])
 
@@ -129,9 +130,9 @@ thefts_allStates_2020 <-  caseNumbers_2020[ caseNumbers_2020$Crimetype %like% "D
 thefts_allStates_2016 <-  caseNumbers_2016[ caseNumbers_2016$Crimetype %like% "Diebstahl insgesamt und zwar:" | caseNumbers_2016$CrimeKey %like% "\\*\\*\\*\\*00",]
 thefts_allStates_2019 <-  caseNumbers_2019[ caseNumbers_2019$Crimetype %like% "Diebstahl insgesamt und zwar:" | caseNumbers_2019$CrimeKey %like% "\\*\\*\\*\\*00" ,]
 
-table_thefts_allStates2014 <- addHtmlTableStyle(thefts_allStates_2014, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2014)", label="table_thefts_allStates2014")
+table_thefts_allStates2014 <- addHtmlTableStyle(thefts_allStates_2014, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2014)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2014")
 
-table_thefts_allStates2020 <- addHtmlTableStyle(thefts_allStates_2020, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2020)", label="table_thefts_allStates2020")
+table_thefts_allStates2020 <- addHtmlTableStyle(thefts_allStates_2020, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2020)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2020")
 
 ## Variables to show the changes in naming of a variable
 example_NationWideUntil2017 <- caseNumbers_2017[caseNumbers_2017$FederalState %like% "Bund echte" & caseNumbers_2017$Crimetype %like% "Diebstahl insgesamt und zwar:",] 
@@ -144,7 +145,7 @@ Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Dow
 
 `r Table_Ber_TheftOnly`
 
-[Tab. 1](#Table_Ber_TheftOnly) verdeutlicht exemplarisch die Bedeutung der Ebenen für leichte Diebstähle in Berlin. Die Gesamtzahl leichter Diebstähle `r sum_Ber_TheftOnly_total` ergibt sich aus den Fallzahlen des regulären Betriebs (`r example_Ber_TheftOnly_nonGastro`) und des gastronomischen Betriebs (`r example_Ber_TheftOnly_gastronomic`). Die dargestellten Zahlen stammen aus der zweiten Ebene der Diebstähle, darunter spezifiziert die dritte Ebene welche Fallunterscheidungen existieren. Zum Beispiel, dass Kraftfahrzeuge im regulären Betrieb gestohlen wurden. Alle Fälle dieser Ebene ergeben in Summe die Fallzahl der darüberliegenden Ebene. Das heißt, dass ein Kummulieren der Fallzahlen nicht notwenig ist, da jede Ebene die Anzahl der Fälle aus der unteren Ebene zusammenfasst. 
+[Table. 1](#Table_Ber_TheftOnly) verdeutlicht exemplarisch die Bedeutung der Ebenen für leichte Diebstähle in Berlin. Die Gesamtzahl leichter Diebstähle `r sum_Ber_TheftOnly_total` ergibt sich aus den Fallzahlen des regulären Betriebs (`r example_Ber_TheftOnly_nonGastro`) und des gastronomischen Betriebs (`r example_Ber_TheftOnly_gastronomic`). Die dargestellten Zahlen stammen aus der zweiten Ebene der Diebstähle, darunter spezifiziert die dritte Ebene welche Fallunterscheidungen existieren. Zum Beispiel, dass Kraftfahrzeuge im regulären Betrieb gestohlen wurden. Alle Fälle dieser Ebene ergeben in Summe die Fallzahl der darüberliegenden Ebene. Das heißt, dass ein Kummulieren der Fallzahlen nicht notwenig ist, da jede Ebene die Anzahl der Fälle aus der unteren Ebene zusammenfasst. 
 
 `r Table_Ber2_totalCrimeTypes`
 
@@ -177,16 +178,16 @@ isBiased
 Abschließend bedeutet das Ergebnis `r isBiased` der Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern stellt jedes Bundesland im Rahmen der Diebstähle eine unverzerrte Entität dar. Für [Sec. 2.3][Data Preparation] ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
 
 ##	Data set of the Federal Statistical Office
-Um zu überprüfen, ob die Anzahl der Diebstähle in Deutschland mit verschiedenen inländischen Faktoren zusammenhängen, untersucht die Arbeit verschiedene Faktoren auf Bundesländerebene. Dazu bedient sie sich an der Genesis-Datenbank des statistischen Bundesamts.^[Quelle: https://www-genesis.destatis.de/genesis/online] Dieser Abschnitt widmet sein Augenmerk dabei auf die Einwohnerzahl^[https://www-genesis.destatis.de/genesis//online?operation=table&code=12411-0010#astructure], der Bildungs^[https://www-genesis.destatis.de/genesis//online?operation=table&code=21711-0010#astructure]- und Kulturausgaben^[https://www-genesis.destatis.de/genesis//online?operation=table&code=21621-0003#astructure], sowie der Arbeitslosenzahl^[https://www-genesis.destatis.de/genesis//online?operation=table&code=13211-0009] und der Wirtschaftskraft^[https://www-genesis.destatis.de/genesis//online?operation=table&code=82111-0001], gemessen am erzeugten Bruttoinlandsprodukt.
+Um zu überprüfen, ob die Anzahl der Diebstähle in Deutschland mit verschiedenen inländischen Faktoren zusammenhängen, untersucht die Arbeit verschiedene Faktoren auf Bundesländerebene. Dazu bedient sie sich an der Genesis-Datenbank des statistischen Bundesamts.^[@StatistischesBundesamtDeutschland.2023f] Dieser Abschnitt widmet sein Augenmerk dabei auf die Einwohnerzahl^[@StatistischesBundesamtDeutschland.2023], der Bildungs^[@StatistischesBundesamtDeutschland.2023d]- und Kulturausgaben^[@StatistischesBundesamtDeutschland.2023c], sowie der Arbeitslosenzahl^[@StatistischesBundesamtDeutschland.2023b] und der Wirtschaftskraft^[@StatistischesBundesamtDeutschland.2023e], gemessen am erzeugten Bruttoinlandsprodukt.
 ```{r Inhabitants, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Loading Datasets over the following scripts
 source("./00_Skripte/read_GENESISdatafiles.r", local = knitr::knit_global())
 
 ## Inhabitants
-table_population_per_FederalState <- addHtmlTableStyle(head(population_per_FederalState,10), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Population per Federal State per Year", label="table_population_per_FederalState")
+table_population_per_FederalState <- addHtmlTableStyle(head(population_per_FederalState,10), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Population per Federal State per Year^[adapted from @StatistischesBundesamtDeutschland.2023]", label="table_population_per_FederalState")
 
-table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(population_per_FederalState_headerAdjusted,10), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Population per Federal State per Year with adjusted Headers", label="table_population_per_FederalState_headerAdjusted")
+table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(population_per_FederalState_headerAdjusted,10), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Population per Federal State per Year with adjusted Headers^[adapted from @StatistischesBundesamtDeutschland.2023]", label="table_population_per_FederalState_headerAdjusted")
 
 ```
 ### {.unlisted .unnumbered .tabset .tabset-fade}
@@ -196,17 +197,18 @@ table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(popul
 `r table_population_per_FederalState_headerAdjusted`
 
 ## {.unlisted .unnumbered}
+### Inhabitants {.unlisted}
 [Tab. 5][Population per State at the End of a year] zeigt die Einwohnerzahl aller 16 Bundesländer am Stichtag ihrer Erfassung. Aus der Dokumentation geht nicht hervor wie die Erfassung durchgeführt wurde oder, ob die sie auf einer Hochrechnung basiert. Aber, da die Bevölkerungszahl, laut den Stichtagen, am Ende des Jahres ermittelt wurde, repräsentiert sie, im Hinblick auf ihren Einfluss, das jeweils kommende Jahr. Aus diesem Grund passt das Skript beim Importieren die Tabellenüberschrift an. Als Ergebnis entsteht [Tab. 6][Population, based on the year before], eine strukturell gleiche Tabelle , inhaltlich gelten die Einwohnerzahlen, aber nicht mehr für das Jahr in denen die Zahlen erfasst wurden, sondern für das daraufolgende. Zur Modellierung ist die Struktur des Datensatz jedoch ungeeignet. Daher ist eine Veränderung der Tabelle notwendig, damit die Einwohnerzahl der Länder je Jahr als eigene Observationen in das Regressionsmodell einfließen. Das bedeutet, die Jahresspalten müssen in eigenständigen Entitäten die Einwohnerzahl abbilden.
 
 ***
-```{r ,echo=FALSE, fig.align = "center", fig.cap="Pivoting a table into a longer, tidy form^[https://r4ds.had.co.nz/tidy-data.html#fig:tidy-gather]"}
+```{r ,echo=FALSE, fig.align = "center", fig.cap="Pivoting a table into a longer, tidy form^[Fig. 12.2, taken from @GrolemundHadleyWickhamandGarrett.24.6.2023 section 12.3.1]"}
 
 knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png")
 ```
 ***
-Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-1) vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[cf. https://r4ds.had.co.nz/tidy-data.html#longer]. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
+Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-1) vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[cf. @GrolemundHadleyWickhamandGarrett.24.6.2023 section 12.3.1]. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
 
-
+### Cultural Expenditure {.unlisted}
 ```{r Cultural Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
 
 
@@ -220,16 +222,16 @@ notSeenVariables <- names(expenditure4Culture[,c(3:6,9)])
 missings_4_CulturalAffairsAbroad <- expenditure4Culture[is.na(expenditure4Culture$CulturalAffairsAbroad),]
 missings_CulturalAffairsAbroad_detailed <- summary(expenditure4Culture[expenditure4Culture$FederalState == "Bremen" | expenditure4Culture$FederalState == "Bayern" | expenditure4Culture$FederalState == "Brandenburg"| expenditure4Culture$FederalState == "Hamburg" | expenditure4Culture$FederalState == "Hessen" | expenditure4Culture$FederalState == "Sachsen"| expenditure4Culture$FederalState== "Sachsen-Anhalt"| expenditure4Culture$FederalState == "Thüringen", c("FederalState","CulturalAffairsAbroad")])
 
-table_missings_CulturalAffairsAbroad_detailed <- addHtmlTableStyle(missings_CulturalAffairsAbroad_detailed, pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Detailed Analysis of the Federal States which contain Missing Values", label="table_missings_CulturalAffairsAbroad_detailed")
+table_missings_CulturalAffairsAbroad_detailed <- addHtmlTableStyle(missings_CulturalAffairsAbroad_detailed, pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Detailed Analysis of the Federal States which contain Missing Values[adapted from @StatistischesBundesamtDeutschland.2023c]", label="table_missings_CulturalAffairsAbroad_detailed")
 amount_missings_4_CulturalAffairsAbroad <- nrow(expenditure4Culture[is.na(expenditure4Culture$CulturalAffairsAbroad),])
 
-table_Hamburg_Administration4CulturalAffairs <- expenditure4Culture[expenditure4Culture$FederalState == "Hamburg", c("Year", "FederalState","Administration4CulturalAffairs")] %>% addHtmlTableStyle( pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Detailed Analysis of the Federal States which contain Missing Values", label="table_Hamburg_Administration4CulturalAffairs")
+table_Hamburg_Administration4CulturalAffairs <- expenditure4Culture[expenditure4Culture$FederalState == "Hamburg", c("Year", "FederalState","Administration4CulturalAffairs")] %>% addHtmlTableStyle( pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Detailed Analysis of the Federal States which contain Missing Values^[adapted from @StatistischesBundesamtDeutschland.2023c]", label="table_Hamburg_Administration4CulturalAffairs")
 amount_missings_4_CulturalAffairsAbroad <- nrow(expenditure4Culture[is.na(expenditure4Culture$CulturalAffairsAbroad),])
 
 ```
 `r table_expenditure4Culture `
 
-In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben zu den hier aufgezeigten fünf Variablen. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` K€ für Kultur ausgegeben. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potentielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
+In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt zu je Tausend Euro, zu den hier aufgezeigten fünf Variablen. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` K€ für Kultur ausgegeben. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potentielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
 
 `r table_missings_CulturalAffairsAbroad_detailed `
 
@@ -239,19 +241,19 @@ In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Str
 
 Am Beispiel von Hamburg verdeutlicht [Tab 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Tab 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgaben enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Ein weiteres Ziel für [Sec. 2.3][Data Preparation] ist deshalb die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
 
-
+### Expenditure for Education {.unlisted}
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
 
+summary_expenditure4Education <- addHtmlTableStyle(summary(expenditure4Education), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education_missings")
 
 ### Missings in Educational Expenditure
 expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
-table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities", label="table_expenditure4Education_missings")
-summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings", label="summary_expenditure4Education_missings")
-
-
+table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="table_expenditure4Education_missings")
+summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education_missings")
 
 ```
-
+`r summary_expenditure4Education`
+zu jedem jahr und bundesland observationen, durchschnitt und median weichen ab, level der aggregierung und missings und eine spalte per inhabitants --> nicht relevant, da bereits einwohnerzahl bekannt und nicht unabhängig von einwohner zahl 
 ### {.unlisted .unnumbered .tabset .tabset-fade}
 #### Missings in Expenditure Documentation {-}
 `r table_expenditure4Education_missings `
@@ -260,14 +262,24 @@ summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4
 ## {.unlisted .unnumbered}
 Ersichtlich das Missing [Tab. 7](#table_expenditure4Education_missings) vorhanden für Gemeinde, da aber insgesamt betrachtet nachgeprüft und in der zusammenfassung in [Tab. 8](#summary_expenditure4Education_missings) nur Gemeinde ersichtlich.
 
-```{r}
-expenditure4Culture
-expenditure4Education
-gdp_atMarketPrice
-jobless_people
-population_per_FederalState
-population_per_FederalState_headerAdjusted
-socialWealthfare_receiver
+```{r unemployment rate, echo=TRUE, message=FALSE, warning=FALSE}
+
+
+### Missings in Educational Expenditure
+expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
+table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities", label="table_expenditure4Education_missings")
+summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023b]", label="summary_expenditure4Education_missings")
+
+```
+
+```{r gross domestic product, echo=TRUE, message=FALSE, warning=FALSE}
+
+
+### Missings in Educational Expenditure
+expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
+table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities", label="table_expenditure4Education_missings")
+summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023e]", label="summary_expenditure4Education_missings")
+
 ```
 
 Zusammenfassend erarbeitete dieser Abschnitt die folgenden Ziele für die Datenaufbereitung im Abschnitt [Sec. 2.3][Data Preparation]. <br>
@@ -362,17 +374,18 @@ plot(cars)
 # Appendix
 ## Appendix 1 {.unnumbered .tabset .tabset-fade}
 ```{r renderRemaining Tabels for Cases, echo=TRUE, warning=FALSE}
-table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)", label="table_thefts_allStates2015")
-table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)", label="table_thefts_allStates2017")
-table_thefts_allStates2016 <- addHtmlTableStyle(thefts_allStates_2016, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)", label="table_thefts_allStates2016")
-table_thefts_allStates2018 <- addHtmlTableStyle(thefts_allStates_2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)", label="table_thefts_allStates2018")
-table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)", label="table_thefts_allStates2019")
+table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2015")
+table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2017")
+table_thefts_allStates2016 <- addHtmlTableStyle(thefts_allStates_2016, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2016")
+table_thefts_allStates2018 <- addHtmlTableStyle(thefts_allStates_2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2018")
+table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2019")
 ```
 
 ### 2014 {-}
 `r table_thefts_allStates2014`
 ### 2015 {-}
 `r table_thefts_allStates2015`
+
 ### 2016 {-}
 `r table_thefts_allStates2016`
 ### 2017 {-}
