@@ -7,6 +7,14 @@ body{
 	text-align: justify;
 	text-align-last: none; /* Letzte Zeile eines Absatz ist niemals im Blocksatz */
 }
+p {
+  font-family: "Times New Roman"
+  font-size: 12pt;
+  line-height: 1.5;
+  hyphens: auto; 
+	text-align: justify;
+	text-align-last: none; /* Letzte Zeile eines Absatz ist niemals im Blocksatz */
+}
 
 [role="doc-noteref"] {
   counter-increment: footnotes; 

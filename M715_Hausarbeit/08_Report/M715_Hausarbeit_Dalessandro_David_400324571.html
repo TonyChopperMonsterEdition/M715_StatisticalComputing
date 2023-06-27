@@ -11,7 +11,7 @@
 
 <meta name="author" content="D’Alessandro David" />
 
-<meta name="date" content="2023-06-26" />
+<meta name="date" content="2023-06-28" />
 
 <title>Regression der Opferstatistik</title>
 
@@ -1432,7 +1432,7 @@ margin-left: 2em;
 }
 </style>
 
-<style type="text/css">body{font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }[role="doc-noteref"] {counter-increment: footnotes; font-size: 10pt;line-height: 1;}h1{font-size: 16pt;font-weight: bold;text-indent: 0cm;line-height: 12pt;}h2{font-size: 14pt;font-weight: bold;text-indent: 0,39cm;}h3{font-size: 12pt;font-weight: bold;text-indent: 0,78cm;}table{max-width: 92.5%;margin-left: auto;margin-right: auto;font-family: "Times New Roman"font-size: 10pt;line-height: 1;border-spacing: 2.5px;}th, td {padding-top: 2.5px;padding-bottom: 2.5px;padding-left: 5px;padding-right: 5px;}.main-container {max-width: 90%;}.row {display: flex;}.column {flex: 50%; margin: 2px}</style>
+<style type="text/css">body{font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }p {font-family: "Times New Roman"font-size: 12pt;line-height: 1.5;hyphens: auto; text-align: justify;text-align-last: none; }[role="doc-noteref"] {counter-increment: footnotes; font-size: 10pt;line-height: 1;}h1{font-size: 16pt;font-weight: bold;text-indent: 0cm;line-height: 12pt;}h2{font-size: 14pt;font-weight: bold;text-indent: 0,39cm;}h3{font-size: 12pt;font-weight: bold;text-indent: 0,78cm;}table{max-width: 92.5%;margin-left: auto;margin-right: auto;font-family: "Times New Roman"font-size: 10pt;line-height: 1;border-spacing: 2.5px;}th, td {padding-top: 2.5px;padding-bottom: 2.5px;padding-left: 5px;padding-right: 5px;}.main-container {max-width: 90%;}.row {display: flex;}.column {flex: 50%; margin: 2px}</style>
 
 
 
@@ -1604,7 +1604,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Regression der Opferstatistik</h1>
 <h3 class="subtitle">Modul 715 - Statistical Computing</h3>
 <h4 class="author">D’Alessandro David</h4>
-<h4 class="date">2023-06-26</h4>
+<h4 class="date">2023-06-28</h4>
 
 </div>
 
@@ -3709,7 +3709,7 @@ Hamburg
 <div id="expenditure-for-education" class="section level3 unlisted" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Expenditure for Education</h3>
 <pre class="r"><code># Summary of the Expenditures for Education
-summary_expenditure4Education &lt;- addHtmlTableStyle(summary(expenditure4Education, maxsum = 20), pos.caption = &quot;bottom&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of Expenditure for Education^[adapted from @StatistischesBundesamtDeutschland.2023d]&quot;, label=&quot;summary_expenditure4Education&quot;)
+summary_expenditure4Education &lt;- addHtmlTableStyle(summary(expenditure4Education, maxsum = 20), pos.caption = &quot;bottom&quot;, align = &quot;left&quot;, align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of Expenditure for Education^[adapted from @StatistischesBundesamtDeutschland.2023d]&quot;, label=&quot;summary_expenditure4Education&quot;)
 
 ## Get the missings
 amount_missings_4_expenditure4Education &lt;- nrow(expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),])
@@ -3728,252 +3728,252 @@ median_expenditure4Education_onlyTotal &lt;- round(median(expenditure4Education$
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="summary_expenditure4Education">
 <thead>
 <tr>
-<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
 Year
 </th>
-<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
 LevelOfSeparation
 </th>
-<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
 FederalState
 </th>
-<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
 TotalExpenditure4Education
 </th>
-<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
 ExpenditurePerInhabitant4Education
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2014:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Gemeinden:144
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Baden-Württemberg :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Min. : 348948
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Length:432
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2015:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Insgesamt:144
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Bayern :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 1st Qu.: 1713523
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Class :character
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2016:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Länder :144
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Berlin :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Median : 3634454
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Mode :character
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2017:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Brandenburg :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Mean : 6007639
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2018:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Bremen :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 3rd Qu.: 7200342
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2019:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Hamburg :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Max. :34810460
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2020:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Hessen :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 NA’s :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2021:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Mecklenburg-Vorpommern:27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 2022:48
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Niedersachsen :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Nordrhein-Westfalen :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Rheinland-Pfalz :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Saarland :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Sachsen :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Sachsen-Anhalt :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 Schleswig-Holstein :27
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
-<td style="text-align: center;">
+<td style="text-align: left;">
 </td>
 </tr>
 <tr>
-<td style="border-bottom: 2px solid grey; text-align: center;">
+<td style="border-bottom: 2px solid grey; text-align: left;">
 </td>
-<td style="border-bottom: 2px solid grey; text-align: center;">
+<td style="border-bottom: 2px solid grey; text-align: left;">
 </td>
-<td style="border-bottom: 2px solid grey; text-align: center;">
+<td style="border-bottom: 2px solid grey; text-align: left;">
 Thüringen :27
 </td>
-<td style="border-bottom: 2px solid grey; text-align: center;">
+<td style="border-bottom: 2px solid grey; text-align: left;">
 </td>
-<td style="border-bottom: 2px solid grey; text-align: center;">
+<td style="border-bottom: 2px solid grey; text-align: left;">
 </td>
 </tr>
 </tbody>
@@ -4366,23 +4366,437 @@ Thüringen :9
 </td>
 </tr>
 </table>
-<p>Die angepasste <a href="#summary_expenditure4Education_onlyTotal">Table 11</a> zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von 3231053 zwischen dem Median 5217189 und dem arithmetische Mittel 8448242. Welche Auswirkung diese Differenz hat, wird in <a href="#Chapter3">Chapter 3</a> beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben ergibt die Betrachtung, dass <a href="#data-preparation">Sec. 2.3</a> die zusammenfassende Position der Ausgaben eines Landes extrahieren und für die Jahre 2014 bis 2020 beschränken muss.</p>
-<pre class="r"><code>### Missings in Educational Expenditure
-expenditure4Education_missings&lt;- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
-table_expenditure4Education_missings &lt;- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = &quot;bottom&quot;, align=&quot;llllr&quot;,align.header = &quot;llllr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Missings in Expenditure Documentation for local authorities&quot;, label=&quot;table_expenditure4Education_missings&quot;)
-summary_expenditure4Education_missings &lt;- addHtmlTableStyle(summary(expenditure4Education_missings, maxsum = 20), pos.caption = &quot;bottom&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023b]&quot;, label=&quot;summary_expenditure4Education_missings&quot;)</code></pre>
-<pre class="r"><code>### Missings in Educational Expenditure
-expenditure4Education_missings&lt;- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
-table_expenditure4Education_missings &lt;- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = &quot;bottom&quot;, align=&quot;llllr&quot;,align.header = &quot;llllr&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Missings in Expenditure Documentation for local authorities&quot;, label=&quot;table_expenditure4Education_missings&quot;)
-summary_expenditure4Education_missings &lt;- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = &quot;bottom&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023e]&quot;, label=&quot;summary_expenditure4Education_missings&quot;)</code></pre>
-Zusammenfassend erarbeitete dieser Abschnitt die folgenden Ziele für die Datenaufbereitung im Abschnitt <a href="#data-preparation">Sec. 2.3</a>. <br>
+<p>Die angepasste <a href="#summary_expenditure4Education_onlyTotal">Table 12</a> zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von 3231053 zwischen dem Median 5217189 und dem arithmetische Mittel 8448242. Welche Auswirkung diese Differenz hat, wird in <a href="#Chapter3">Chapter 3</a> beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für <a href="#data-preparation">Sec. 2.3</a> die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.</p>
+</div>
+<div id="number-of-unemployed-people" class="section level3 unlisted" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> Number of Unemployed People</h3>
+<pre class="r"><code># Shows the amount of unemployees in each federal state 
+summary_Unemployment &lt;- summary(jobless_people[,1:8]) %&gt;% addHtmlTableStyle(pos.caption = &quot;bottom&quot;, align=&quot;left&quot;, align.header = &quot;left&quot; ) %&gt;% htmlTable(rnames=FALSE, caption=&quot;No missings in the table and  the structre shows Federal States as Colums^[adapted from @StatistischesBundesamtDeutschland.2023b]&quot;, label=&quot;summary_Unemployment&quot;)</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="summary_Unemployment">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Year
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Baden-Württemberg
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Bayern
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Berlin
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Brandenburg
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Bremen
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Hamburg
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+Hessen
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+2013 :1
+</td>
+<td style="text-align: left;">
+Min. :195128
+</td>
+<td style="text-align: left;">
+Min. :211965
+</td>
+<td style="text-align: left;">
+Min. :152565
+</td>
+<td style="text-align: left;">
+Min. : 76888
+</td>
+<td style="text-align: left;">
+Min. :34904
+</td>
+<td style="text-align: left;">
+Min. :64774
+</td>
+<td style="text-align: left;">
+Min. :149812
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2014 :1
+</td>
+<td style="text-align: left;">
+1st Qu.:212837
+</td>
+<td style="text-align: left;">
+1st Qu.:231353
+</td>
+<td style="text-align: left;">
+1st Qu.:168991
+</td>
+<td style="text-align: left;">
+1st Qu.: 82491
+</td>
+<td style="text-align: left;">
+1st Qu.:35702
+</td>
+<td style="text-align: left;">
+1st Qu.:69248
+</td>
+<td style="text-align: left;">
+1st Qu.:166287
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2015 :1
+</td>
+<td style="text-align: left;">
+Median :227098
+</td>
+<td style="text-align: left;">
+Median :256527
+</td>
+<td style="text-align: left;">
+Median :192644
+</td>
+<td style="text-align: left;">
+Median : 92648
+</td>
+<td style="text-align: left;">
+Median :37091
+</td>
+<td style="text-align: left;">
+Median :71560
+</td>
+<td style="text-align: left;">
+Median :177944
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2016 :1
+</td>
+<td style="text-align: left;">
+Mean :225608
+</td>
+<td style="text-align: left;">
+Mean :247876
+</td>
+<td style="text-align: left;">
+Mean :184187
+</td>
+<td style="text-align: left;">
+Mean : 99060
+</td>
+<td style="text-align: left;">
+Mean :37160
+</td>
+<td style="text-align: left;">
+Mean :72207
+</td>
+<td style="text-align: left;">
+Mean :172693
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2017 :1
+</td>
+<td style="text-align: left;">
+3rd Qu.:233956
+</td>
+<td style="text-align: left;">
+3rd Qu.:264532
+</td>
+<td style="text-align: left;">
+3rd Qu.:198401
+</td>
+<td style="text-align: left;">
+3rd Qu.:114873
+</td>
+<td style="text-align: left;">
+3rd Qu.:37355
+</td>
+<td style="text-align: left;">
+3rd Qu.:73663
+</td>
+<td style="text-align: left;">
+3rd Qu.:184378
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+2018 :1
+</td>
+<td style="text-align: left;">
+Max. :259940
+</td>
+<td style="text-align: left;">
+Max. :275075
+</td>
+<td style="text-align: left;">
+Max. :210093
+</td>
+<td style="text-align: left;">
+Max. :132329
+</td>
+<td style="text-align: left;">
+Max. :40822
+</td>
+<td style="text-align: left;">
+Max. :80677
+</td>
+<td style="text-align: left;">
+Max. :185612
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+(Other):3
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="8" style="text-align: left;">
+<b>Table 13:</b> No missings in the table and the structre shows Federal States as Colums<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>
+</td>
+</tr>
+</table>
+<p>Ähnlich wie bei dem Datensatz der Einwohner, ist der Datensatz für die Arbeitslosenzahlen aufgebaut. In diesem Fall liegt nach <a href="#summary_Unemployment">Table 13</a> eine Variable für die Jahre vor, während die Anzahl an Arbeitslosen als Variable je Bundesland auf mehrere Spalten verteilt ist. Augrund einer verkürzten Darstellung präsentiert <a href="#summary_Unemployment">Table 13</a> nicht alle Bundesländer mit ihren Zahlen. Zur besseren Nachvollziebarkeit der Problematik führt <a href="#appendix-3">Appendix 3</a> eine vollständige Übersicht auf. Um eine Regressionsmodellierung durchzuführen, muss eine Pivotierung wie in <a href="#fig:unnamed-chunk-1">Figure 2.1</a> für die Bundesländer erfolgen. Das bedeutet <a href="#data-preparation">Sec. 2.3</a> erhält als weitere Aufgabe, die Bundesländer und die Anzahl an Arbeitslosen als eine separate Variable darzustellen. Somit entsteht eine Observation mit den Variablen für das Jahr, das Bundesland und der Fallzahl.</p>
+</div>
+<div id="gross-domesti-product" class="section level3 unlisted" number="2.2.5">
+<h3><span class="header-section-number">2.2.5</span> Gross Domesti Product</h3>
+<pre class="r"><code># Gross Domestic Product is structured similar to the inhabitants
+summary_gdp&lt;- summary(gdp_atMarketPrice[,1:7]) %&gt;% addHtmlTableStyle(pos.caption = &quot;bottom&quot;, align=&quot;left&quot;, align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]&quot;, tfoot =  &quot;Figures are presented as Thousand Euro Units and only until 2019.&quot;, label=&quot;summary_gdp&quot;)
+
+mean_gdp2014 &lt;- round(mean(gdp_atMarketPrice$`2014`))
+mean_gdp2019 &lt;- round(median(gdp_atMarketPrice$`2019`))</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="summary_gdp">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+FederalState
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+2014
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+2015
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+2016
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+2017
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+2018
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: left;">
+2019
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+Baden-Württemberg: 1
+</td>
+<td style="text-align: left;">
+Min. :2.980e+07
+</td>
+<td style="text-align: left;">
+Min. :3.049e+07
+</td>
+<td style="text-align: left;">
+Min. :3.136e+07
+</td>
+<td style="text-align: left;">
+Min. :3.239e+07
+</td>
+<td style="text-align: left;">
+Min. :3.293e+07
+</td>
+<td style="text-align: left;">
+Min. :3.318e+07
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Bayern : 1
+</td>
+<td style="text-align: left;">
+1st Qu.:5.632e+07
+</td>
+<td style="text-align: left;">
+1st Qu.:5.748e+07
+</td>
+<td style="text-align: left;">
+1st Qu.:5.901e+07
+</td>
+<td style="text-align: left;">
+1st Qu.:6.118e+07
+</td>
+<td style="text-align: left;">
+1st Qu.:6.224e+07
+</td>
+<td style="text-align: left;">
+1st Qu.:6.469e+07
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Berlin : 1
+</td>
+<td style="text-align: left;">
+Median :1.093e+08
+</td>
+<td style="text-align: left;">
+Median :1.136e+08
+</td>
+<td style="text-align: left;">
+Median :1.172e+08
+</td>
+<td style="text-align: left;">
+Median :1.218e+08
+</td>
+<td style="text-align: left;">
+Median :1.252e+08
+</td>
+<td style="text-align: left;">
+Median :1.303e+08
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Brandenburg : 1
+</td>
+<td style="text-align: left;">
+Mean :3.444e+08
+</td>
+<td style="text-align: left;">
+Mean :3.560e+08
+</td>
+<td style="text-align: left;">
+Mean :3.688e+08
+</td>
+<td style="text-align: left;">
+Mean :3.844e+08
+</td>
+<td style="text-align: left;">
+Mean :3.959e+08
+</td>
+<td style="text-align: left;">
+Mean :4.086e+08
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Bremen : 1
+</td>
+<td style="text-align: left;">
+3rd Qu.:2.591e+08
+</td>
+<td style="text-align: left;">
+3rd Qu.:2.614e+08
+</td>
+<td style="text-align: left;">
+3rd Qu.:2.806e+08
+</td>
+<td style="text-align: left;">
+3rd Qu.:2.879e+08
+</td>
+<td style="text-align: left;">
+3rd Qu.:2.976e+08
+</td>
+<td style="text-align: left;">
+3rd Qu.:3.107e+08
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+Hamburg : 1
+</td>
+<td style="text-align: left;">
+Max. :2.927e+09
+</td>
+<td style="text-align: left;">
+Max. :3.026e+09
+</td>
+<td style="text-align: left;">
+Max. :3.135e+09
+</td>
+<td style="text-align: left;">
+Max. :3.267e+09
+</td>
+<td style="text-align: left;">
+Max. :3.365e+09
+</td>
+<td style="text-align: left;">
+Max. :3.473e+09
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+(Other) :11
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="7" style="text-align: left;">
+<b>Table 14:</b> No missings in the GDP-table and the structre is similar to the inhabitant<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>
+</td>
+</tr>
+<tfoot>
+<tr>
+<td colspan="7">
+Figures are presented as Thousand Euro Units and only until 2019.
+</td>
+</tr>
+</tfoot>
+</table>
+<p>Abschließend liefert <a href="#summary_gdp">Table 14</a> einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine “NAs” benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für <a href="#data-preparation">Sec. 2.3</a> wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt <a href="#summary_gdp">Table 14</a>, dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich 3.4440365^{8} K€, 5 Jahre später bei 1.30348^{8}K€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern.</p>
+Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt <a href="#data-preparation">Sec. 2.3</a> folgenden Ziele: <br>
 <ul>
 <ul>
-<li>Pivotierung der Einwohner-Tabelle zu Entitäten je Jahr und Bundesland</li>
-<li>Extraktion der Gesamtausgaben für die Kultur aus dem Datensatz
-<ul>
-<li>sss</li>
-</ul></li>
+<li>Pivotierung der Einwohner-, Arbeitslosen und BIP-Tabllen, so dass Observationen mit den Variablen Jahr, Bundesland, Einwohnerzahl/Arbeitslosenzahl/Bruttoinlandsprodukt entstehen</li>
+<li>Extraktion der Kultur-Gesamtausgaben, Ausschluss der Ausgaben je Kulturart</li>
+<li>Extraktion der Bildungsgesamtausgaben für die Jahre 2014-2020, Ausschluss der Ausgaben je Einwohner</li>
+<li>Zusammenführung aller Datensätze aller Datensätze im Hinblick auf die Regressionsmodellierung</li>
 </ul>
 </ul>
 </div>
@@ -4884,7 +5298,7 @@ Bund echte Zählung der Tatverdächtigen
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 3:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2014)<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>
+<b>Table 3:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2014)<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>
 </td>
 </tr>
 </table>
@@ -5150,7 +5564,7 @@ Bund echte Zählung der Tatverdächtigen
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 17:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>
+<b>Table 15:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>
 </td>
 </tr>
 </table>
@@ -5416,7 +5830,7 @@ Bund echte Zaehlung der Tatverdaechtigen
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 19:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>
+<b>Table 17:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>
 </td>
 </tr>
 </table>
@@ -5682,7 +6096,7 @@ Bund echte Zählung der Tatverdächtigen
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 18:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>
+<b>Table 16:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>
 </td>
 </tr>
 </table>
@@ -5948,7 +6362,7 @@ Bundesrepublik Deutschland
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 20:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>
+<b>Table 18:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>
 </td>
 </tr>
 </table>
@@ -6214,7 +6628,7 @@ Bundesrepublik Deutschland
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 21:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>
+<b>Table 19:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)<a href="#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a>
 </td>
 </tr>
 </table>
@@ -6480,7 +6894,7 @@ Bundesrepublik Deutschland
 </tbody>
 <tr>
 <td colspan="4" style="text-align: left;">
-<b>Table 4:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2020)<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a>
+<b>Table 4:</b> Zahl der Diebstähle in den Ländern und der Bundesrepublik (2020)<a href="#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a>
 </td>
 </tr>
 </table>
@@ -6492,16 +6906,20 @@ Bundesrepublik Deutschland
 <h3>Information about Runtime Environment</h3>
 <pre class="r"><code>## Overall Session information
 sessionInfo()</code></pre>
-<pre><code>## R version 4.2.0 (2022-04-22 ucrt)
+<pre><code>## R version 4.3.0 (2023-04-21 ucrt)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 19045)
 ## 
 ## Matrix products: default
 ## 
+## 
 ## locale:
 ## [1] LC_COLLATE=German_Germany.utf8  LC_CTYPE=German_Germany.utf8   
 ## [3] LC_MONETARY=German_Germany.utf8 LC_NUMERIC=C                   
 ## [5] LC_TIME=German_Germany.utf8    
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -6513,30 +6931,461 @@ sessionInfo()</code></pre>
 ## [13] ggplot2_3.4.2     tidyverse_2.0.0   bookdown_0.34     knitr_1.43       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] sass_0.4.6        pkgload_1.3.2     bit64_4.0.5       vroom_1.6.3      
-##  [5] jsonlite_1.8.5    bslib_0.4.2       shiny_1.7.4       highr_0.10       
-##  [9] yaml_2.3.7        remotes_2.4.2     sessioninfo_1.2.2 pillar_1.9.0     
-## [13] backports_1.4.1   glue_1.6.2        digest_0.6.31     promises_1.2.0.1 
-## [17] checkmate_2.2.0   colorspace_2.1-0  htmltools_0.5.5   httpuv_1.6.11    
-## [21] pkgconfig_2.0.3   xtable_1.8-4      scales_1.2.1      processx_3.8.1   
-## [25] later_1.3.1       tzdb_0.4.0        timechange_0.2.0  generics_0.1.3   
-## [29] ellipsis_0.3.2    cachem_1.0.8      withr_2.5.0       cli_3.6.1        
-## [33] magrittr_2.0.3    crayon_1.5.2      mime_0.12         memoise_2.0.1    
-## [37] evaluate_0.21     ps_1.7.5          fs_1.6.2          fansi_1.0.4      
-## [41] pkgbuild_1.4.0    profvis_0.3.8     tools_4.2.0       prettyunits_1.1.1
-## [45] hms_1.1.3         lifecycle_1.0.3   munsell_0.5.0     callr_3.7.3      
-## [49] compiler_4.2.0    jquerylib_0.1.4   rlang_1.1.1       grid_4.2.0       
-## [53] rstudioapi_0.14   htmlwidgets_1.6.2 miniUI_0.1.1.1    rmarkdown_2.22   
-## [57] gtable_0.3.3      R6_2.5.1          fastmap_1.1.1     bit_4.0.5        
-## [61] utf8_1.2.3        stringi_1.7.12    parallel_4.2.0    Rcpp_1.0.10      
-## [65] vctrs_0.6.2       tidyselect_1.2.0  xfun_0.39         urlchecker_1.0.1</code></pre>
+##  [1] gtable_0.3.3      xfun_0.39         bslib_0.5.0       remotes_2.4.2    
+##  [5] htmlwidgets_1.6.2 processx_3.8.1    callr_3.7.3       tzdb_0.4.0       
+##  [9] vctrs_0.6.2       tools_4.3.0       ps_1.7.5          generics_0.1.3   
+## [13] parallel_4.3.0    fansi_1.0.4       highr_0.10        pkgconfig_2.0.3  
+## [17] checkmate_2.2.0   lifecycle_1.0.3   compiler_4.3.0    munsell_0.5.0    
+## [21] httpuv_1.6.11     htmltools_0.5.5   sass_0.4.6        yaml_2.3.7       
+## [25] urlchecker_1.0.1  pillar_1.9.0      later_1.3.1       crayon_1.5.2     
+## [29] jquerylib_0.1.4   ellipsis_0.3.2    cachem_1.0.8      sessioninfo_1.2.2
+## [33] mime_0.12         tidyselect_1.2.0  digest_0.6.31     stringi_1.7.12   
+## [37] fastmap_1.1.1     grid_4.3.0        colorspace_2.1-0  cli_3.6.1        
+## [41] magrittr_2.0.3    pkgbuild_1.4.0    utf8_1.2.3        withr_2.5.0      
+## [45] backports_1.4.1   prettyunits_1.1.1 scales_1.2.1      promises_1.2.0.1 
+## [49] bit64_4.0.5       timechange_0.2.0  rmarkdown_2.22    bit_4.0.5        
+## [53] hms_1.1.3         memoise_2.0.1     shiny_1.7.4       evaluate_0.21    
+## [57] miniUI_0.1.1.1    profvis_0.3.8     rlang_1.1.1       Rcpp_1.0.10      
+## [61] xtable_1.8-4      glue_1.6.2        pkgload_1.3.2     vroom_1.6.3      
+## [65] rstudioapi_0.14   jsonlite_1.8.5    R6_2.5.1          fs_1.6.2</code></pre>
 </div>
+</div>
+<div id="appendix-3" class="section level2 unnumbered">
+<h2>Appendix 3</h2>
+<pre class="r"><code># Shows the amount of unemployees in each federal state 
+summary_Unemployment_full &lt;- summary(jobless_people) %&gt;% addHtmlTableStyle(pos.caption = &quot;bottom&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;The structre presents the amount of unemployed people by colums of federal states^[adapted from @StatistischesBundesamtDeutschland.2023b]&quot;,  tfoot= &quot;The relevant figures are splited around many colums and the variable of federal states is only presented by column headers. To be compatible with the other datasets is has to be pivotated to a longer dataset with one column per variable. This means one observation contains a variable/column for years, one for the fedaral state and one for the amount of unemployees in that year and federal state.&quot;, label=&quot;summary_Unemployment_full&quot;)</code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="summary_Unemployment_full">
+<thead>
+<tr>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Year
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Baden-Württemberg
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Bayern
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Berlin
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Brandenburg
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Bremen
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Hamburg
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Hessen
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Mecklenburg-Vorpommern
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Niedersachsen
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Nordrhein-Westfalen
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Rheinland-Pfalz
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Saarland
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Sachsen
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Sachsen-Anhalt
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Schleswig-Holstein
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Thüringen
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">
+2013 :1
+</td>
+<td style="text-align: center;">
+Min. :195128
+</td>
+<td style="text-align: center;">
+Min. :211965
+</td>
+<td style="text-align: center;">
+Min. :152565
+</td>
+<td style="text-align: center;">
+Min. : 76888
+</td>
+<td style="text-align: center;">
+Min. :34904
+</td>
+<td style="text-align: center;">
+Min. :64774
+</td>
+<td style="text-align: center;">
+Min. :149812
+</td>
+<td style="text-align: center;">
+Min. :58485
+</td>
+<td style="text-align: center;">
+Min. :218123
+</td>
+<td style="text-align: center;">
+Min. :635486
+</td>
+<td style="text-align: center;">
+Min. : 97717
+</td>
+<td style="text-align: center;">
+Min. :32233
+</td>
+<td style="text-align: center;">
+Min. :116051
+</td>
+<td style="text-align: center;">
+Min. : 80608
+</td>
+<td style="text-align: center;">
+Min. : 79678
+</td>
+<td style="text-align: center;">
+Min. :59065
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2014 :1
+</td>
+<td style="text-align: center;">
+1st Qu.:212837
+</td>
+<td style="text-align: center;">
+1st Qu.:231353
+</td>
+<td style="text-align: center;">
+1st Qu.:168991
+</td>
+<td style="text-align: center;">
+1st Qu.: 82491
+</td>
+<td style="text-align: center;">
+1st Qu.:35702
+</td>
+<td style="text-align: center;">
+1st Qu.:69248
+</td>
+<td style="text-align: center;">
+1st Qu.:166287
+</td>
+<td style="text-align: center;">
+1st Qu.:63850
+</td>
+<td style="text-align: center;">
+1st Qu.:243021
+</td>
+<td style="text-align: center;">
+1st Qu.:701219
+</td>
+<td style="text-align: center;">
+1st Qu.:106299
+</td>
+<td style="text-align: center;">
+1st Qu.:34672
+</td>
+<td style="text-align: center;">
+1st Qu.:126311
+</td>
+<td style="text-align: center;">
+1st Qu.: 86110
+</td>
+<td style="text-align: center;">
+1st Qu.: 88865
+</td>
+<td style="text-align: center;">
+1st Qu.:62249
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2015 :1
+</td>
+<td style="text-align: center;">
+Median :227098
+</td>
+<td style="text-align: center;">
+Median :256527
+</td>
+<td style="text-align: center;">
+Median :192644
+</td>
+<td style="text-align: center;">
+Median : 92648
+</td>
+<td style="text-align: center;">
+Median :37091
+</td>
+<td style="text-align: center;">
+Median :71560
+</td>
+<td style="text-align: center;">
+Median :177944
+</td>
+<td style="text-align: center;">
+Median :70982
+</td>
+<td style="text-align: center;">
+Median :251377
+</td>
+<td style="text-align: center;">
+Median :725653
+</td>
+<td style="text-align: center;">
+Median :112137
+</td>
+<td style="text-align: center;">
+Median :36895
+</td>
+<td style="text-align: center;">
+Median :140348
+</td>
+<td style="text-align: center;">
+Median : 96960
+</td>
+<td style="text-align: center;">
+Median : 92434
+</td>
+<td style="text-align: center;">
+Median :68614
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2016 :1
+</td>
+<td style="text-align: center;">
+Mean :225608
+</td>
+<td style="text-align: center;">
+Mean :247876
+</td>
+<td style="text-align: center;">
+Mean :184187
+</td>
+<td style="text-align: center;">
+Mean : 99060
+</td>
+<td style="text-align: center;">
+Mean :37160
+</td>
+<td style="text-align: center;">
+Mean :72207
+</td>
+<td style="text-align: center;">
+Mean :172693
+</td>
+<td style="text-align: center;">
+Mean :75469
+</td>
+<td style="text-align: center;">
+Mean :247828
+</td>
+<td style="text-align: center;">
+Mean :715035
+</td>
+<td style="text-align: center;">
+Mean :109916
+</td>
+<td style="text-align: center;">
+Mean :35841
+</td>
+<td style="text-align: center;">
+Mean :150714
+</td>
+<td style="text-align: center;">
+Mean :102187
+</td>
+<td style="text-align: center;">
+Mean : 92634
+</td>
+<td style="text-align: center;">
+Mean :74133
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2017 :1
+</td>
+<td style="text-align: center;">
+3rd Qu.:233956
+</td>
+<td style="text-align: center;">
+3rd Qu.:264532
+</td>
+<td style="text-align: center;">
+3rd Qu.:198401
+</td>
+<td style="text-align: center;">
+3rd Qu.:114873
+</td>
+<td style="text-align: center;">
+3rd Qu.:37355
+</td>
+<td style="text-align: center;">
+3rd Qu.:73663
+</td>
+<td style="text-align: center;">
+3rd Qu.:184378
+</td>
+<td style="text-align: center;">
+3rd Qu.:86095
+</td>
+<td style="text-align: center;">
+3rd Qu.:256434
+</td>
+<td style="text-align: center;">
+3rd Qu.:744228
+</td>
+<td style="text-align: center;">
+3rd Qu.:115741
+</td>
+<td style="text-align: center;">
+3rd Qu.:37103
+</td>
+<td style="text-align: center;">
+3rd Qu.:174319
+</td>
+<td style="text-align: center;">
+3rd Qu.:118852
+</td>
+<td style="text-align: center;">
+3rd Qu.: 97850
+</td>
+<td style="text-align: center;">
+3rd Qu.:85212
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">
+2018 :1
+</td>
+<td style="text-align: center;">
+Max. :259940
+</td>
+<td style="text-align: center;">
+Max. :275075
+</td>
+<td style="text-align: center;">
+Max. :210093
+</td>
+<td style="text-align: center;">
+Max. :132329
+</td>
+<td style="text-align: center;">
+Max. :40822
+</td>
+<td style="text-align: center;">
+Max. :80677
+</td>
+<td style="text-align: center;">
+Max. :185612
+</td>
+<td style="text-align: center;">
+Max. :98952
+</td>
+<td style="text-align: center;">
+Max. :269207
+</td>
+<td style="text-align: center;">
+Max. :763213
+</td>
+<td style="text-align: center;">
+Max. :117912
+</td>
+<td style="text-align: center;">
+Max. :38364
+</td>
+<td style="text-align: center;">
+Max. :200628
+</td>
+<td style="text-align: center;">
+Max. :132134
+</td>
+<td style="text-align: center;">
+Max. :101751
+</td>
+<td style="text-align: center;">
+Max. :95858
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+(Other):3
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+<td style="border-bottom: 2px solid grey; text-align: center;">
+</td>
+</tr>
+</tbody>
+<tr>
+<td colspan="17" style="text-align: left;">
+<b>Table 20:</b> The structre presents the amount of unemployed people by colums of federal states<a href="#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a>
+</td>
+</tr>
+<tfoot>
+<tr>
+<td colspan="17">
+The relevant figures are splited around many colums and the variable of federal states is only presented by column headers. To be compatible with the other datasets is has to be pivotated to a longer dataset with one column per variable. This means one observation contains a variable/column for years, one for the fedaral state and one for the amount of unemployees in that year and federal state.
+</td>
+</tr>
+</tfoot>
+</table>
 <div id="list-of-loaded-packages" class="section level3 unnumbered">
 <h3>List of Loaded Packages</h3>
 <pre class="r"><code>## only Packages loaded as a list
 sessionInfo_packages &lt;- sessionInfo()[8]
 toString(names(sessionInfo_packages$loadedOnly))</code></pre>
-<pre><code>## [1] &quot;sass, pkgload, bit64, vroom, jsonlite, bslib, shiny, highr, yaml, remotes, sessioninfo, pillar, backports, glue, digest, promises, checkmate, colorspace, htmltools, httpuv, pkgconfig, xtable, scales, processx, later, tzdb, timechange, generics, ellipsis, cachem, withr, cli, magrittr, crayon, mime, memoise, evaluate, ps, fs, fansi, pkgbuild, profvis, tools, prettyunits, hms, lifecycle, munsell, callr, compiler, jquerylib, rlang, grid, rstudioapi, htmlwidgets, miniUI, rmarkdown, gtable, R6, fastmap, bit, utf8, stringi, parallel, Rcpp, vctrs, tidyselect, xfun, urlchecker&quot;</code></pre>
+<pre><code>## [1] &quot;&quot;</code></pre>
 </div>
 </div>
 </div>
@@ -6600,13 +7449,16 @@ Statistisches Bundesamt Deutschland (Ed.). (2023f). <em>Statistisches bundesamt 
 <li id="fn19"><p>adapted from <span class="citation">Statistisches Bundesamt Deutschland (2023d)</span><a href="#fnref19" class="footnote-back">↩︎</a></p></li>
 <li id="fn20"><p>adapted from <span class="citation">Statistisches Bundesamt Deutschland (2023d)</span><a href="#fnref20" class="footnote-back">↩︎</a></p></li>
 <li id="fn21"><p>adapted from <span class="citation">Statistisches Bundesamt Deutschland (2023d)</span><a href="#fnref21" class="footnote-back">↩︎</a></p></li>
-<li id="fn22"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref22" class="footnote-back">↩︎</a></p></li>
-<li id="fn23"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p>adapted from <span class="citation">Statistisches Bundesamt Deutschland (2023b)</span><a href="#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>adapted from <span class="citation">Statistisches Bundesamt Deutschland (2023e)</span><a href="#fnref23" class="footnote-back">↩︎</a></p></li>
 <li id="fn24"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref24" class="footnote-back">↩︎</a></p></li>
 <li id="fn25"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref25" class="footnote-back">↩︎</a></p></li>
 <li id="fn26"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref26" class="footnote-back">↩︎</a></p></li>
 <li id="fn27"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref27" class="footnote-back">↩︎</a></p></li>
 <li id="fn28"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref28" class="footnote-back">↩︎</a></p></li>
+<li id="fn29"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref29" class="footnote-back">↩︎</a></p></li>
+<li id="fn30"><p>adapted from <span class="citation">Bundeskriminalamt (2023)</span><a href="#fnref30" class="footnote-back">↩︎</a></p></li>
+<li id="fn31"><p>adapted from <span class="citation">Statistisches Bundesamt Deutschland (2023b)</span><a href="#fnref31" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

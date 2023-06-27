@@ -246,7 +246,7 @@ Am Beispiel von Hamburg verdeutlicht [Tab 9](#table_Hamburg_Administration4Cultu
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Summary of the Expenditures for Education
-summary_expenditure4Education <- addHtmlTableStyle(summary(expenditure4Education, maxsum = 20), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure for Education^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education")
+summary_expenditure4Education <- addHtmlTableStyle(summary(expenditure4Education, maxsum = 20), pos.caption = "bottom", align = "left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure for Education^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education")
 
 ## Get the missings
 amount_missings_4_expenditure4Education <- nrow(expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),])
@@ -273,34 +273,39 @@ Aus der Betrachtung der Missings in [Table 11](#table_expenditure4Education_miss
 
 `r summary_expenditure4Education_onlyTotal`
 
-Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(mean_expenditure4Education_onlyTotal-median_expenditure4Education_onlyTotal)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetische Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Chapter 3](#Chapter3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben ergibt die Betrachtung, dass [Sec. 2.3][Data Preparation] die zusammenfassende Position der Ausgaben eines Landes extrahieren und für die Jahre 2014 bis 2020 beschränken muss.
+Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(mean_expenditure4Education_onlyTotal-median_expenditure4Education_onlyTotal)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetische Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Chapter 3](#Chapter3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für [Sec. 2.3][Data Preparation] die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.
 
+### Number of Unemployed People {.unlisted}
 ```{r unemployment rate, echo=TRUE, message=FALSE, warning=FALSE}
 
-
-### Missings in Educational Expenditure
-expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
-table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities", label="table_expenditure4Education_missings")
-summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings, maxsum = 20), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023b]", label="summary_expenditure4Education_missings")
+# Shows the amount of unemployees in each federal state 
+summary_Unemployment <- summary(jobless_people[,1:8]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left" ) %>% htmlTable(rnames=FALSE, caption="No missings in the table and  the structre shows Federal States as Colums^[adapted from @StatistischesBundesamtDeutschland.2023b]", label="summary_Unemployment")
 
 ```
+`r summary_Unemployment`
 
+Ähnlich wie bei dem Datensatz der Einwohner, ist der Datensatz für die Arbeitslosenzahlen aufgebaut. In diesem Fall liegt nach [Table 13](#summary_Unemployment) eine Variable für die Jahre vor, während die Anzahl an Arbeitslosen als Variable je Bundesland auf mehrere Spalten verteilt ist. Augrund einer verkürzten Darstellung präsentiert [Table 13](#summary_Unemployment) nicht alle Bundesländer mit ihren Zahlen. Zur besseren Nachvollziebarkeit der Problematik führt [Appendix 3][Appendix 3] eine vollständige Übersicht auf. Um eine Regressionsmodellierung durchzuführen, muss eine Pivotierung wie in [Figure 2.1](#fig:unnamed-chunk-1) für die Bundesländer erfolgen. Das bedeutet [Sec. 2.3][Data Preparation] erhält als weitere Aufgabe, die Bundesländer und die Anzahl an Arbeitslosen als eine separate Variable darzustellen. Somit entsteht eine Observation mit den Variablen für das Jahr, das Bundesland und der Fallzahl.
+
+### Gross Domesti Product {.unlisted}
 ```{r gross domestic product, echo=TRUE, message=FALSE, warning=FALSE}
 
+# Gross Domestic Product is structured similar to the inhabitants
+summary_gdp<- summary(gdp_atMarketPrice[,1:7]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]", tfoot =  "Figures are presented as Thousand Euro Units and only until 2019.", label="summary_gdp")
 
-### Missings in Educational Expenditure
-expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
-table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Missings in Expenditure Documentation for local authorities", label="table_expenditure4Education_missings")
-summary_expenditure4Education_missings <- addHtmlTableStyle(summary(expenditure4Education_missings), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of Expenditure Missings^[adapted from @StatistischesBundesamtDeutschland.2023e]", label="summary_expenditure4Education_missings")
+mean_gdp2014 <- round(mean(gdp_atMarketPrice$`2014`))
+mean_gdp2019 <- round(median(gdp_atMarketPrice$`2019`))
 
 ```
+`r summary_gdp`
 
-Zusammenfassend erarbeitete dieser Abschnitt die folgenden Ziele für die Datenaufbereitung im Abschnitt [Sec. 2.3][Data Preparation]. <br>
+Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3][Data Preparation] wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014` K€, 5 Jahre später bei `r mean_gdp2019`K€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
+
+Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt [Sec. 2.3][Data Preparation] folgenden Ziele: <br>
 <ul>
-* Pivotierung der Einwohner-Tabelle zu Entitäten je Jahr und Bundesland
-* Extraktion der Gesamtausgaben für die Kultur aus dem Datensatz
+* Pivotierung der Einwohner-, Arbeitslosen und BIP-Tabllen, so dass Observationen mit den Variablen Jahr, Bundesland, Einwohnerzahl/Arbeitslosenzahl/Bruttoinlandsprodukt entstehen
+* Extraktion der Kultur-Gesamtausgaben, Ausschluss der Ausgaben je Kulturart
 * Extraktion der Bildungsgesamtausgaben für die Jahre 2014-2020, Ausschluss der Ausgaben je Einwohner
-  + sss
+* Zusammenführung aller Datensätze aller Datensätze im Hinblick auf die Regressionsmodellierung
 </ul>
 
 ##	Data Preparation
@@ -417,6 +422,15 @@ table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.capti
 sessionInfo()
 
 ```
+## Appendix 3 {.unnumbered}
+```{r unemployment rate appendix, echo=TRUE, message=FALSE, warning=FALSE}
+
+# Shows the amount of unemployees in each federal state 
+summary_Unemployment_full <- summary(jobless_people) %>% addHtmlTableStyle(pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="The structre presents the amount of unemployed people by colums of federal states^[adapted from @StatistischesBundesamtDeutschland.2023b]",  tfoot= "The relevant figures are splited around many colums and the variable of federal states is only presented by column headers. To be compatible with the other datasets is has to be pivotated to a longer dataset with one column per variable. This means one observation contains a variable/column for years, one for the fedaral state and one for the amount of unemployees in that year and federal state.", label="summary_Unemployment_full")
+
+```
+`r summary_Unemployment_full`
+
 ### List of Loaded Packages {.unnumbered}
 ```{r List of Loaded Packages, echo=TRUE, warning=FALSE, paged.print=TRUE}
 ## only Packages loaded as a list
