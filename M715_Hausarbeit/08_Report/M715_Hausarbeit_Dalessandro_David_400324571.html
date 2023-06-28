@@ -3151,7 +3151,7 @@ Figure 2.1: Pivoting a table into a longer, tidy form<a href="#fn16" class="foot
 <h3><span class="header-section-number">2.2.2</span> Cultural Expenditure</h3>
 <pre class="r"><code>### Missings in Educational Expenditure
 #expenditure4Culture_&lt;- expenditure4Culture[expenditure4Culture$CulturalTotalExpenditure,]
-table_expenditure4Culture &lt;- addHtmlTableStyle(summary(expenditure4Culture[,c(-(3:6),-9)], maxsum = 20), pos.caption = &quot;bottom&quot;, align=&quot;left&quot;,align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of the Expenditures in Culture (in K€)&quot;, label=&quot;table_expenditure4Culture&quot;)
+table_expenditure4Culture &lt;- addHtmlTableStyle(prettyNum(summary(expenditure4Culture[,c(-(3:6),-9)], maxsum = 20), big.mark=&quot;.&quot;), pos.caption = &quot;bottom&quot;, align=&quot;left&quot;,align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;Summary of the Expenditures in Culture (in €)&quot;, label=&quot;table_expenditure4Culture&quot;)
 
 mean_CulturalExpenditure &lt;- round(mean(expenditure4Culture$CulturalTotalExpenditure))
 median_CulturalExpenditure &lt;- round(median(expenditure4Culture$CulturalTotalExpenditure))
@@ -3191,127 +3191,127 @@ CulturalTotalExpenditure
 <tbody>
 <tr>
 <td style="text-align: left;">
-2014:16
+2.014:16
 </td>
 <td style="text-align: left;">
 Baden-Württemberg :7
 </td>
 <td style="text-align: left;">
-Min. :-5400.0
+Min. :-5400000
 </td>
 <td style="text-align: left;">
-Min. : 6700
+Min. : 6700000
 </td>
 <td style="text-align: left;">
 Min. : 0
 </td>
 <td style="text-align: left;">
-Min. : 78700
+Min. : 78700000
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
-2015:16
+2.015:16
 </td>
 <td style="text-align: left;">
 Bayern :7
 </td>
 <td style="text-align: left;">
-1st Qu.: 0.0
+1st Qu.: 0
 </td>
 <td style="text-align: left;">
-1st Qu.: 15275
+1st Qu.: 15275000
 </td>
 <td style="text-align: left;">
-1st Qu.: 2125
+1st Qu.: 2125000
 </td>
 <td style="text-align: left;">
-1st Qu.: 235475
+1st Qu.: 235475000
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
-2016:16
+2.016:16
 </td>
 <td style="text-align: left;">
 Berlin :7
 </td>
 <td style="text-align: left;">
-Median : 100.0
+Median : 100.000
 </td>
 <td style="text-align: left;">
-Median : 28300
+Median : 28.300.000
 </td>
 <td style="text-align: left;">
-Median : 6850
+Median : 6.850.000
 </td>
 <td style="text-align: left;">
-Median : 353400
+Median : 353.400.000
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
-2017:16
+2.017:16
 </td>
 <td style="text-align: left;">
 Brandenburg :7
 </td>
 <td style="text-align: left;">
-Mean : 152.8
+Mean : 152.778
 </td>
 <td style="text-align: left;">
-Mean : 41753
+Mean : 41.753.061
 </td>
 <td style="text-align: left;">
-Mean : 19423
+Mean : 19.422.549
 </td>
 <td style="text-align: left;">
-Mean : 606582
+Mean : 606.582.143
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
-2018:16
+2.018:16
 </td>
 <td style="text-align: left;">
 Bremen :7
 </td>
 <td style="text-align: left;">
-3rd Qu.: 300.0
+3rd Qu.: 300000
 </td>
 <td style="text-align: left;">
-3rd Qu.: 69550
+3rd Qu.: 69550000
 </td>
 <td style="text-align: left;">
-3rd Qu.: 19550
+3rd Qu.: 19550000
 </td>
 <td style="text-align: left;">
-3rd Qu.: 832075
+3rd Qu.: 832075000
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
-2019:16
+2.019:16
 </td>
 <td style="text-align: left;">
 Hamburg :7
 </td>
 <td style="text-align: left;">
-Max. : 4000.0
+Max. : 4000000
 </td>
 <td style="text-align: left;">
-Max. :132900
+Max. :132900000
 </td>
 <td style="text-align: left;">
-Max. :156400
+Max. :156400000
 </td>
 <td style="text-align: left;">
-Max. :2168100
+Max. :2168100000
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
-2020:16
+2.020:16
 </td>
 <td style="text-align: left;">
 Hessen :7
@@ -3326,151 +3326,197 @@ NA’s :14
 NA’s :10
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Mecklenburg-Vorpommern:7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Niedersachsen :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Nordrhein-Westfalen :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Rheinland-Pfalz :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Saarland :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Sachsen :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Sachsen-Anhalt :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
 Schleswig-Holstein :7
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 <td style="text-align: left;">
+NA
 </td>
 </tr>
 <tr>
 <td style="border-bottom: 2px solid grey; text-align: left;">
+NA
 </td>
 <td style="border-bottom: 2px solid grey; text-align: left;">
 Thüringen :7
 </td>
 <td style="border-bottom: 2px solid grey; text-align: left;">
+NA
 </td>
 <td style="border-bottom: 2px solid grey; text-align: left;">
+NA
 </td>
 <td style="border-bottom: 2px solid grey; text-align: left;">
+NA
 </td>
 <td style="border-bottom: 2px solid grey; text-align: left;">
+NA
 </td>
 </tr>
 </tbody>
 <tr>
 <td colspan="6" style="text-align: left;">
-<b>Table 7:</b> Summary of the Expenditures in Culture (in K€)
+<b>Table 7:</b> Summary of the Expenditures in Culture (in €)
 </td>
 </tr>
 </table>
-<p>In <a href="#table_expenditure4Culture">Tab 7</a> zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt zu je Tausend Euro, zu den hier aufgezeigten fünf Variablen. Neben diesen, existieren noch Theater_Musik, Libraries, Musseeum_Exhibitions, Protection_CareOfMonuments, OtherCulturalCare. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure 606582 K€ insgesamt für Kultur ausgegeben. Anhand des Medians 353400 K€ ist zu erkennen, dass es Länder gibt die den Durchschnitt nach oben verzerren. Die Tabelle offenbart anhand der <em>NA’s</em>, dass unter anderem für die “Cultural Affairs Abroad” 40 Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potenzielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher.</p>
+<p>In <a href="#table_expenditure4Culture">Tab 7</a> zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt in Euro, zu den hier aufgezeigten fünf Variablen. Neben diesen, existieren noch Theater_Musik, Libraries, Musseeum_Exhibitions, Protection_CareOfMonuments, OtherCulturalCare. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure 606582143 € insgesamt für Kultur ausgegeben. Anhand des Medians 353400000 € ist zu erkennen, dass es Länder gibt die den Durchschnitt nach oben verzerren. Die Tabelle offenbart anhand der <em>NA’s</em>, dass unter anderem für die “Cultural Affairs Abroad” 40 Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potenzielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher.</p>
 <table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;" id="table_missings_CulturalAffairsAbroad_detailed">
 <thead>
 <tr>
@@ -3757,7 +3803,7 @@ Gemeinden:144
 Baden-Württemberg :27
 </td>
 <td style="text-align: left;">
-Min. : 348948
+Min. : 348947790
 </td>
 <td style="text-align: left;">
 Length:432
@@ -3774,7 +3820,7 @@ Insgesamt:144
 Bayern :27
 </td>
 <td style="text-align: left;">
-1st Qu.: 1713523
+1st Qu.: 1713523320
 </td>
 <td style="text-align: left;">
 Class :character
@@ -3791,7 +3837,7 @@ Länder :144
 Berlin :27
 </td>
 <td style="text-align: left;">
-Median : 3634454
+Median : 3634453860
 </td>
 <td style="text-align: left;">
 Mode :character
@@ -3807,7 +3853,7 @@ Mode :character
 Brandenburg :27
 </td>
 <td style="text-align: left;">
-Mean : 6007639
+Mean : 6007638899
 </td>
 <td style="text-align: left;">
 </td>
@@ -3822,7 +3868,7 @@ Mean : 6007639
 Bremen :27
 </td>
 <td style="text-align: left;">
-3rd Qu.: 7200342
+3rd Qu.: 7200342270
 </td>
 <td style="text-align: left;">
 </td>
@@ -3837,7 +3883,7 @@ Bremen :27
 Hamburg :27
 </td>
 <td style="text-align: left;">
-Max. :34810460
+Max. :34810459810
 </td>
 <td style="text-align: left;">
 </td>
@@ -4141,7 +4187,7 @@ Gemeinden: 0
 Baden-Württemberg :9
 </td>
 <td style="text-align: center;">
-Min. : 961604
+Min. : 961604320
 </td>
 <td style="text-align: center;">
 Length:144
@@ -4158,7 +4204,7 @@ Insgesamt:144
 Bayern :9
 </td>
 <td style="text-align: center;">
-1st Qu.: 3014974
+1st Qu.: 3014974342
 </td>
 <td style="text-align: center;">
 Class :character
@@ -4175,7 +4221,7 @@ Länder : 0
 Berlin :9
 </td>
 <td style="text-align: center;">
-Median : 5217189
+Median : 5217188565
 </td>
 <td style="text-align: center;">
 Mode :character
@@ -4191,7 +4237,7 @@ Mode :character
 Brandenburg :9
 </td>
 <td style="text-align: center;">
-Mean : 8448242
+Mean : 8448242202
 </td>
 <td style="text-align: center;">
 </td>
@@ -4206,7 +4252,7 @@ Mean : 8448242
 Bremen :9
 </td>
 <td style="text-align: center;">
-3rd Qu.:11159478
+3rd Qu.:11159478188
 </td>
 <td style="text-align: center;">
 </td>
@@ -4221,7 +4267,7 @@ Bremen :9
 Hamburg :9
 </td>
 <td style="text-align: center;">
-Max. :34810460
+Max. :34810459810
 </td>
 <td style="text-align: center;">
 </td>
@@ -4366,7 +4412,7 @@ Thüringen :9
 </td>
 </tr>
 </table>
-<p>Die angepasste <a href="#summary_expenditure4Education_onlyTotal">Table 12</a> zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von 3231053 zwischen dem Median 5217189 und dem arithmetische Mittel 8448242. Welche Auswirkung diese Differenz hat, wird in <a href="#Chapter3">Chapter 3</a> beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für <a href="#data-preparation">Sec. 2.3</a> die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.</p>
+<p>Die angepasste <a href="#summary_expenditure4Education_onlyTotal">Table 12</a> zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von 3231053637 zwischen dem Median 5217188565 und dem arithmetische Mittel 8448242202. Welche Auswirkung diese Differenz hat, wird in <a href="#Chapter3">Chapter 3</a> beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für <a href="#data-preparation">Sec. 2.3</a> die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.</p>
 </div>
 <div id="number-of-unemployed-people" class="section level3 unlisted" number="2.2.4">
 <h3><span class="header-section-number">2.2.4</span> Number of Unemployed People</h3>
@@ -4589,7 +4635,7 @@ Max. :185612
 <div id="gross-domesti-product" class="section level3 unlisted" number="2.2.5">
 <h3><span class="header-section-number">2.2.5</span> Gross Domesti Product</h3>
 <pre class="r"><code># Gross Domestic Product is structured similar to the inhabitants
-summary_gdp&lt;- summary(gdp_atMarketPrice[,1:7]) %&gt;% addHtmlTableStyle(pos.caption = &quot;bottom&quot;, align=&quot;left&quot;, align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]&quot;, tfoot =  &quot;Figures are presented as Thousand Euro Units and only until 2019.&quot;, label=&quot;summary_gdp&quot;)
+summary_gdp&lt;- summary(gdp_atMarketPrice[,1:7]) %&gt;% addHtmlTableStyle(pos.caption = &quot;bottom&quot;, align=&quot;left&quot;, align.header = &quot;left&quot;) %&gt;% htmlTable(rnames=FALSE, caption=&quot;No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]&quot;, tfoot =  &quot;Figures are presented in Euro and only until 2019.&quot;, label=&quot;summary_gdp&quot;)
 
 mean_gdp2014 &lt;- round(mean(gdp_atMarketPrice$`2014`))
 mean_gdp2019 &lt;- round(median(gdp_atMarketPrice$`2019`))</code></pre>
@@ -4625,22 +4671,22 @@ FederalState
 Baden-Württemberg: 1
 </td>
 <td style="text-align: left;">
-Min. :2.980e+07
+Min. : 29798000000
 </td>
 <td style="text-align: left;">
-Min. :3.049e+07
+Min. : 30494000000
 </td>
 <td style="text-align: left;">
-Min. :3.136e+07
+Min. : 31360000000
 </td>
 <td style="text-align: left;">
-Min. :3.239e+07
+Min. : 32389000000
 </td>
 <td style="text-align: left;">
-Min. :3.293e+07
+Min. : 32929000000
 </td>
 <td style="text-align: left;">
-Min. :3.318e+07
+Min. : 33177000000
 </td>
 </tr>
 <tr>
@@ -4648,22 +4694,22 @@ Min. :3.318e+07
 Bayern : 1
 </td>
 <td style="text-align: left;">
-1st Qu.:5.632e+07
+1st Qu.: 56318000000
 </td>
 <td style="text-align: left;">
-1st Qu.:5.748e+07
+1st Qu.: 57476000000
 </td>
 <td style="text-align: left;">
-1st Qu.:5.901e+07
+1st Qu.: 59008000000
 </td>
 <td style="text-align: left;">
-1st Qu.:6.118e+07
+1st Qu.: 61180000000
 </td>
 <td style="text-align: left;">
-1st Qu.:6.224e+07
+1st Qu.: 62240000000
 </td>
 <td style="text-align: left;">
-1st Qu.:6.469e+07
+1st Qu.: 64692000000
 </td>
 </tr>
 <tr>
@@ -4671,22 +4717,22 @@ Bayern : 1
 Berlin : 1
 </td>
 <td style="text-align: left;">
-Median :1.093e+08
+Median : 109328000000
 </td>
 <td style="text-align: left;">
-Median :1.136e+08
+Median : 113588000000
 </td>
 <td style="text-align: left;">
-Median :1.172e+08
+Median : 117237000000
 </td>
 <td style="text-align: left;">
-Median :1.218e+08
+Median : 121844000000
 </td>
 <td style="text-align: left;">
-Median :1.252e+08
+Median : 125180000000
 </td>
 <td style="text-align: left;">
-Median :1.303e+08
+Median : 130348000000
 </td>
 </tr>
 <tr>
@@ -4694,22 +4740,22 @@ Median :1.303e+08
 Brandenburg : 1
 </td>
 <td style="text-align: left;">
-Mean :3.444e+08
+Mean : 344403647059
 </td>
 <td style="text-align: left;">
-Mean :3.560e+08
+Mean : 356021176471
 </td>
 <td style="text-align: left;">
-Mean :3.688e+08
+Mean : 368792941176
 </td>
 <td style="text-align: left;">
-Mean :3.844e+08
+Mean : 384371823529
 </td>
 <td style="text-align: left;">
-Mean :3.959e+08
+Mean : 395935235294
 </td>
 <td style="text-align: left;">
-Mean :4.086e+08
+Mean : 408618764706
 </td>
 </tr>
 <tr>
@@ -4717,22 +4763,22 @@ Mean :4.086e+08
 Bremen : 1
 </td>
 <td style="text-align: left;">
-3rd Qu.:2.591e+08
+3rd Qu.: 259058000000
 </td>
 <td style="text-align: left;">
-3rd Qu.:2.614e+08
+3rd Qu.: 261399000000
 </td>
 <td style="text-align: left;">
-3rd Qu.:2.806e+08
+3rd Qu.: 280611000000
 </td>
 <td style="text-align: left;">
-3rd Qu.:2.879e+08
+3rd Qu.: 287902000000
 </td>
 <td style="text-align: left;">
-3rd Qu.:2.976e+08
+3rd Qu.: 297590000000
 </td>
 <td style="text-align: left;">
-3rd Qu.:3.107e+08
+3rd Qu.: 310744000000
 </td>
 </tr>
 <tr>
@@ -4740,22 +4786,22 @@ Bremen : 1
 Hamburg : 1
 </td>
 <td style="text-align: left;">
-Max. :2.927e+09
+Max. :2927430000000
 </td>
 <td style="text-align: left;">
-Max. :3.026e+09
+Max. :3026180000000
 </td>
 <td style="text-align: left;">
-Max. :3.135e+09
+Max. :3134740000000
 </td>
 <td style="text-align: left;">
-Max. :3.267e+09
+Max. :3267160000000
 </td>
 <td style="text-align: left;">
-Max. :3.365e+09
+Max. :3365450000000
 </td>
 <td style="text-align: left;">
-Max. :3.473e+09
+Max. :3473260000000
 </td>
 </tr>
 <tr>
@@ -4784,12 +4830,12 @@ Max. :3.473e+09
 <tfoot>
 <tr>
 <td colspan="7">
-Figures are presented as Thousand Euro Units and only until 2019.
+Figures are presented in Euro and only until 2019.
 </td>
 </tr>
 </tfoot>
 </table>
-<p>Abschließend liefert <a href="#summary_gdp">Table 14</a> einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine “NAs” benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für <a href="#data-preparation">Sec. 2.3</a> wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt <a href="#summary_gdp">Table 14</a>, dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich 3.4440365^{8} K€, 5 Jahre später bei 1.30348^{8}K€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern.</p>
+<p>Abschließend liefert <a href="#summary_gdp">Table 14</a> einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine “NAs” benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für <a href="#data-preparation">Sec. 2.3</a> wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt <a href="#summary_gdp">Table 14</a>, dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich 344403647059 €, 5 Jahre später bei 130348000000€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern.</p>
 Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt <a href="#data-preparation">Sec. 2.3</a> folgenden Ziele: <br>
 <ul>
 <ul>

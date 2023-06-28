@@ -45,7 +45,7 @@ library(bookdown)
 # globaloptions
 knitr::opts_chunk$set(echo = FALSE)
 # Tabellnaming and Counting activated --> Table X 
-options(table_counter = TRUE, table_counter_str = "<b>Table %s:</b>" )
+options(table_counter = TRUE, table_counter_str = "<b>Table %s:</b>", scipen = 12 )
 
 ```
 
@@ -214,7 +214,7 @@ Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Gr
 
 ### Missings in Educational Expenditure
 #expenditure4Culture_<- expenditure4Culture[expenditure4Culture$CulturalTotalExpenditure,]
-table_expenditure4Culture <- addHtmlTableStyle(summary(expenditure4Culture[,c(-(3:6),-9)], maxsum = 20), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the Expenditures in Culture (in K€)", label="table_expenditure4Culture")
+table_expenditure4Culture <- addHtmlTableStyle(summary(expenditure4Culture[,c(-(3:6),-9)], maxsum = 20), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the Expenditures in Culture (in €)", label="table_expenditure4Culture")
 
 mean_CulturalExpenditure <- round(mean(expenditure4Culture$CulturalTotalExpenditure))
 median_CulturalExpenditure <- round(median(expenditure4Culture$CulturalTotalExpenditure))
@@ -232,7 +232,7 @@ amount_missings_4_CulturalAffairsAbroad <- nrow(expenditure4Culture[is.na(expend
 ```
 `r table_expenditure4Culture `
 
-In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt zu je Tausend Euro, zu den hier aufgezeigten fünf Variablen. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` K€ insgesamt für Kultur ausgegeben. Anhand des Medians `r toString(median_CulturalExpenditure)` K€ ist zu erkennen, dass es Länder gibt die den Durchschnitt nach oben verzerren. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potenzielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
+In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt in Euro, zu den hier aufgezeigten fünf Variablen. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` € insgesamt für Kultur ausgegeben. Anhand des Medians `r toString(median_CulturalExpenditure)` € ist zu erkennen, dass es Länder gibt die den Durchschnitt nach oben verzerren. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potenzielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
 
 `r table_missings_CulturalAffairsAbroad_detailed `
 
@@ -290,7 +290,7 @@ summary_Unemployment <- summary(jobless_people[,1:8]) %>% addHtmlTableStyle(pos.
 ```{r gross domestic product, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Gross Domestic Product is structured similar to the inhabitants
-summary_gdp<- summary(gdp_atMarketPrice[,1:7]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]", tfoot =  "Figures are presented as Thousand Euro Units and only until 2019.", label="summary_gdp")
+summary_gdp<- summary(gdp_atMarketPrice[,1:7]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]", tfoot =  "Figures are presented in Euro and only until 2019.", label="summary_gdp")
 
 mean_gdp2014 <- round(mean(gdp_atMarketPrice$`2014`))
 mean_gdp2019 <- round(median(gdp_atMarketPrice$`2019`))
@@ -298,7 +298,7 @@ mean_gdp2019 <- round(median(gdp_atMarketPrice$`2019`))
 ```
 `r summary_gdp`
 
-Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3][Data Preparation] wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014` K€, 5 Jahre später bei `r mean_gdp2019`K€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
+Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3][Data Preparation] wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014` €, 5 Jahre später bei `r mean_gdp2019`€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
 
 Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt [Sec. 2.3][Data Preparation] folgenden Ziele: <br>
 <ul>

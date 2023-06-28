@@ -5,7 +5,7 @@ workingDir="./01_Datenquellen/" # Line for run over rmarkdown
 
 
 for(i in 14:20) {
-  ############################ozone####################################
+############################ PKS ####################################
   caseNumbers_FileLocation <- c(caseNumbers_FileLocation, paste0(workingDir,paste0(paste0("Casenumbers_States_20",i), ".csv")))
   caseNumbers <- c(caseNumbers, paste0("caseNumbers_20", i))
 }
