@@ -1,9 +1,8 @@
 ---
-title: "Regression der Opferstatistik"
+title: "Regressionmodelling on Crimecases"
 subtitle: "Modul 715 - Statistical Computing"
 author: "D'Alessandro David"
-date: "`r format(Sys.Date())`"
-
+date: "`r Sys.Date()`"
 output:  
   #html_document:
   bookdown::html_document2:
@@ -15,13 +14,11 @@ output:
     css: "./09_Formatierung/stylesheetCaseStudy.css"
     number_sections: yes
     code_folding:  show #hide
-    fig_caption: true
+    fig_caption: False
 bibliography: "./10_Literatur_Quellen/m715_references.bib"
 csl: "https://www.zotero.org/styles/apa-with-abstract"
 lang: en
-language:
-  label:
-    fig: 'Fig.'
+
 
 ##Formatierung
 geometry: left=2cm,right=4cm,top=2cm,bottom=2cm
@@ -31,6 +28,7 @@ knit: (function(inputFile, encoding) {
       rmarkdown::render(inputFile,
                         encoding=encoding, 
                         output_file=file.path(dirname(inputFile), out_dir, 'M715_Hausarbeit_Dalessandro_David_400324571.html')) })
+                        
 ---
 
 # Vorwort {.unnumbered}
@@ -45,7 +43,7 @@ library(bookdown)
 # globaloptions
 knitr::opts_chunk$set(echo = FALSE)
 # Tabellnaming and Counting activated --> Table X 
-options(table_counter = TRUE, table_counter_str = "<b>Table %s:</b>", scipen = 12 )
+options(table_counter = TRUE, table_counter_str = "Table %s:", scipen = 12 )
 
 ```
 
@@ -54,7 +52,7 @@ options(table_counter = TRUE, table_counter_str = "<b>Table %s:</b>", scipen = 1
 # Introduction (1 page) {#Chapter1}
 ***
 #	Methodology (4-5 pages) {#Chapter2}
-Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Dataset of the Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data set of the Federal Statistical Office]). Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation]) notwendig sind, um die Fallzahlen zu modellieren ([Sec. 2.4][Modeling by using linear regression]). Unterstützend verwendet die Arbeit die nachfolgenden Bibliotheken.
+Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Data of Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data of Federal Statistical Office]). Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation]) notwendig sind, um die Fallzahlen zu modellieren ([Sec. 2.4][Modeling by using linear regression]). Unterstützend verwendet die Arbeit die nachfolgenden Bibliotheken.
 ```{r Libraries, echo=TRUE, message=FALSE, warning=FALSE}
 # Libraries needed for the data exploration 
 library(tidyverse)
@@ -66,7 +64,7 @@ library(devtools)
 library(htmlTable)
 ```
 
-##	Dataset of the Federal Criminal Police Office
+##	Data of Federal Criminal Police Office
 In diesem Abschnitt fokusiert das Kapitel die Daten des Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und erläutert, welche Maßnahmen ([Sec. 2.3][Data Preparation]) ergreifen muss, um ein Regressionsmodell abzuleiten. Für die Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk aufgeführten Skripte. Sie laden einerseits die Datensätze des Bundeskriminalamts in die Umgebung des RMarkdown und bereiten andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem Abschnitt einbettet.
 ``` {r Datasets & Scripts,echo=TRUE, message=FALSE, warning=FALSE}
 # Loading Datasets over the following scripts
@@ -177,7 +175,7 @@ isBiased
 ```
 Abschließend bedeutet das Ergebnis `r isBiased` der Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern stellt jedes Bundesland im Rahmen der Diebstähle eine unverzerrte Entität dar. Für [Sec. 2.3][Data Preparation] ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
 
-##	Data set of the Federal Statistical Office
+##	Data of Federal Statistical Office
 Um zu überprüfen, ob die Anzahl der Diebstähle in Deutschland mit verschiedenen inländischen Faktoren zusammenhängen, untersucht die Arbeit verschiedene Faktoren auf Bundesländerebene. Dazu bedient sie sich an der Genesis-Datenbank des statistischen Bundesamts.^[@StatistischesBundesamtDeutschland.2023f] Dieser Abschnitt widmet sein Augenmerk dabei auf die Einwohnerzahl^[@StatistischesBundesamtDeutschland.2023], der Bildungs^[@StatistischesBundesamtDeutschland.2023d]- und Kulturausgaben^[@StatistischesBundesamtDeutschland.2023c], sowie der Arbeitslosenzahl^[@StatistischesBundesamtDeutschland.2023b] und der Wirtschaftskraft^[@StatistischesBundesamtDeutschland.2023e], gemessen am erzeugten Bruttoinlandsprodukt.
 ```{r Inhabitants, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -198,10 +196,10 @@ table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(popul
 
 ## {.unlisted .unnumbered}
 ### Inhabitants {.unlisted}
-[Table 5][Population per State at the End of a year] zeigt die Einwohnerzahl aller 16 Bundesländer am Stichtag ihrer Erfassung. Aus der Dokumentation geht nicht hervor wie die Erfassung durchgeführt wurde oder, ob die sie auf einer Hochrechnung basiert. Aber, da die Bevölkerungszahl, laut den Stichtagen, am Ende des Jahres ermittelt wurde, repräsentiert sie, im Hinblick auf ihren Einfluss, das jeweils kommende Jahr. Aus diesem Grund passt das Skript beim Importieren die Tabellenüberschrift an. Als Ergebnis entsteht [Table 6][Population, based on the year before], eine strukturell gleiche Tabelle , inhaltlich gelten die Einwohnerzahlen, aber nicht mehr für das Jahr in denen die Zahlen erfasst wurden, sondern für das daraufolgende. Zur Modellierung ist die Struktur des Datensatz jedoch ungeeignet. Daher ist eine Veränderung der Tabelle notwendig, damit die Einwohnerzahl der Länder je Jahr als eigene Observationen in das Regressionsmodell einfließen. Das bedeutet, die Jahresspalten müssen in eigenständigen Entitäten die Einwohnerzahl abbilden.
+[Table 5][Population per State at the End of a year] zeigt die Einwohnerzahl aller 16 Bundesländer am Stichtag ihrer Erfassung. Aus der Dokumentation geht nicht hervor wie die Erfassung durchgeführt wurde oder, ob die sie auf einer Hochrechnung basiert. Aber, da die Bevölkerungszahl, laut den Stichtagen, am Ende des Jahres ermittelt wurde, repräsentiert sie, im Hinblick auf ihren Einfluss, das jeweils kommende Jahr. Aus diesem Grund passt das Skript beim Importieren die Tabellenüberschrift an. Als Ergebnis entsteht [Table 6][Population, based on the year before], eine strukturell gleiche Tabelle , inhaltlich gelten die Einwohnerzahlen, aber nicht mehr für das Jahr in denen die Zahlen erfasst wurden, sondern für das daraufolgende. Zur Modellierung ist die Struktur des Datensatz jedoch ungeeignet. Daher ist eine Veränderung der Tabelle notwendig, damit die Einwohnerzahl der Länder je Jahr als eigene Observationen in das Regressionsmodell einfließen. Das bedeutet, die Jahresspalten müssen in eigenständigen Entitäten die Einwohnerzahl abbilden. 
 
 ***
-```{r ,echo=FALSE, fig.align = "center", fig.cap="Pivoting a table into a longer, tidy form^[Fig. 12.2, taken from @GrolemundHadleyWickhamandGarrett.24.6.2023 section 12.3.1]"}
+```{r ,echo=FALSE, fig.align = "center",  fig.id= TRUE, fig.cap="Pivoting a table into a longer, tidy form^[Fig. 12.2, taken from @GrolemundHadleyWickhamandGarrett.24.6.2023 section 12.3.1]"}
 
 knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png")
 ```
@@ -309,7 +307,23 @@ Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner
 </ul>
 
 ##	Data Preparation
-```{r preparation}
+Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1][Data of Federal Criminal Police Office]) und ([Sec. 2.2][Data of Federal Statistical Office]) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Ein Nebenziel ist außerdem die Übersetzung der Variablen ins englische.
+```{r PKS-Data-Preparation, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
+# Loading Datasets over the following scripts
+source("./00_Skripte/combineAllYears.r", local = knitr::knit_global())  
+
+```
+
+```{r preparation population}
+
+# pivot long population_per_FederalState_headerAdjusted => Year-Header to Yearly Observations and number of inhabitants
+tidyTable_of_population<- population_per_FederalState_headerAdjusted %>% pivot_longer(c(as.character(2014:2020)), names_to = "Year", values_to="population")
+
+```
+
+```{r preparation population}
+
 # pivot long population_per_FederalState_headerAdjusted => Year-Header to Yearly Observations and number of inhabitants
 tidyTable_of_population<- population_per_FederalState_headerAdjusted %>% pivot_longer(c(as.character(2014:2020)), names_to = "Year", values_to="population")
 
