@@ -57,6 +57,7 @@ Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminala
 # Libraries needed for the data exploration 
 library(tidyverse)
 library(dplyr)
+library(ggplot2)
 library(purrr)
 library(base)
 library(data.table)
@@ -188,14 +189,12 @@ table_population_per_FederalState <- addHtmlTableStyle(head(population_per_Feder
 table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(population_per_FederalState_headerAdjusted,10), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Population per Federal State per Year with adjusted Headers^[adapted from @StatistischesBundesamtDeutschland.2023]", label="table_population_per_FederalState_headerAdjusted")
 
 ```
-### {.unlisted .unnumbered .tabset .tabset-fade}
+### Inhabitants {.unlisted .tabset .tabset-fade}
 #### Population per State at the End of a year {-}
 `r table_population_per_FederalState `
 #### Population, based on the year before {-}
 `r table_population_per_FederalState_headerAdjusted`
-
 ## {.unlisted .unnumbered}
-### Inhabitants {.unlisted}
 [Table 5][Population per State at the End of a year] zeigt die Einwohnerzahl aller 16 Bundesländer am Stichtag ihrer Erfassung. Aus der Dokumentation geht nicht hervor wie die Erfassung durchgeführt wurde oder, ob die sie auf einer Hochrechnung basiert. Aber, da die Bevölkerungszahl, laut den Stichtagen, am Ende des Jahres ermittelt wurde, repräsentiert sie, im Hinblick auf ihren Einfluss, das jeweils kommende Jahr. Aus diesem Grund passt das Skript beim Importieren die Tabellenüberschrift an. Als Ergebnis entsteht [Table 6][Population, based on the year before], eine strukturell gleiche Tabelle , inhaltlich gelten die Einwohnerzahlen, aber nicht mehr für das Jahr in denen die Zahlen erfasst wurden, sondern für das daraufolgende. Zur Modellierung ist die Struktur des Datensatz jedoch ungeeignet. Daher ist eine Veränderung der Tabelle notwendig, damit die Einwohnerzahl der Länder je Jahr als eigene Observationen in das Regressionsmodell einfließen. Das bedeutet, die Jahresspalten müssen in eigenständigen Entitäten die Einwohnerzahl abbilden. 
 
 ***
@@ -307,11 +306,34 @@ Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner
 </ul>
 
 ##	Data Preparation
-Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1][Data of Federal Criminal Police Office]) und ([Sec. 2.2][Data of Federal Statistical Office]) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Ein Nebenziel ist außerdem die Übersetzung der Variablen ins englische.
+Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1][Data of Federal Criminal Police Office]) und ([Sec. 2.2][Data of Federal Statistical Office]) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Ein Nebenziel ist außerdem die Übersetzung der Variablen ins Englische. Darüberhinaus wird dem Datensatz eine zusätzliche Variable hinzugefügt, der die Bundesländer nach ihrer Größe in 4 Kategorien einteilt. 
 ```{r PKS-Data-Preparation, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
-# Loading Datasets over the following scripts
-source("./00_Skripte/combineAllYears.r", local = knitr::knit_global())  
+# Add Variable Year to Dataset and combines them to one Dataset
+source("./00_Skripte/combineAllYears.r", local = knitr::knit_global())
+
+## Creats a summary table for the new Dataset
+summary_Cases<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 10) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Figures are presented in Euro and only until 2019.", label="summary_Cases")
+
+# Select Observation for Thefts , Rename Casenumbers to TheftAmount, Rename Federalstates with vowel ü, Drop Column CrimeKey and Crimetype, Drop Observation for whole Germany, 
+source("./00_Skripte/varSelection_caseNumbers.r", local = knitr::knit_global())
+
+summary_thefts<- summary(thefts_allYears_transformed4Summary, maxsum = 25) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reported thefts from 2014 until 2020^[adapted from @Bundeskriminalamt.2023]", label="summary_thefts")
+
+plotting<- thefts_allYears_tidy %>% group_by(Year, Areasize) %>% summarise(TheftAmount = mean(TheftAmount))
+
+## ggarange http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/  ---> Tabelle muss umgewandelt werden, so dass durchschnitt erhobenwird
+p <- ggplot(data = plotting, aes(x = Year, y = TheftAmount, group = Areasize , color=Areasize, linetype=Areasize)) +
+      geom_line(size = 1) +
+      ggtitle("title")
+p
+
+```
+
+as described in Section 2.1
+
+```{r Thefts Developement, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
 
 ```
 
@@ -322,7 +344,7 @@ tidyTable_of_population<- population_per_FederalState_headerAdjusted %>% pivot_l
 
 ```
 
-```{r preparation population}
+```{r preparation culture}
 
 # pivot long population_per_FederalState_headerAdjusted => Year-Header to Yearly Observations and number of inhabitants
 tidyTable_of_population<- population_per_FederalState_headerAdjusted %>% pivot_longer(c(as.character(2014:2020)), names_to = "Year", values_to="population")

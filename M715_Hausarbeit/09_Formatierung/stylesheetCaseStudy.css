@@ -14,23 +14,27 @@ body, p{
 
 [role="doc-noteref"] {
   counter-increment: footnotes; 
+  font-family: Times New Roman;
   font-size: 10pt;
   line-height: 1;
 }
 /* Headers */
 h1{
+  font-family: Times New Roman;
   font-size: 16pt;
   font-weight: bold;
   text-indent: 0cm;
   line-height: 12pt;
 }
 h2{
+  font-family: Times New Roman;
   font-size: 14pt;
   font-weight: bold;
   text-indent: 0,39cm;
   }
   
 h3{
+  font-family: Times New Roman;
   font-size: 12pt;
   font-weight: bold;
   text-indent: 0,78cm;
@@ -39,6 +43,7 @@ table{
   max-width: 92.5%;
   margin-left: auto;
   margin-right: auto;
+  font-family: Times New Roman;
   font-size: 10pt;
   line-height: 1;
   border-spacing: 2.5px;
@@ -52,7 +57,12 @@ th, td {
 }
 
 
-.caption{font-size: 10pt; line-height: 1;border-spacing: 2.5px;}
+.caption{ 
+  font-family: Times New Roman;
+  font-size: 10pt; 
+  line-height: 1;
+  border-spacing: 2.5px;}
+  
 .main-container {max-width: 90%;}
 .row {display: flex;}
 .column {flex: 50%; margin: 2px}
