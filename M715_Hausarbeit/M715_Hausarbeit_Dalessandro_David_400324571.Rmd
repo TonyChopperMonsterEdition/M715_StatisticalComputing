@@ -341,7 +341,7 @@ theft_mean_developement
 
 ```
 
-as described
+as described [Fig. 2.2](#fig:unnamed-chunk-2)
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE,  fig.id= TRUE, fig.cap="Distribution of Theafts among each group of Federal States"}
 
@@ -378,7 +378,7 @@ grid.arrange(ncol=2, thefts_bp_2014, thefts_bp_2015, thefts_bp_2019, thefts_bp_2
 
 ```
 
-as described here
+Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft beschränkt. Jedoch unterstützt [Fig. 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. 20.000 Diebstählen und es exsitiert jeweils ein Ausreißer. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.a = "center",  fig.id= TRUE, fig.cap="Development of the Casenumbers in each Federal State"}
@@ -391,7 +391,7 @@ thefts_development_fS
 
 ```
 
-as described here
+as described here [Fig. 2.4](#fig:unnamed-chunk-4)
 
 
 ```{r preparation population}
