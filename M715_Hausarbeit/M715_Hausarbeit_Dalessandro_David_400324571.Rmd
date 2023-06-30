@@ -58,6 +58,9 @@ Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminala
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(gridExtra)
+library(grid)
+library(ggrepel)
 library(purrr)
 library(base)
 library(data.table)
@@ -320,22 +323,76 @@ source("./00_Skripte/varSelection_caseNumbers.r", local = knitr::knit_global())
 
 summary_thefts<- summary(thefts_allYears_transformed4Summary, maxsum = 25) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reported thefts from 2014 until 2020^[adapted from @Bundeskriminalamt.2023]", label="summary_thefts")
 
-plotting<- thefts_allYears_tidy %>% group_by(Year, Areasize) %>% summarise(TheftAmount = mean(TheftAmount))
-
-## ggarange http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/  ---> Tabelle muss umgewandelt werden, so dass durchschnitt erhobenwird
-p <- ggplot(data = plotting, aes(x = Year, y = TheftAmount, group = Areasize , color=Areasize, linetype=Areasize)) +
-      geom_line(size = 1) +
-      ggtitle("title")
-p
-
 ```
+
 
 as described in Section 2.1
 
-```{r Thefts Developement, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
+```{r , echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.id= TRUE, fig.cap="Mean Development of the Federal States grouped by their Areasize"}
+grouped_thefts_by_areasize <- thefts_allYears_tidy %>% group_by(Year, Areasize) %>% summarise(TheftAmount = mean(TheftAmount))
+
+theft_mean_developement <- ggplot(data = grouped_thefts_by_areasize, aes(x = Year, y = TheftAmount, group = Areasize , color=Areasize)) +
+  geom_line(size = 1) +
+  scale_color_discrete(labels = c('Big (BY, BW, NW, NI)', 'Medium (BB, HE, ST, MV)', 'Small (SN, RP, TH, SH)', 'Very Small (SL, HH, BE, HB)')) +
+  labs(x = "Year of Documentation", y = "Amount of Thefts" )
+
+theft_mean_developement
 
 ```
+
+as described
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE,  fig.id= TRUE, fig.cap="Distribution of Theafts among each group of Federal States"}
+
+## ggarange http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/  ---> Tabelle muss umgewandelt werden, so dass durchschnitt erhobenwird
+thefts_bp_2014 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2014, ], aes(y = TheftAmount, x=Areasize, color=Areasize, legend.p)) +
+  geom_boxplot(size = 0.5) + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10,color = "grey")) + 
+  theme(axis.title.x = element_blank(),  axis.title.y = element_text(color = "black", size = 10))+ 
+  labs(y = "Amount of Thefts" ) + 
+  ggtitle("2014")
+
+thefts_bp_2015 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2015, ], aes(y = TheftAmount, x=Areasize, color=Areasize)) +
+  geom_boxplot(size = 0.5) +
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "grey")) + 
+  theme(axis.title.x = element_blank(),  axis.title.y = element_blank())+
+  ggtitle("2015")
+
+thefts_bp_2019 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2019, ], aes(y = TheftAmount, x=Areasize, color=Areasize)) +
+  geom_boxplot(size = 0.5) + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "grey")) +
+  theme(axis.title.x = element_text(color = "black", size = 10),  axis.title.y = element_text(color = "black", size = 10))+ 
+  labs(x = "Areasize of the Federal States", y = "Amount of Thefts" )+ 
+  ggtitle("2019")
+
+
+thefts_bp_2020 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2020, ], aes(y = TheftAmount, x=Areasize, color=Areasize)) +
+  geom_boxplot(size = 0.5) + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "grey"))  +
+  theme(axis.title.x = element_text(color = "black", size = 10),  axis.title.y = element_blank()) + 
+  labs(x = "Areasize of the Federal States") +
+  ggtitle("2020")
+
+grid.arrange(ncol=2, thefts_bp_2014, thefts_bp_2015, thefts_bp_2019, thefts_bp_2020)
+
+```
+
+as described here
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.a = "center",  fig.id= TRUE, fig.cap="Development of the Casenumbers in each Federal State"}
+
+thefts_development_fS <- ggplot(data = thefts_allYears_tidy, aes(x = Year, y = TheftAmount, group = FederalState , color=FederalState)) +
+  geom_line(size = 1) +
+  geom_text_repel(aes(label = FederalState), data = thefts_allYears_tidy[thefts_allYears_tidy$FederalState %in% c("Nordrhein-Westfalen","Berlin", "Saarland") & thefts_allYears_tidy$Year==2020,], fontface ="plain", color = "black", size = 3) +
+  labs(x = "Year of Documentation", y = "Amount of Thefts" )
+thefts_development_fS 
+
+```
+
+as described here
+
 
 ```{r preparation population}
 
