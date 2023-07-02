@@ -31,6 +31,8 @@ thefts_allYears_tidy$Areasize[thefts_allYears_tidy$FederalState %in% mediumArea]
 thefts_allYears_tidy$Areasize[thefts_allYears_tidy$FederalState %in% smallArea] <- "small"
 thefts_allYears_tidy$Areasize[thefts_allYears_tidy$FederalState %in% verySmallArea] <- "very small"
 thefts_allYears_tidy$Areasize <- as.factor(thefts_allYears_tidy$Areasize)
-
+thefts_allYears_tidy$FederalState <- as.factor(thefts_allYears_tidy$FederalState)
+thefts_allYears_tidy$Year <- as.numeric(thefts_allYears_tidy$Year)
+thefts_allYears_tidy$TheftAmount <- as.numeric(thefts_allYears_tidy$TheftAmount)
 # Creates a special variable for a better summary 
 thefts_allYears_transformed4Summary <- thefts_allYears_tidy %>% transform(Year = as.factor(Year))

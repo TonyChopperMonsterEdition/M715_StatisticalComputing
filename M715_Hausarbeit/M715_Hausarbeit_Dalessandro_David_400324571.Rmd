@@ -43,7 +43,7 @@ library(bookdown)
 # globaloptions
 knitr::opts_chunk$set(echo = FALSE)
 # Tabellnaming and Counting activated --> Table X 
-options(table_counter = TRUE, table_counter_str = "Table %s:", scipen = 12 )
+options(table_counter = TRUE, table_counter_str = "Table %s:", scipen = 15 )
 
 ```
 
@@ -52,7 +52,7 @@ options(table_counter = TRUE, table_counter_str = "Table %s:", scipen = 12 )
 # Introduction (1 page) {#Chapter1}
 ***
 #	Methodology (4-5 pages) {#Chapter2}
-Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1][Data of Federal Criminal Police Office]), sowie, die des Statistischen Bundesamts ([Sec. 2.2][Data of Federal Statistical Office]). Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3][Data Preparation]) notwendig sind, um die Fallzahlen zu modellieren ([Sec. 2.4][Modeling by using linear regression]). Unterstützend verwendet die Arbeit die nachfolgenden Bibliotheken.
+Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1](#Section2_1)), sowie, die des Statistischen Bundesamts ([Sec. 2.2](#Section2_2)). Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3](#Section2_3)) notwendig sind, um die Fallzahlen zu modellieren ([Sec. 2.4](#Section2_4)). Unterstützend verwendet die Arbeit die nachfolgenden Bibliotheken.
 ```{r Libraries, echo=TRUE, message=FALSE, warning=FALSE}
 # Libraries needed for the data exploration 
 library(tidyverse)
@@ -68,8 +68,8 @@ library(devtools)
 library(htmlTable)
 ```
 
-##	Data of Federal Criminal Police Office
-In diesem Abschnitt fokusiert das Kapitel die Daten des Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und erläutert, welche Maßnahmen ([Sec. 2.3][Data Preparation]) ergreifen muss, um ein Regressionsmodell abzuleiten. Für die Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk aufgeführten Skripte. Sie laden einerseits die Datensätze des Bundeskriminalamts in die Umgebung des RMarkdown und bereiten andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem Abschnitt einbettet.
+##	Data of Federal Criminal Police Office {#Section2_1}
+In diesem Abschnitt fokusiert das Kapitel die Daten des Bundeskriminalamts. Es gibt Einblick in die Struktur der Datensätze und erläutert, welche Maßnahmen ([Sec. 2.3](#Section2_3)) ergreifen muss, um ein Regressionsmodell abzuleiten. Für die Beschreibung und Auswertung verwendet die Arbeit die im Code Chunk aufgeführten Skripte. Sie laden einerseits die Datensätze des Bundeskriminalamts in die Umgebung des RMarkdown und bereiten andererseits Tabellen und Grafiken vor, die das RMarkdown in diesem Abschnitt einbettet.
 ``` {r Datasets & Scripts,echo=TRUE, message=FALSE, warning=FALSE}
 # Loading Datasets over the following scripts
 source("./00_Skripte/read_PKSdatafiles.r", local = knitr::knit_global())  
@@ -177,9 +177,9 @@ sum(thefts_allStates_2020[1:16,"Casenumbers"]) == thefts_allStates_2020[17,"Case
 isBiased
 
 ```
-Abschließend bedeutet das Ergebnis `r isBiased` der Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern stellt jedes Bundesland im Rahmen der Diebstähle eine unverzerrte Entität dar. Für [Sec. 2.3][Data Preparation] ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
+Abschließend bedeutet das Ergebnis `r isBiased` der Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern stellt jedes Bundesland im Rahmen der Diebstähle eine unverzerrte Entität dar. Für [Sec. 2.3](#Section2_3) ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
 
-##	Data of Federal Statistical Office
+##	Data of Federal Statistical Office {#Section2_2}
 Um zu überprüfen, ob die Anzahl der Diebstähle in Deutschland mit verschiedenen inländischen Faktoren zusammenhängen, untersucht die Arbeit verschiedene Faktoren auf Bundesländerebene. Dazu bedient sie sich an der Genesis-Datenbank des statistischen Bundesamts.^[@StatistischesBundesamtDeutschland.2023f] Dieser Abschnitt widmet sein Augenmerk dabei auf die Einwohnerzahl^[@StatistischesBundesamtDeutschland.2023], der Bildungs^[@StatistischesBundesamtDeutschland.2023d]- und Kulturausgaben^[@StatistischesBundesamtDeutschland.2023c], sowie der Arbeitslosenzahl^[@StatistischesBundesamtDeutschland.2023b] und der Wirtschaftskraft^[@StatistischesBundesamtDeutschland.2023e], gemessen am erzeugten Bruttoinlandsprodukt.
 ```{r Inhabitants, echo=TRUE, message=FALSE, warning=FALSE}
 
@@ -240,7 +240,7 @@ In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Str
 
 `r table_Hamburg_Administration4CulturalAffairs`
 
-Am Beispiel von Hamburg verdeutlicht [Tab 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Tab 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgaben enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Ein weiteres Ziel für [Sec. 2.3][Data Preparation] ist deshalb die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
+Am Beispiel von Hamburg verdeutlicht [Tab 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Tab 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgaben enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Ein weiteres Ziel für [Sec. 2.3](#Section2_3) ist deshalb die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
 
 ### Expenditure for Education {.unlisted}
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
@@ -273,7 +273,7 @@ Aus der Betrachtung der Missings in [Table 11](#table_expenditure4Education_miss
 
 `r summary_expenditure4Education_onlyTotal`
 
-Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(mean_expenditure4Education_onlyTotal-median_expenditure4Education_onlyTotal)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetische Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Chapter 3](#Chapter3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für [Sec. 2.3][Data Preparation] die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.
+Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(mean_expenditure4Education_onlyTotal-median_expenditure4Education_onlyTotal)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetische Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Chapter 3](#Chapter3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für [Sec. 2.3](#Section2_3) die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.
 
 ### Number of Unemployed People {.unlisted}
 ```{r unemployment rate, echo=TRUE, message=FALSE, warning=FALSE}
@@ -284,7 +284,7 @@ summary_Unemployment <- summary(jobless_people[,1:8]) %>% addHtmlTableStyle(pos.
 ```
 `r summary_Unemployment`
 
-Ähnlich wie bei dem Datensatz der Einwohner, ist der Datensatz für die Arbeitslosenzahlen aufgebaut. In diesem Fall liegt nach [Table 13](#summary_Unemployment) eine Variable für die Jahre vor, während die Anzahl an Arbeitslosen als Variable je Bundesland auf mehrere Spalten verteilt ist. Augrund einer verkürzten Darstellung präsentiert [Table 13](#summary_Unemployment) nicht alle Bundesländer mit ihren Zahlen. Zur besseren Nachvollziebarkeit der Problematik führt [Appendix 3][Appendix 3] eine vollständige Übersicht auf. Um eine Regressionsmodellierung durchzuführen, muss eine Pivotierung wie in [Figure 2.1](#fig:unnamed-chunk-1) für die Bundesländer erfolgen. Das bedeutet [Sec. 2.3][Data Preparation] erhält als weitere Aufgabe, die Bundesländer und die Anzahl an Arbeitslosen als eine separate Variable darzustellen. Somit entsteht eine Observation mit den Variablen für das Jahr, das Bundesland und der Fallzahl.
+Ähnlich wie bei dem Datensatz der Einwohner, ist der Datensatz für die Arbeitslosenzahlen aufgebaut. In diesem Fall liegt nach [Table 13](#summary_Unemployment) eine Variable für die Jahre vor, während die Anzahl an Arbeitslosen als Variable je Bundesland auf mehrere Spalten verteilt ist. Augrund einer verkürzten Darstellung präsentiert [Table 13](#summary_Unemployment) nicht alle Bundesländer mit ihren Zahlen. Zur besseren Nachvollziebarkeit der Problematik führt [Appendix 3][Appendix 3] eine vollständige Übersicht auf. Um eine Regressionsmodellierung durchzuführen, muss eine Pivotierung wie in [Figure 2.1](#fig:unnamed-chunk-1) für die Bundesländer erfolgen. Das bedeutet [Sec. 2.3](#Section2_3) erhält als weitere Aufgabe, die Bundesländer und die Anzahl an Arbeitslosen als eine separate Variable darzustellen. Somit entsteht eine Observation mit den Variablen für das Jahr, das Bundesland und der Fallzahl.
 
 ### Gross Domesti Product {.unlisted}
 ```{r gross domestic product, echo=TRUE, message=FALSE, warning=FALSE}
@@ -298,9 +298,9 @@ mean_gdp2019 <- round(median(gdp_atMarketPrice$`2019`))
 ```
 `r summary_gdp`
 
-Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3][Data Preparation] wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014` €, 5 Jahre später bei `r mean_gdp2019`€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
+Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3](#Section2_3) wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014` €, 5 Jahre später bei `r mean_gdp2019`€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
 
-Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt [Sec. 2.3][Data Preparation] folgenden Ziele: <br>
+Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt [Sec. 2.3](#Section2_3) folgenden Ziele: <br>
 <ul>
 * Pivotierung der Einwohner-, Arbeitslosen und BIP-Tabllen, so dass Observationen mit den Variablen Jahr, Bundesland, Einwohnerzahl/Arbeitslosenzahl/Bruttoinlandsprodukt entstehen
 * Extraktion der Kultur-Gesamtausgaben, Ausschluss der Ausgaben je Kulturart
@@ -308,15 +308,16 @@ Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner
 * Zusammenführung aller Datensätze aller Datensätze im Hinblick auf die Regressionsmodellierung
 </ul>
 
-##	Data Preparation
-Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1][Data of Federal Criminal Police Office]) und ([Sec. 2.2][Data of Federal Statistical Office]) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Darüberhinaus wird dem Datensatz eine zusätzliche Variable hinzugefügt, der die Bundesländer nach ihrer Größe in 4 Kategorien einteilt. Diese Zuordnung dient in der Regressionsanalyse später um konstantwirkende Effekte zu berücksichtigen und die Aussagekraft zu verbessern.
+##	Data preparation {#Section2_3}
+Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1](#Section2_1)) und ([Sec. 2.2](#Section2_2)) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Darüberhinaus wird dem Datensatz eine zusätzliche Variable hinzugefügt, der die Bundesländer nach ihrer Größe in 4 Kategorien einteilt. Diese Zuordnung dient in der Regressionsanalyse später um konstantwirkende Effekte zu berücksichtigen und die Aussagekraft zu verbessern.
+### Prepraration of the criminal statistic data {.unlisted .unnumbered}
 ```{r PKS-Data-Preparation, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
 # Add Variable Year to Dataset and combines them to one Dataset
 source("./00_Skripte/combineAllYears.r", local = knitr::knit_global())
 
 ## Creats a summary table for the new Dataset
-summary_Cases<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 10) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Shows the Years as factors to visualise the amount of observerations per year. Furthermore there are many different Crimetypes listed, but necessary is only  **\"Diebstähle insgesamt und zwar\"** as mentiond in [Sec. 2.1][Data of Federal Criminal Police Office] " , label="summary_Cases")
+summary_Cases<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 10) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Shows the Years as factors to visualise the amount of observerations per year. Furthermore there are many different Crimetypes listed, but necessary is only  **\"Diebstähle insgesamt und zwar\"** as mentiond in [Sec. 2.1](#Section2_1) " , label="summary_Cases")
 
 summary_Cases
 # Select Observation for Thefts , Rename Casenumbers to TheftAmount, Rename Federalstates with vowel ü, Drop Column CrimeKey and Crimetype, Drop Observation for whole Germany, 
@@ -324,60 +325,67 @@ source("./00_Skripte/varSelection_caseNumbers.r", local = knitr::knit_global())
 
 summary_thefts<- summary(thefts_allYears_transformed4Summary, maxsum = 25) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reported thefts from 2014 until 2020^[adapted from @Bundeskriminalamt.2023]", label="summary_thefts")
 
-
 ```
 
 Das erste Skript *combineAllYears.r* fasst alle einzelnen Datensätze aus den Jahren 2014 bis 2020 zu einem zusammen. [Table 15](#summary_Cases) veranschaulicht das Ergebnis und zeigt einen Ausschnitt daraus. Da der Fokus der Arbeit auf Diebstähle liegt, wird ersichtlich, dass im Datensatz viele irrelevante Observatione enthalten sind. Aus diesem Grund überführt das Skript *varSelection_caseNumbers.r* die Fallzahlen der Diebstähle in eine neue Variable **thefts_allYears_tidy**. Durch die Extraktion eine spezifischen Kriminalart, entfällt im Anschluss die Relevanz für die Spalten Crimetype und CrimeKey. Darum entfernt das Skript diese Variablen aus dem Datensatz. Zeitgleich beseitigt es letzte Unstimmigkeiten und weitere Überschüsse im Datensatzt, zum Beispiel für die Bundesländer Baden-Württemberg und Thüringen, die wegen des Umlaut **"ü"** je zwei Ausprägungen besitzen. Für eine vollständige Sicht auf die Zusammenfassung, siehe [Appendix 4][Appendix 4].
 
-` r summary_thefts `
-[Table 16](#summary_summary_thefts)
-während *thefts_allYears_transformed4Summary* lediglich zur Veranschaulichung dient
+`r summary_thefts`
 
-as described in Section 2.1
+[Table 16](#summary_summary_thefts) zeigt die finale Version der Zusammenführung. Dabei dient **thefts_allYears_transformed4Summary** zur Veranschaulichung der Anzahl an Observationen pro Jahr. Diese ist im Datensatz gleichverteilt, da jedes Jahr, Bundesland und Bundeslandgruppe  die gleiche Anzahl an Observationen enthält. Für die Datenbearbeitung und Regressionsmodellierung liegen die Jahreszahlen weiterhin als diskete metrische Daten vor.
 
 
-```{r , echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.id= TRUE, fig.cap="Mean Development of the Federal States grouped by their Areasize"}
-grouped_thefts_by_areasize <- thefts_allYears_tidy %>% group_by(Year, Areasize) %>% summarise(TheftAmount = mean(TheftAmount))
+```{r , echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.id= TRUE, fig.cap="Mean & Median Development of thefts grouped by their Areasize of the Federal States"}
+grouped_mean_thefts_by_areasize <- thefts_allYears_tidy %>% group_by(Year, Areasize) %>% summarise(TheftAmount = mean(TheftAmount))
 
-theft_mean_developement <- ggplot(data = grouped_thefts_by_areasize, aes(x = Year, y = TheftAmount, group = Areasize , color=Areasize)) +
+theft_mean_developement <- ggplot(data = grouped_mean_thefts_by_areasize, aes(x = Year, y = TheftAmount, group = Areasize , color=Areasize)) +
   geom_line(size = 1) +
   scale_color_discrete(labels = c('Big (BY, BW, NW, NI)', 'Medium (BB, HE, ST, MV)', 'Small (SN, RP, TH, SH)', 'Very Small (SL, HH, BE, HB)')) +
-  labs(x = "Year of Documentation", y = "Amount of Thefts" )
+  labs(x = "Year of Documentation", y = "Amount of Thefts" )+ 
+  theme( plot.title = element_text(hjust = 0.5, size = 10, color = "black"), axis.title.y = element_text(size = 8, colour = "darkgrey"), axis.title.x = element_text(size = 8, colour = "darkgrey"))+
+  theme(legend.position=c(0,.45), legend.justification =c(0,0.5), legend.text = element_text(size = 8, colour = "black"), legend.title =  element_text(size = 10), legend.background = element_rect(colour = "transparent", fill = alpha("grey", 0)))  +
+  ggtitle("Mean-Development of thefts")
 
-theft_mean_developement
+grouped_median_thefts_by_areasize <- thefts_allYears_tidy %>% group_by(Year, Areasize) %>% summarise(TheftAmount = median(TheftAmount))
 
+theft_median_developement <- ggplot(data = grouped_median_thefts_by_areasize, aes(x = Year, y = TheftAmount, group = Areasize , color=Areasize)) +
+  geom_line(size = 1) +
+  scale_color_discrete(labels = c('Big (BY, BW, NW, NI)', 'Medium (BB, HE, ST, MV)', 'Small (SN, RP, TH, SH)', 'Very Small (SL, HH, BE, HB)')) +
+  labs(x = "Year of Documentation", y = "Amount of Thefts" )+ 
+  theme(legend.position = "none",plot.title = element_text(hjust = 0.5, size = 10, color = "black"), axis.title.y = element_blank(), axis.title.x = element_text(size = 8, colour = "darkgrey"))  +
+  ggtitle("Median-Development of thefts")
+
+grid.arrange(ncol=2, theft_mean_developement,theft_median_developement, widths = c(1, 0.95))
 ```
-
-as described [Fig. 2.2](#fig:unnamed-chunk-2)
+Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Fig. 2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE,  fig.id= TRUE, fig.cap="Distribution of Theafts among each group of Federal States"}
 
 ## ggarange http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/  ---> Tabelle muss umgewandelt werden, so dass durchschnitt erhobenwird
 thefts_bp_2014 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2014, ], aes(y = TheftAmount, x=Areasize, color=Areasize, legend.p)) +
   geom_boxplot(size = 0.5) + 
-  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10,color = "grey")) + 
-  theme(axis.title.x = element_blank(),  axis.title.y = element_text(color = "black", size = 10))+ 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10,color = "black")) + 
+  theme(axis.title.x = element_blank(),  axis.title.y = element_text(color = "grey", size = 8))+ 
   labs(y = "Amount of Thefts" ) + 
   ggtitle("2014")
 
 thefts_bp_2015 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2015, ], aes(y = TheftAmount, x=Areasize, color=Areasize)) +
   geom_boxplot(size = 0.5) +
-  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "grey")) + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "black")) + 
   theme(axis.title.x = element_blank(),  axis.title.y = element_blank())+
   ggtitle("2015")
 
 thefts_bp_2019 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2019, ], aes(y = TheftAmount, x=Areasize, color=Areasize)) +
   geom_boxplot(size = 0.5) + 
-  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "grey")) +
-  theme(axis.title.x = element_text(color = "black", size = 10),  axis.title.y = element_text(color = "black", size = 10))+ 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "black")) +
+  theme(axis.title.x = element_text(color = "grey", size = 8),  axis.title.y = element_text(color = "grey", size = 8))+ 
   labs(x = "Areasize of the Federal States", y = "Amount of Thefts" )+ 
   ggtitle("2019")
 
 
 thefts_bp_2020 <- ggplot(data = thefts_allYears_tidy[thefts_allYears_tidy$Year == 2020, ], aes(y = TheftAmount, x=Areasize, color=Areasize)) +
   geom_boxplot(size = 0.5) + 
-  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "grey"))  +
-  theme(axis.title.x = element_text(color = "black", size = 10),  axis.title.y = element_blank()) + 
+  theme(legend.position = "none", plot.title = element_text(hjust = 0.5, size = 10, color = "black"))  +
+  theme(axis.title.x = element_text(color = "grey", size = 8),  axis.title.y = element_blank()) + 
   labs(x = "Areasize of the Federal States") +
   ggtitle("2020")
 
@@ -385,7 +393,7 @@ grid.arrange(ncol=2, thefts_bp_2014, thefts_bp_2015, thefts_bp_2019, thefts_bp_2
 
 ```
 
-Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft beschränkt. Jedoch unterstützt [Fig. 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. 20.000 Diebstählen und es exsitiert jeweils ein Ausreißer. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
+Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft eingeschränkt. Jedoch unterstützt [Fig. 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. 20.000 Diebstählen und es exsitiert ein Ausreißer. Hierdurch wird der höhere Durchschnitt in [Fig. 2.2](#fig:unnamed-chunk-2) erklärt. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.a = "center",  fig.id= TRUE, fig.cap="Development of the Casenumbers in each Federal State"}
@@ -393,40 +401,99 @@ Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppe
 thefts_development_fS <- ggplot(data = thefts_allYears_tidy, aes(x = Year, y = TheftAmount, group = FederalState , color=FederalState)) +
   geom_line(size = 1) +
   geom_text_repel(aes(label = FederalState), data = thefts_allYears_tidy[thefts_allYears_tidy$FederalState %in% c("Nordrhein-Westfalen","Berlin", "Saarland") & thefts_allYears_tidy$Year==2020,], fontface ="plain", color = "black", size = 3) +
+  theme(plot.title = element_text(hjust = 0.5, size = 10, color = "black"), legend.text = element_text(size = 8, colour = "black"),legend.title =  element_text(size = 10)) +
+  theme(axis.title.x = element_text(color = "grey", size = 8),  axis.title.y = element_text(color = "grey", size = 8))+ 
   labs(x = "Year of Documentation", y = "Amount of Thefts" )
 thefts_development_fS 
 
 ```
+Die Einzelbetrachtung der Länder in [Fig. 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über 400.000 Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um 200.000 liegen. Die hohe Spanneweite aus [Fig. 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Fig. 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Fig. 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Kapitel 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
 
-as described here [Fig. 2.4](#fig:unnamed-chunk-4)
+### Preparation of specific data from the Federal States {.unlisted .unnumbered}
+```{r pivoting extract exclude, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
+# Script pivotes, extracts and transforms the data as needed. Additionally it merges the Data together based on the Year and Federal State
+source("./00_Skripte/prepareFederalStateData.r", local = knitr::knit_global())
+
+summary_pivotated_Population <- tidyTable_of_population %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reported inhabitants from 2014 until 2020 in each federal state^[adapted from @StatistischesBundesamtDeutschland.2023]", label="summary_pivotated_Population")
+
+summary_mergedData <- summary(mergedData4regression) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the merged data", tfoot =  "The Data includes the federal states, its group by areasize and the tracked years as dummy variables, the amount of thefts as dependent variable and each specific independent variable from the number of inhabitant to the expenditures for culture.", label="summary_mergedData")
+
+summary_mergedData
 
 
-```{r preparation population}
-
-# pivot long population_per_FederalState_headerAdjusted => Year-Header to Yearly Observations and number of inhabitants
-tidyTable_of_population<- population_per_FederalState_headerAdjusted %>% pivot_longer(c(as.character(2014:2020)), names_to = "Year", values_to="population")
 
 ```
+
+
+
+[Table 5][Population per State at the End of a year] und [Table 6][Population, based on the year before]
+<ul>
+* Pivotierung der Einwohner-, Arbeitslosen und BIP-Tabllen, so dass Observationen mit den Variablen Jahr, Bundesland, Einwohnerzahl/Arbeitslosenzahl/Bruttoinlandsprodukt entstehen
+* Extraktion der Kultur-Gesamtausgaben, Ausschluss der Ausgaben je Kulturart
+* Extraktion der Bildungsgesamtausgaben für die Jahre 2014-2020, Ausschluss der Ausgaben je Einwohner
+* Zusammenführung aller Datensätze aller Datensätze im Hinblick auf die Regressionsmodellierung
+</ul>
+
 
 ```{r preparation culture}
-
-# pivot long population_per_FederalState_headerAdjusted => Year-Header to Yearly Observations and number of inhabitants
-tidyTable_of_population<- population_per_FederalState_headerAdjusted %>% pivot_longer(c(as.character(2014:2020)), names_to = "Year", values_to="population")
+library("PerformanceAnalytics")
+chart.Correlation(select_if(mergedData4regression[,3:9],is.numeric) , histogram=TRUE, pch=19)
 
 ```
 
-##	Modeling by using linear regression
+##	Modeling by using linear regression {#Section2_4}
 ***
 #	Analysis & Results: Plots and tables from the data (3 pages) {#Chapter3}
-[Referenz Fig](#fig:unnamed-chunk-2)
-[Referenz Fig2][fig:unnamed-chunk-2]
-[Referenz Fig3](#Figure 2.1:)
-[Referenz Fig4](#federalData)
+https://www.econometrics-with-r.org/rwpd.html#regression-with-time-fixed-effects
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library("plm")
+library("lmtest")
+library("car")
+mergedData4regression$Year <- as.factor(mergedData4regression$Year)
+regressionModel_1 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1])
+
+summary(regressionModel_1)
+
+regressionModel_2 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure -1, data=mergedData4regression[,-1], index=c("Year", "Areasize"), model = "within")
+
+summary(regressionModel_2)
+
+coeftest(regressionModel_2, vcov = vcovHC, type = "HC1")
+
+regressionModel_3 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + Areasize + Year -1, data=mergedData4regression[,-1])
+
+summary(regressionModel_3)
+
+coeftest(regressionModel_3, vcov = vcovHC, type = "HC1")
+
+linearHypothesis(regressionModel_3,
+                 test = "F",
+                 c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
+                 vcov. = vcovHC, type = "HC1")
+####
+
+regressionModel_4 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + FederalState + Year -1, data=mergedData4regression[,-4])
+
+summary(regressionModel_4)
+
+coeftest(regressionModel_4, vcov = vcovHC, type = "HC1")
+
+linearHypothesis(regressionModel_4,
+                 test = "F",
+                 c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
+                 vcov. = vcovHC, type = "HC1")
+```
+
 
 ***
-#	Discussion: anomalies and limitations (0.5 - 1 page).
+#	Discussion: anomalies and limitations {#Chapter4}
+(0.5 - 1 page)
+- Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
+
 ***
-#	Conclusion: findings and implications (0.5 - 1 page).
+#	Conclusion: findings and implications {#Chapter5}
+(0.5 - 1 page).
 
 # Kriminalitässtatistik 
 
@@ -536,7 +603,7 @@ summary_Unemployment_full
 ```{r increased summary view, echo=TRUE, message=FALSE, warning=FALSE}
 
 ## Creats a summary table for the new Dataset
-summary_Cases_total<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 30) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Shows the Years as factors to visualise the amount of observerations per year. Furthermore there are many different Crimetypes listed, but necessary is only  **\"Diebstähle insgesamt und zwar\"** as mentiond in [Sec. 2.1][Data of Federal Criminal Police Office]. Additionally you can see under the FederalState 21 factors. For Baden-Württemberg and Thüringen you can see 2 possible expressions, because of the vowl *ü*. Furthermore you can see that there are Observations for **\"Bundesrepublik\"** and **\"Bund echte Zählung der Tatverdächtigen\"** which are unnecessary for this paper's regression." , label="summary_Cases_total")
+summary_Cases_total<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 30) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Shows the Years as factors to visualise the amount of observerations per year. Furthermore there are many different Crimetypes listed, but necessary is only  **\"Diebstähle insgesamt und zwar\"** as mentiond in [Sec. 2.1](#Section2_1). Additionally you can see under the FederalState 21 factors. For Baden-Württemberg and Thüringen you can see 2 possible expressions, because of the vowl *ü*. Furthermore you can see that there are Observations for **\"Bundesrepublik\"** and **\"Bund echte Zählung der Tatverdächtigen\"** which are unnecessary for this paper's regression." , label="summary_Cases_total")
 
 summary_Cases_total
 ```
