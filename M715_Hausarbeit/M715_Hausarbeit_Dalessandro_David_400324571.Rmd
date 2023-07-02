@@ -309,22 +309,29 @@ Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner
 </ul>
 
 ##	Data Preparation
-Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1][Data of Federal Criminal Police Office]) und ([Sec. 2.2][Data of Federal Statistical Office]) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Ein Nebenziel ist außerdem die Übersetzung der Variablen ins Englische. Darüberhinaus wird dem Datensatz eine zusätzliche Variable hinzugefügt, der die Bundesländer nach ihrer Größe in 4 Kategorien einteilt. 
+Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1][Data of Federal Criminal Police Office]) und ([Sec. 2.2][Data of Federal Statistical Office]) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Darüberhinaus wird dem Datensatz eine zusätzliche Variable hinzugefügt, der die Bundesländer nach ihrer Größe in 4 Kategorien einteilt. Diese Zuordnung dient in der Regressionsanalyse später um konstantwirkende Effekte zu berücksichtigen und die Aussagekraft zu verbessern.
 ```{r PKS-Data-Preparation, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
 # Add Variable Year to Dataset and combines them to one Dataset
 source("./00_Skripte/combineAllYears.r", local = knitr::knit_global())
 
 ## Creats a summary table for the new Dataset
-summary_Cases<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 10) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Figures are presented in Euro and only until 2019.", label="summary_Cases")
+summary_Cases<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 10) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Shows the Years as factors to visualise the amount of observerations per year. Furthermore there are many different Crimetypes listed, but necessary is only  **\"Diebstähle insgesamt und zwar\"** as mentiond in [Sec. 2.1][Data of Federal Criminal Police Office] " , label="summary_Cases")
 
+summary_Cases
 # Select Observation for Thefts , Rename Casenumbers to TheftAmount, Rename Federalstates with vowel ü, Drop Column CrimeKey and Crimetype, Drop Observation for whole Germany, 
 source("./00_Skripte/varSelection_caseNumbers.r", local = knitr::knit_global())
 
 summary_thefts<- summary(thefts_allYears_transformed4Summary, maxsum = 25) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reported thefts from 2014 until 2020^[adapted from @Bundeskriminalamt.2023]", label="summary_thefts")
 
+
 ```
 
+Das erste Skript *combineAllYears.r* fasst alle einzelnen Datensätze aus den Jahren 2014 bis 2020 zu einem zusammen. [Table 15](#summary_Cases) veranschaulicht das Ergebnis und zeigt einen Ausschnitt daraus. Da der Fokus der Arbeit auf Diebstähle liegt, wird ersichtlich, dass im Datensatz viele irrelevante Observatione enthalten sind. Aus diesem Grund überführt das Skript *varSelection_caseNumbers.r* die Fallzahlen der Diebstähle in eine neue Variable **thefts_allYears_tidy**. Durch die Extraktion eine spezifischen Kriminalart, entfällt im Anschluss die Relevanz für die Spalten Crimetype und CrimeKey. Darum entfernt das Skript diese Variablen aus dem Datensatz. Zeitgleich beseitigt es letzte Unstimmigkeiten und weitere Überschüsse im Datensatzt, zum Beispiel für die Bundesländer Baden-Württemberg und Thüringen, die wegen des Umlaut **"ü"** je zwei Ausprägungen besitzen. Für eine vollständige Sicht auf die Zusammenfassung, siehe [Appendix 4][Appendix 4].
+
+` r summary_thefts `
+[Table 16](#summary_summary_thefts)
+während *thefts_allYears_transformed4Summary* lediglich zur Veranschaulichung dient
 
 as described in Section 2.1
 
@@ -521,9 +528,18 @@ sessionInfo()
 # Shows the amount of unemployees in each federal state 
 summary_Unemployment_full <- summary(jobless_people) %>% addHtmlTableStyle(pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="The structre presents the amount of unemployed people by colums of federal states^[adapted from @StatistischesBundesamtDeutschland.2023b]",  tfoot= "The relevant figures are splited around many colums and the variable of federal states is only presented by column headers. To be compatible with the other datasets is has to be pivotated to a longer dataset with one column per variable. This means one observation contains a variable/column for years, one for the fedaral state and one for the amount of unemployees in that year and federal state.", label="summary_Unemployment_full")
 
+summary_Unemployment_full
 ```
-`r summary_Unemployment_full`
 
+
+## Appendix 4 {.unnumbered}
+```{r increased summary view, echo=TRUE, message=FALSE, warning=FALSE}
+
+## Creats a summary table for the new Dataset
+summary_Cases_total<- summary(caseNumbers_allYears_transformed4Summary, maxsum = 30) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reports of Crimecases^[adapted from @Bundeskriminalamt.2023]", tfoot =  "Shows the Years as factors to visualise the amount of observerations per year. Furthermore there are many different Crimetypes listed, but necessary is only  **\"Diebstähle insgesamt und zwar\"** as mentiond in [Sec. 2.1][Data of Federal Criminal Police Office]. Additionally you can see under the FederalState 21 factors. For Baden-Württemberg and Thüringen you can see 2 possible expressions, because of the vowl *ü*. Furthermore you can see that there are Observations for **\"Bundesrepublik\"** and **\"Bund echte Zählung der Tatverdächtigen\"** which are unnecessary for this paper's regression." , label="summary_Cases_total")
+
+summary_Cases_total
+```
 ### List of Loaded Packages {.unnumbered}
 ```{r List of Loaded Packages, echo=TRUE, warning=FALSE, paged.print=TRUE}
 ## only Packages loaded as a list
