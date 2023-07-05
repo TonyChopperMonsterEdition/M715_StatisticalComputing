@@ -48,7 +48,8 @@ list_of_packages <- c(
     "bookdown",
     "PerformanceAnalytics",
     "plm",
-    "linearHypothesis"
+    "gridExtra",
+    "ggrepel"
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
