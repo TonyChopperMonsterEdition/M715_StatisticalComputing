@@ -49,7 +49,7 @@ list_of_packages <- c(
     "PerformanceAnalytics",
     "plm",
     "gridExtra",
-    "ggrepel"
+    "ggrepel",
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
