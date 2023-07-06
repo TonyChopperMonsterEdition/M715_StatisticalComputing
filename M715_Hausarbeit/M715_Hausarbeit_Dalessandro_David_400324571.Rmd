@@ -423,21 +423,18 @@ summary_mergedData <- summary(mergedData4regression) %>% addHtmlTableStyle(pos.c
 Das letzte Skript der Datenaufbereitung führt die in [Sec. 2.2](#Section2_2) aufgelisteten Transformationen und Extraktionen durch. Unter anderem gestaltet es die Datenstruktur für die Regressionsanalyse um. Zum Beipiel erfolgt die Pivotierung der Einwohner-, Arbeitslosen und BIP-Tabllen, so dass die Observationen je Jahr und Bundesland ihre Werte organisieren. 
 
 `r summary_pivotated_Population`
-Das Ergebnis der Pivotierung ist exemplarisch an den Einwohnerzahlen in [Table 17](#summary_pivotated_Population) erläutert. In der Tabelle gibt es eine Spalte für das Bundesland, das Jahr und die Einwohnerzahl. Insgesamt wuchs die Länge von 18 Zeilen auf 132 an (siehe [Table 5][Population per State at the End of a year] oder [Table 6][Population, based on the year before]). Nebenbei wurden die Gesamtzahlen für die Bundesrepublik entfernt, da sie für die Analyse irrelevant sind.
-
+Das Ergebnis der Pivotierung ist exemplarisch an den Einwohnerzahlen in [Table 17](#summary_pivotated_Population) erläutert. In der Tabelle gibt es eine Spalte für das Bundesland, das Jahr und die Einwohnerzahl. Insgesamt wuchs die Länge von 18 Zeilen auf 112 an (siehe [Table 5][Population per State at the End of a year] oder [Table 6][Population, based on the year before]). Nebenbei wurden die Gesamtzahlen für die Bundesrepublik entfernt, da sie für die Analyse irrelevant sind.
 
 `r summary_mergedData`
 
-Die Extraktion der Daten wurde bereits vor Einbettung in die Skripte in Abschnitt [Sec. 2.2](#Section2_2) vorgeführt. Im Skript werden die Selektionsmethoden genutzt, um deren Ausgabe in neue Variablen zu überführen. Während der Ausführung verbindet das Skripts sukzessive die Inkremente zu dem Datensatz **mergedData4regression**.  Eingeschlossen in das Vorgehen sind Bereinigungen und Anpassungen an das Datenformat der Variablen. Das Ergebnis stellt [Table 18](#summary_mergedData) zusammengefasst dar.^(Angemerkt sei an dieser Stelle, dass die Arbeit eine reguläre Darstellung der Zahlen präferiert, um optisch die Unterschiede zwischen den Variablen und ihrer Größenordnung darzustellen. Textuell wird die Darstellung durch Intervallpunkte unterstüzt.) Der Daten enthält zu jedem Bundesland je Jahr eine Observation und ist zusätzlich mit anderen Bundesländern nach seiner jeweiligen Fläche in einer von vier Gruppen untergebracht. Die Population gibt die Anzahl der Einwohner wieder. Die höchste, jemals in einem Bundesland, im Zeitraum von 2014 bis 2020 gemessene Einwohnerzahl ist `r prettyNum(max(mergedData4regression$Population), big.mark = ",",big.interval = 3)`. Im Durchschnitt waren von den Einwohnern Deutschlands `r prettyNum(round(mean(mergedData4regression$AmountOfUnemployedPeople)), big.mark = ",",big.interval = 3)` arbeitslos. Das Gross Domestic Product erstreckt sich  zwischen den Bundesländern von `r  prettyNum(min(mergedData4regression$GDP),big.mark = ",",big.interval = 3)`€ bishin zu `r prettyNum(max(mergedData4regression$GDP), big.mark = ",",big.interval = 3)`€. Damit weist es im Vergleich zu den Ausgaben für Bildung und Kultur die größten Milliardenbeträge vor. Im Durchschnitt lagen die Ausgaben für Bildung bei `r prettyNum(median(mergedData4regression$TotalExpenditure4Education), big.mark = ",",big.interval = 3)`  und für Kultur bei `r prettyNum(median(mergedData4regression$CulturTotalExpenditure), big.mark = ",",big.interval = 3)`. Inweiweit ein Zusammenhang zwischen den Zahlen und der Spannweite von `r prettyNum(max(mergedData4regression$TheftAmount)-min(mergedData4regression$TheftAmount), big.mark = ",",big.interval = 3)` Diebstahlfällen besteht, eruiert im folgenden Abschnitt die vorgestellte Regressionsanalyse.
+Die Extraktion der Daten wurde bereits vor Einbettung in die Skripte in Abschnitt [Sec. 2.2](#Section2_2) vorgeführt. Im Skript werden die Selektionsmethoden genutzt, um deren Ausgabe in neue Variablen zu überführen. Während der Ausführung verbindet das Skripts sukzessive die Inkremente zu dem Datensatz **mergedData4regression**.  Eingeschlossen in das Vorgehen sind Bereinigungen und Anpassungen an das Datenformat der Variablen. Das Ergebnis stellt [Table 18](#summary_mergedData) zusammengefasst dar.^(Angemerkt sei an dieser Stelle, dass die Arbeit eine reguläre Darstellung der Zahlen präferiert, um optisch die Unterschiede zwischen den Variablen und ihrer Größenordnung darzustellen. Textuell wird die Darstellung durch Intervallpunkte unterstüzt.) Der Datensatz enthält zu jedem Bundesland je Jahr eine Observation und ist zusätzlich mit anderen Bundesländern nach seiner jeweiligen Fläche in einer von vier Gruppen untergebracht. Die Population gibt die Anzahl der Einwohner wieder. Die höchste, jemals in einem Bundesland, im Zeitraum von 2014 bis 2020 gemessene Einwohnerzahl ist `r prettyNum(max(mergedData4regression$Population), big.mark = ",",big.interval = 3)`. Im Durchschnitt waren von den Einwohnern Deutschlands `r prettyNum(round(mean(mergedData4regression$AmountOfUnemployedPeople)), big.mark = ",",big.interval = 3)` arbeitslos. Das Gross Domestic Product erstreckt sich  zwischen den Bundesländern von `r  prettyNum(min(mergedData4regression$GDP),big.mark = ",",big.interval = 3)`€ bishin zu `r prettyNum(max(mergedData4regression$GDP), big.mark = ",",big.interval = 3)`€. Damit weist es im Vergleich zu den Ausgaben für Bildung und Kultur die größten Milliardenbeträge vor. Im Durchschnitt lagen die Ausgaben für Bildung bei `r prettyNum(median(mergedData4regression$TotalExpenditure4Education), big.mark = ",",big.interval = 3)`  und für Kultur bei `r prettyNum(median(mergedData4regression$CulturTotalExpenditure), big.mark = ",",big.interval = 3)`. Inweiweit ein Zusammenhang zwischen den Zahlen und der Spannweite von `r prettyNum(max(mergedData4regression$TheftAmount)-min(mergedData4regression$TheftAmount), big.mark = ",",big.interval = 3)` Diebstahlfällen besteht, eruiert im folgenden Abschnitt die vorgestellte Regressionsanalyse.
 
-
+##	Modeling by using linear regression {#Section2_4}
 ```{r preparation culture, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library("PerformanceAnalytics")
 chart.Correlation(select_if(mergedData4regression[,3:9],is.numeric) , histogram=TRUE, pch=19)
 
 ```
-
-##	Modeling by using linear regression {#Section2_4}
 ***
 #	Analysis & Results: Plots and tables from the data (3 pages) {#Chapter3}
 https://www.econometrics-with-r.org/rwpd.html#regression-with-time-fixed-effects
@@ -445,18 +442,16 @@ https://www.econometrics-with-r.org/rwpd.html#regression-with-time-fixed-effects
 library("plm")
 library("lmtest")
 library("car")
+print("##### Model 1 ######")
 mergedData4regression$Year <- as.factor(mergedData4regression$Year)
 regressionModel_1 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1])
 
 summary(regressionModel_1)
 
-regressionModel_2 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure -1, data=mergedData4regression[,-1], index=c("Year", "Areasize"), model = "within")
-
-summary(regressionModel_2)
-
-coeftest(regressionModel_2, vcov = vcovHC, type = "HC1")
-
-regressionModel_3 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + Areasize + Year -1, data=mergedData4regression[,-1])
+print("##### ####### ######")
+print("##### Model 3 ######")
+print("##### ####### ######")
+regressionModel_3 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1], index = c("Year", "Areasize"), model = "within")
 
 summary(regressionModel_3)
 
@@ -467,8 +462,11 @@ linearHypothesis(regressionModel_3,
                  c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
                  vcov. = vcovHC, type = "HC1")
 ####
+print("##### ####### ######")
+print("##### Model 4 ######")
+print("##### ####### ######")
 
-regressionModel_4 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + FederalState + Year -1, data=mergedData4regression[,-4])
+regressionModel_4 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, index = c("FederalState", "Year"), model = "within", data=mergedData4regression[,-4])
 
 summary(regressionModel_4)
 
@@ -483,7 +481,20 @@ linearHypothesis(regressionModel_4,
                  test = "F",
                  c("Population=0", "GDP=0"), 
                  vcov. = vcovHC, type = "HC1")
+print("##### ####### ######")
+print("##### Model 5 ######")
+print("##### ####### ######")
 
+regressionModel_5 <- plm(TheftAmount ~ TotalExpenditure4Education, index = c("FederalState", "Year", "Areasize"), model = "within", data=mergedData4regression)
+
+summary(regressionModel_5)
+
+coeftest(regressionModel_5, vcov = vcovHC, type = "HC1")
+
+linearHypothesis(regressionModel_5,
+                 test = "F",
+                 c("TotalExpenditure4Education=0"), 
+                 vcov. = vcovHC, type = "HC1")
 
 ```
 
@@ -492,6 +503,10 @@ linearHypothesis(regressionModel_4,
 #	Discussion: anomalies and limitations {#Chapter4}
 (0.5 - 1 page)
 - Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
+
+1.232 € Pro Person -> 18.702.368 € weniger Schaden, wenn 600.000.000€ investiert und dadurch 15.000 Personen keinen Diebstahl begehen ^[adapted from @StatistischesBundesamtDeutschland.2023]
+-180 € je Tag Gefängniskosten * 30 Tage Gefängnis * 15.000 Personen = 81.918.000 € Gefängniskosten ^[https://www.justiz-bw.de/,Lde/Startseite/Justiz/datenundfakten, https://www.sueddeutsche.de/panorama/strafvollzug-duesseldorf-jeder-gefangene-kostet-nrw-rund-178-euro-pro-tag-dpa.urn-newsml-dpa-com-20090101-220824-99-494861]
+Wirtschaftskraft 75.000 --> ^[https://www.deutschlandatlas.bund.de/DE/Karten/Wie-wir-arbeiten/065-Bruttoinlandsprodukt-je-Erwerbstaetigen.html]
 
 ***
 #	Conclusion: findings and implications {#Chapter5}

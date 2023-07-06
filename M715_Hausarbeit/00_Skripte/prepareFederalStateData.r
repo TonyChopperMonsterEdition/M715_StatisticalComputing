@@ -70,4 +70,4 @@ tidyTable_of_expendCult $Year <- as.numeric(as.character(tidyTable_of_expendCult
 
 ###Join Dataset the joined_Thefts_Population_GDP_Unemployed_expendEdu and Expenditure for Culture y by Federal State and Year
 joined_Thefts_Population_GDP_Unemployed_expendEdu_expendCult<- inner_join(x=joined_Thefts_Population_GDP_Unemployed_expendEdu, y=tidyTable_of_expendCult , by=c("FederalState", "Year"), keep=FALSE)
-mergedData4regression <- joined_Thefts_Population_GDP_Unemployed_expendEdu_expendCult
+mergedData4regression <- mutate(joined_Thefts_Population_GDP_Unemployed_expendEdu_expendCult, Year= as.factor(Year))
