@@ -26,7 +26,6 @@ list_of_packages <- c(
     "rmarkdown",
     "knitr",
     "class",
-    "ElemStatLearn",
     "feather",
     "GGally",
     "knitr",
@@ -50,6 +49,10 @@ list_of_packages <- c(
     "plm",
     "gridExtra",
     "ggrepel",
+    "stargazer",
+    "sjPlot",
+    "sjmisc",
+    "sjlabelled"
 )
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]

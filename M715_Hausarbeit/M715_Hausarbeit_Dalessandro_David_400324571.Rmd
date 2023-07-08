@@ -1,5 +1,5 @@
 ---
-title: "Regressionmodelling on Crimecases"
+title: "regModling on Crimecases"
 subtitle: "Modul 715 - Statistical Computing"
 author: "D'Alessandro David"
 date: "`r Sys.Date()`"
@@ -100,9 +100,10 @@ Table_Ber_TheftOnly <- htmlTable(Table_Ber_TheftOnly,
                                    label="Table_Ber_TheftOnly")
 
 ## Example for smaller Thefts
-sum_Ber_TheftOnly_total <- sum(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "\\*", "Casenumbers"])
-example_Ber_TheftOnly_gastronomic <- as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "315\\*", "Casenumbers"])
-example_Ber_TheftOnly_nonGastro <- as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "310\\*", "Casenumbers"])
+sum_Ber_TheftOnly_total <- prettyNum(sum(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "\\*", "Casenumbers"]), big.mark = ",",big.interval = 3)
+example_Ber_TheftOnly_gastronomic <-  prettyNum(as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "315\\*", "Casenumbers"]), big.mark = ",",big.interval = 3)
+example_Ber_TheftOnly_nonGastro <-  prettyNum(as.numeric(example_Ber_TheftOnly[example_Ber_TheftOnly$CrimeKey %like% "310\\*", "Casenumbers"]), big.mark = ",",big.interval = 3)
+
 # Crimes in Berlin in 2020 to show upperlayer for each crimetype and the relevant figures for the paper
 example_Ber2_totalCrimeTypes <- caseNumbers_2020[caseNumbers_2020$FederalState %like% "Berlin" & caseNumbers_2020$Crimetype %like% "insgesamt und zwar:",]
 Table_Ber2_totalCrimeTypes <- addHtmlTableStyle(example_Ber2_totalCrimeTypes, 
@@ -115,7 +116,7 @@ Table_Ber2_totalCrimeTypes <- htmlTable(Table_Ber2_totalCrimeTypes,
                                    n.tspanner = nrow(Table_Ber2_totalCrimeTypes),
                                    caption="Total Numbers per Crimetype in Berlin in 2020^[adapted from @Bundeskriminalamt.2023]",
                                    label="Table_Ber2_totalCrimeTypes")
-example_Ber2_Total <- as.numeric(example_Ber2_totalCrimeTypes[,"Casenumbers"])
+example_Ber2_Total <- prettyNum(as.numeric(example_Ber2_totalCrimeTypes[,"Casenumbers"]), big.mark = ",",big.interval = 3)
 
 # Create Variable and Table for total amount of thefts for all states and years in germany
 ## Parts of the tables will be displayed in the appendix
@@ -144,7 +145,7 @@ Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Dow
 
 `r Table_Ber_TheftOnly`
 
-[Table. 1](#Table_Ber_TheftOnly) verdeutlicht exemplarisch die Bedeutung der Ebenen für leichte Diebstähle in Berlin. Die Gesamtzahl leichter Diebstähle `r sum_Ber_TheftOnly_total` ergibt sich aus den Fallzahlen des regulären Betriebs (`r example_Ber_TheftOnly_nonGastro`) und des gastronomischen Betriebs (`r example_Ber_TheftOnly_gastronomic`). Die dargestellten Zahlen stammen aus der zweiten Ebene der Diebstähle, darunter spezifiziert die dritte Ebene welche Fallunterscheidungen existieren. Zum Beispiel, dass Kraftfahrzeuge im regulären Betrieb gestohlen wurden. Alle Fälle dieser Ebene ergeben in Summe die Fallzahl der darüberliegenden Ebene. Das heißt, dass ein Kummulieren der Fallzahlen nicht notwenig ist, da jede Ebene die Anzahl der Fälle aus der unteren Ebene zusammenfasst. 
+[Table. 1](#Table_Ber_TheftOnly) verdeutlicht exemplarisch die Bedeutung der Ebenen für leichte Diebstähle in Berlin. Die Gesamtzahl leichter Diebstähle `r sum_Ber_TheftOnly_total` ergibt sich aus den Fallzahlen des regulären Betriebs (`r example_Ber_TheftOnly_nonGastro`) und des gastronomischen Betriebs (`r example_Ber_TheftOnly_gastronomic`).^[Angemerkt sei an dieser Stelle, dass die Arbeit eine reguläre Darstellung der Zahlen präferiert, um optisch die Unterschiede zwischen den Variablen und ihrer Größenordnung darzustellen. Textuell wird die Darstellung durch Intervallpunkte unterstüzt.] Die dargestellten Zahlen stammen aus der zweiten Ebene der Diebstähle, darunter spezifiziert die dritte Ebene welche Fallunterscheidungen existieren. Zum Beispiel, dass Kraftfahrzeuge im regulären Betrieb gestohlen wurden. Alle Fälle dieser Ebene ergeben in Summe die Fallzahl der darüberliegenden Ebene. Das heißt, dass ein Kummulieren der Fallzahlen nicht notwenig ist, da jede Ebene die Anzahl der Fälle aus der unteren Ebene zusammenfasst. 
 
 `r Table_Ber2_totalCrimeTypes`
 
@@ -209,12 +210,13 @@ Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Gr
 ```{r Cultural Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
 
 
-### Missings in Educational Expenditure
+# Missings in Educational Expenditure
+## summary is presented with non-scientific numbers, prettyNum() or fomat() was not working for all figures, so it is only used in the textual  areas of this work
 #expenditure4Culture_<- expenditure4Culture[expenditure4Culture$CulturalTotalExpenditure,]
 table_expenditure4Culture <- addHtmlTableStyle(summary(expenditure4Culture[,c(-(3:6),-9)], maxsum = 20), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the expenditures in culture (in €)", label="table_expenditure4Culture")
 
-mean_CulturalExpenditure <- round(mean(expenditure4Culture$CulturalTotalExpenditure))
-median_CulturalExpenditure <- round(median(expenditure4Culture$CulturalTotalExpenditure))
+mean_CulturalExpenditure <- prettyNum(round(mean(expenditure4Culture$CulturalTotalExpenditure)), big.mark = ",",big.interval = 3)
+median_CulturalExpenditure <- prettyNum(round(median(expenditure4Culture$CulturalTotalExpenditure)), big.mark = ",",big.interval = 3)
 
 notSeenVariables <- names(expenditure4Culture[,c(3:6,9)])
 missings_4_CulturalAffairsAbroad <- expenditure4Culture[is.na(expenditure4Culture$CulturalAffairsAbroad),]
@@ -257,20 +259,25 @@ table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Educa
 summary_expenditure4Education_onlyTotal <- addHtmlTableStyle(summary(expenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt",], maxsum = 20), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of expenditure for education^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education_onlyTotal")
 
 ## Get Median and Mean from the Expenditures for Education
-mean_expenditure4Education_onlyTotal <- round(mean(expenditure4Education$TotalExpenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt"]))
-median_expenditure4Education_onlyTotal <- round(median(expenditure4Education$TotalExpenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt"]))
+
+
+mean_expenditure4Education_onlyTotal <- prettyNum(round(mean(expenditure4Education$TotalExpenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt"])), big.mark = ",",big.interval = 3)
+median_expenditure4Education_onlyTotal <- prettyNum(round(median(expenditure4Education$TotalExpenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt"])), big.mark = ",",big.interval = 3)
+
+difference_median_mean <- prettyNum(round(mean(expenditure4Education$TotalExpenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt"]))-round(median(expenditure4Education$TotalExpenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt"])), big.mark = ",",big.interval = 3)
+
 ```
 `r summary_expenditure4Education `
 
 [Table 10](#summary_expenditure4Education) enthält eine Zusammenfassung der Bildungsausgaben, darunter fallen alle Mittel, die in Kindertagesstätten, Schulen, Hochschulen oder weitere ausbildende oder pädagogische Einrichtungen fließen. Von 2014 bis 2022 ist jedes Bundesland durch jeweils drei Observationen repräsentiert. Diese drei Observationen entstehen, weil der Datensatz die Geldmittel in die kummulativen **Gemeindeausgaben**, in **allgemeine Länderausgaben** und einer **zusammenfassenden Position** aus Gemeinden und Länder differenziert. Aufgrund dieser Differenzierung ist eine Betrachtung des Median und der durchschnittlichen Ausgaben noch nicht sinnvoll. Jedoch ist die Anzahl der `r toString(amount_missings_4_expenditure4Education)` fehlenden Einträge auffällig.   
 
-`r table_expenditure4Education_missings `
+`r table_expenditure4Education_missings`
 
 Aus der Betrachtung der Missings in [Table 11](#table_expenditure4Education_missings) geht hervor, dass die Länder *Berlin, Bremen und Hamburg* keine Gemeindeausgaben ausweisen. Das liegt daran, dass diese Bundesländer Stadtstaaten sind und damit Gemeinde und Bundesland zugleich. Aufgrund dieser Besonderheit ist eine Betrachtung der einzelnen Gemeindeausgaben nicht sinnvoll. Die Arbeit fokusiert deshalb die Observationen, die die Gesamtausgaben der Länder dokumentieren. 
 
 `r summary_expenditure4Education_onlyTotal`
 
-Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(mean_expenditure4Education_onlyTotal-median_expenditure4Education_onlyTotal)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetische Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Chapter 3](#Chapter3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für [Sec. 2.3](#Section2_3) die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.
+Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokusierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(difference_median_mean)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetische Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Chapter 3](#Chapter3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für [Sec. 2.3](#Section2_3) die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.
 
 ### Number of Unemployed People
 ```{r unemployment rate, echo=TRUE, message=FALSE, warning=FALSE}
@@ -289,8 +296,8 @@ summary_Unemployment <- summary(jobless_people[,1:8]) %>% addHtmlTableStyle(pos.
 # Gross Domestic Product is structured similar to the inhabitants
 summary_gdp<- summary(gdp_atMarketPrice[,1:7]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="No missings in the GDP-table and the structre is similar to the inhabitant^[adapted from @StatistischesBundesamtDeutschland.2023e]", tfoot =  "Figures are presented in Euro and only until 2019.", label="summary_gdp")
 
-mean_gdp2014 <- round(mean(gdp_atMarketPrice$`2014`))
-mean_gdp2019 <- round(median(gdp_atMarketPrice$`2019`))
+mean_gdp2014 <- prettyNum(round(mean(gdp_atMarketPrice$`2014`)), big.mark = ",",big.interval = 3)
+mean_gdp2019 <- prettyNum(round(median(gdp_atMarketPrice$`2019`)), big.mark = ",", big.interval = 3)
 
 ```
 `r summary_gdp`
@@ -353,9 +360,13 @@ theft_median_developement <- ggplot(data = grouped_median_thefts_by_areasize, ae
   theme(legend.position = "none",plot.title = element_text(hjust = 0.5, size = 10, color = "black"), axis.title.y = element_blank(), axis.title.x = element_text(size = 8, colour = "darkgrey"))  +
   ggtitle("Median-Development of thefts")
 
+maxMean_thefts_of_one_federalState <- prettyNum(round(max(grouped_mean_thefts_by_areasize$TheftAmount)), big.mark = ",", big.interval = 3)
+
+maxMedian_thefts_of_one_federalState <- prettyNum(round(max(grouped_median_thefts_by_areasize$TheftAmount)), big.mark = ",", big.interval = 3)
+
 grid.arrange(ncol=2, theft_mean_developement,theft_median_developement, widths = c(1, 0.95))
 ```
-Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Fig. 2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Zu beachten ist jedoch der Unterschied zwischen Median (rechts) mit 200.000 und dem arithmetischen Mittel (links) mit 300.000 Diebstählen beginnend ab 2014.  Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
+Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Fig. 2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Zu beachten ist jedoch der Unterschied zwischen Median (rechts) mit `r toString(maxMedian_thefts_of_one_federalState)` und dem arithmetischen Mittel (links) mit `r toString(maxMean_thefts_of_one_federalState)` Diebstählen beginnend ab 2014.  Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE,  fig.id= TRUE, fig.cap="Distribution of Theafts among each group of Federal States"}
 
@@ -392,7 +403,7 @@ grid.arrange(ncol=2, thefts_bp_2014, thefts_bp_2015, thefts_bp_2019, thefts_bp_2
 
 ```
 
-Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft eingeschränkt. Jedoch unterstützt [Fig. 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. 200.000 Diebstählen und es exsitiert ein Ausreißer. Hierdurch wird der höhere Durchschnitt in [Fig. 2.2](#fig:unnamed-chunk-2) erklärt. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
+Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft eingeschränkt. Jedoch unterstützt [Fig. 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. `r toString(maxMedian_thefts_of_one_federalState)` Diebstählen und es exsitiert ein Ausreißer. Hierdurch wird der höhere Durchschnitt in [Fig. 2.2](#fig:unnamed-chunk-2) erklärt. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.a = "center",  fig.id= TRUE, fig.cap="Development of the Casenumbers in each Federal State"}
@@ -406,8 +417,14 @@ thefts_development_fS <- ggplot(data = thefts_allYears_tidy, aes(x = Year, y = T
   scale_colour_discrete(name  ="Federal States")
 thefts_development_fS 
 
+mean_thefts_of_NRW <- prettyNum(round(mean(thefts_allYears_tidy$TheftAmount[thefts_allYears_tidy$FederalState == "Nordrhein-Westfalen"])), big.mark = ",", big.interval = 3)
+
+mean_thefts_of_notNRW <- prettyNum(round(mean(thefts_allYears_tidy$TheftAmount[!(thefts_allYears_tidy$FederalState == "Nordrhein-Westfalen")])), big.mark = ",", big.interval = 3)
+
+
+
 ```
-Die Einzelbetrachtung der Länder in [Fig. 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über 400.000 Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um 200.000 liegen. Die hohe Spanneweite aus [Fig. 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Fig. 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Fig. 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Kapitel 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
+Die Einzelbetrachtung der Länder in [Fig. 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über `r toString(mean_thefts_of_NRW)` Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um `r toString(mean_thefts_of_notNRW)` liegen. Die hohe Spanneweite aus [Fig. 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Fig. 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Fig. 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Kapitel 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
 
 ### Preparation of specific data from the Federal States 
 ```{r pivoting extract exclude, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -417,17 +434,32 @@ source("./00_Skripte/prepareFederalStateData.r", local = knitr::knit_global())
 
 summary_pivotated_Population <- tidyTable_of_population %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of all yearly reported inhabitants from 2014 until 2020 in each federal state^[adapted from @StatistischesBundesamtDeutschland.2023]", label="summary_pivotated_Population")
 
+## for text - changes as row length
+populationLength_after <- nrow(tidyTable_of_population)
+populationLength_before <- nrow(population_per_FederalState_headerAdjusted)
+
+
+# Summary of all Datasets as merged Data
 summary_mergedData <- summary(mergedData4regression) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the merged data", tfoot =  "The data includes the federal states, their grouping by areasize and the tracked years as dummy variable, the amount of thefts as the dependent variable and each specific independent variable from the number of inhabitant to the expenditures for culture. The presentation of the values in a non-scientific way was prefered from this work as it shows the diffrences among the variables.", label="summary_mergedData")
+
+pretty_maxPopulation <- prettyNum(max(mergedData4regression$Population), big.mark = ",",big.interval = 3)
+pretty_meanJobless <- prettyNum(round(mean(mergedData4regression$AmountOfUnemployedPeople)), big.mark = ",",big.interval = 3)
+pretty_minGDP <- prettyNum(min(mergedData4regression$GDP),big.mark = ",",big.interval = 3)
+pretty_maxGDP <- prettyNum(max(mergedData4regression$GDP), big.mark = ",",big.interval =3)
+pretty_medianEduExp <- prettyNum(median(mergedData4regression$TotalExpenditure4Education), big.mark = ",",big.interval = 3)
+pretty_medianCultExp <- prettyNum(median(mergedData4regression$CulturalTotalExpenditure), big.mark = ",",big.interval = 3)
+pretty_spanThefts <- prettyNum(max(mergedData4regression$TheftAmount)-min(mergedData4regression$TheftAmount), big.mark = ",",big.interval = 3)
+
 
 ```
 Das letzte Skript der Datenaufbereitung führt die in [Sec. 2.2](#Section2_2) aufgelisteten Transformationen und Extraktionen durch. Unter anderem gestaltet es die Datenstruktur für die Regressionsanalyse um. Zum Beipiel erfolgt die Pivotierung der Einwohner-, Arbeitslosen und BIP-Tabllen, so dass die Observationen je Jahr und Bundesland ihre Werte organisieren. 
 
 `r summary_pivotated_Population`
-Das Ergebnis der Pivotierung ist exemplarisch an den Einwohnerzahlen in [Table 17](#summary_pivotated_Population) erläutert. In der Tabelle gibt es eine Spalte für das Bundesland, das Jahr und die Einwohnerzahl. Insgesamt wuchs die Länge von 18 Zeilen auf 112 an (siehe [Table 5][Population per State at the End of a year] oder [Table 6][Population, based on the year before]). Nebenbei wurden die Gesamtzahlen für die Bundesrepublik entfernt, da sie für die Analyse irrelevant sind.
+Das Ergebnis der Pivotierung ist exemplarisch an den Einwohnerzahlen in [Table 17](#summary_pivotated_Population) erläutert. In der Tabelle gibt es eine Spalte für das Bundesland, das Jahr und die Einwohnerzahl. Insgesamt wuchs die Länge von `r populationLength_before` Zeilen auf `r populationLength_after` an (siehe [Table 5][Population per State at the End of a year] oder [Table 6][Population, based on the year before]). Nebenbei wurden die Gesamtzahlen für die Bundesrepublik entfernt, da sie für die Analyse irrelevant sind.
 
 `r summary_mergedData`
 
-Die Extraktion der Daten wurde bereits vor Einbettung in die Skripte in Abschnitt [Sec. 2.2](#Section2_2) vorgeführt. Im Skript werden die Selektionsmethoden genutzt, um deren Ausgabe in neue Variablen zu überführen. Während der Ausführung verbindet das Skripts sukzessive die Inkremente zu dem Datensatz **mergedData4regression**.  Eingeschlossen in das Vorgehen sind Bereinigungen und Anpassungen an das Datenformat der Variablen. Das Ergebnis stellt [Table 18](#summary_mergedData) zusammengefasst dar.^[Angemerkt sei an dieser Stelle, dass die Arbeit eine reguläre Darstellung der Zahlen präferiert, um optisch die Unterschiede zwischen den Variablen und ihrer Größenordnung darzustellen. Textuell wird die Darstellung durch Intervallpunkte unterstüzt.] Der Datensatz enthält zu jedem Bundesland je Jahr eine Observation und ist zusätzlich mit anderen Bundesländern nach seiner jeweiligen Fläche in einer von vier Gruppen untergebracht. Die Population gibt die Anzahl der Einwohner wieder. Die höchste, jemals in einem Bundesland, im Zeitraum von 2014 bis 2020, gemessene Einwohnerzahl ist `r prettyNum(max(mergedData4regression$Population), big.mark = ",",big.interval = 3)`. Im Durchschnitt waren von den Einwohnern Deutschlands `r prettyNum(round(mean(mergedData4regression$AmountOfUnemployedPeople)), big.mark = ",",big.interval = 3)` arbeitslos. Das Gross Domestic Product erstreckt sich  zwischen den Bundesländern von `r  prettyNum(min(mergedData4regression$GDP),big.mark = ",",big.interval = 3)`€ bishin zu `r prettyNum(max(mergedData4regression$GDP), big.mark = ",",big.interval = 3)`€. Damit weist es im Vergleich zu den Ausgaben für Bildung und Kultur die größten Milliardenbeträge vor. Im Durchschnitt lagen die Ausgaben für Bildung bei `r prettyNum(median(mergedData4regression$TotalExpenditure4Education), big.mark = ",",big.interval = 3)`  und für Kultur bei `r prettyNum(median(mergedData4regression$CulturalTotalExpenditure), big.mark = ",",big.interval = 3)`. Inwieweit ein Zusammenhang zwischen den Zahlen und der Spannweite von `r prettyNum(max(mergedData4regression$TheftAmount)-min(mergedData4regression$TheftAmount), big.mark = ",",big.interval = 3)` Diebstahlfällen besteht, eruiert im folgenden Abschnitt die vorgestellte Regressionsanalyse.
+Die Extraktion der Daten wurde bereits vor Einbettung in die Skripte in Abschnitt [Sec. 2.2](#Section2_2) vorgeführt. Im Skript werden die Selektionsmethoden genutzt, um deren Ausgabe in neue Variablen zu überführen. Während der Ausführung verbindet das Skripts sukzessive die Inkremente zu dem Datensatz **mergedData4regression**.  Eingeschlossen in das Vorgehen sind Bereinigungen und Anpassungen an das Datenformat der Variablen. Das Ergebnis stellt [Table 18](#summary_mergedData) zusammengefasst dar.^[Angemerkt sei an dieser Stelle, dass die Arbeit eine reguläre Darstellung der Zahlen präferiert, um optisch die Unterschiede zwischen den Variablen und ihrer Größenordnung darzustellen. Textuell wird die Darstellung durch Intervallpunkte unterstüzt.] Der Datensatz enthält zu jedem Bundesland je Jahr eine Observation und ist zusätzlich mit anderen Bundesländern nach seiner jeweiligen Fläche in einer von vier Gruppen untergebracht. Die Population gibt die Anzahl der Einwohner wieder. Die höchste, jemals in einem Bundesland, im Zeitraum von 2014 bis 2020, gemessene Einwohnerzahl ist `r pretty_maxPopulation`. Im Durchschnitt waren von den Einwohnern Deutschlands `r pretty_meanJobless` arbeitslos. Das Gross Domestic Product erstreckt sich  zwischen den Bundesländern von `r pretty_minGDP`€ bishin zu `r pretty_maxGDP`€. Damit weist es im Vergleich zu den Ausgaben für Bildung und Kultur die größten Milliardenbeträge vor. Im Durchschnitt lagen die Ausgaben für Bildung bei `r pretty_medianEduExp`€  und für Kultur bei `r pretty_medianCultExp`€. Inwieweit ein Zusammenhang zwischen den Zahlen und der Spannweite von `r pretty_spanThefts` Diebstahlfällen besteht, eruiert im folgenden Abschnitt die vorgestellte Regressionsanalyse.
 
 ##	Modeling by using linear regression {#Section2_4}
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -436,29 +468,40 @@ library("lmtest")
 library("car")
 
 mergedData4regression$Year <- as.factor(mergedData4regression$Year)
-print("##### Model 1 ######")
 
-regressionModel_1 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1])
-
-print("##### Model 2 ######")
-
-regressionModel_2 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + Areasize + Year  -1, data=mergedData4regression[,-1])
-
-print("##### Model 3 ######")
-
-regressionModel_3 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1], index = c( "Areasize","Year"), model = "within", effect = "twoways")
-
-print("##### Model 4 ######")
+### Short variablenames are needed because stargazer can not work with longer Variable names
+regMod_1 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1])
 
 
-regressionModel_4 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, index = c("FederalState", "Year"), model = "within", effect = "twoways", data=mergedData4regression[,-4])
+regMod_2 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + Areasize + Year  -1, data=mergedData4regression[,-1])
 
+#Alternativly done with plm
+## regMod_2 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression[,-1], index = c( "Areasize","Year"), model = "within", effect = "twoways")
+
+regMod_3 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + FederalState + Year -1, data=mergedData4regression[,-4])
+#Alternativly done with plm
+## regMod_3 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, index = c("FederalState", "Year"), model = "within", effect = "twoways", data=mergedData4regression[,-4])
 
 ```
+Auf Basis des in [Sec. 2.3](#Section2_3) vorbereiteten Datensatzes  **mergedData4regression** führt dieser Abschnitt die Regressionsanalyse durch. Der darüberliegenden Codechunk berechnet drei Modelle. Das erste Modell berücksichtigt keine fixierten Effekte. Das zweite und dritte Modell schließen Kontrollvariablen in die Analyse mit ein. Als Kontrollvariable werden die Jahresangaben und zusätzlich, entweder die Länder als eigensändige Entität (Modell 3) oder als Ländergruppen nach ihrer Größe (Modell 2) hinzugezogen. Zur Berechnung nutzt die Arbeit die Methode *"lm()"* aus dem Package *"lmtest"*. Die Methode *plm()* ist alternativ einsetzbar, jedoch wurde nicht ausgewählt, da sie die Kontrollvariablen bei der Modellberechnung zwar berücksichtigt, aber nicht ausgibt
 
-d 
+### Equations of each regression model  {.unnumbered .tabset .tabset-fade}
 
-u
+#### Model 1 {-}
+
+$$ 
+\begin{split}
+TheftAmount & \sim \beta_0 \\
+& + \beta_1*Population  \\
+& + \beta_2*GDP  \\
+& + \beta_3*AmountOfUnemployedPeople  \\
+& + \beta_4*TotalExpenditure4Education   \\
+& + \beta_5*CulturalTotalExpenditure \\
+\end{split}
+(\#eq:equation)
+$$
+
+#### Model 2 {-}
 
 $$ 
 \begin{split}
@@ -470,68 +513,121 @@ TheftAmount & \sim \beta_0*Population  \\
 & + \gamma_0*AreaSize0 + ... +  \gamma_3*AreaSize3 \\
 & + \delta_0 *Year0 ... \delta6*Year6
 \end{split}
-(\#eq:binom)
+(\#eq:equation)
 $$
 
-d
-`r regressionModel_1[1]$coefficients `
-d
-`r regressionModel_2[1]$coefficients `
-d
-`r regressionModel_3[1]$coefficients `
-D
-`r regressionModel_4[1]$coefficients `
-d
+#### Model 3 {-}
+
+$$ 
+\begin{split}
+TheftAmount & \sim \beta_0*Population  \\
+& + \beta_1*GDP  \\
+& + \beta_2*AmountOfUnemployedPeople  \\
+& + \beta_3*TotalExpenditure4Education   \\
+& + \beta_4*CulturalTotalExpenditure \\
+& + \gamma_0*FederalState0 + ... +  \gamma_15*FederalState16 \\
+& + \delta_0 *Year0 ... \delta6*Year6
+\end{split}
+(\#eq:equation)
+$$
+
+### {-}
+Die Formeln in [2.1](#eq:equation) zeigen den Aufbau der jeweiligen Regressionsmodelle. Das erste Modell verzichtet auf Kontrollvariablen und beschreibt den Zusammenhang zu den Fallzahlen als Summe der Population, des Bruttoinlandprodukts, der Arbeitlosigkeit, sowie der Ausagaben für Bildung und Kultur. Darüberhinaus beeinflussen die Regressionskoeffizienten $\beta_0$ bis $\beta_5$ den Effekt der unabhängigen Variablen. Das zweite und das dritte Modell führen die obengenannten Kontrollvariablen ein um Verzerrungen auf die unabhängigen Variablen zu reduzieren. Sie nehmen als Dummyvariable den Wert 0 oder 1 an und werden durch die Parameter $\gamma_n$ oder  $\delta_n$ beeinflusst. 
+
+Abschließend zeigte [Chap. 2](#Chapter2), dass die Daten des Bundeskriminalamts, sowie die des statistischen Bundesamts einen gewissen Bearbeitungsaufwand bedürfen. [Sec. 2.1](#Section2_1) und [Sec. 2.2](#Section2_2) grenzten die Daten, auf die für die Fragestellung relevanten Variablen und Observationen, ein. [Sec. 2.3](#Section2_3) extrahiert auf Grundlage dessen, die für die Fragestellung relevanten Variablen. Dazu zählt die Zahl der Diebstähle je Bundesland als abhängige Variable und die verschiedenen unabhängigen Variablen, von der Einwohnerzahl bishin zu den Gesamtausgaben für Kultur. Außerdem beschreibt der Abschnitt, dass die Bundesländer nach ihrer Fläche gruppiert, jeweils unterschiedliche Eigenheiten in der Masse an Diebstählen oder ihrer Spannweite besitzen. Wie die unabhängigen Variablen diese Eigenheiten erklären, beschreiben die aufgestellten Regressionsmodelle aus [Sec. 2.4](#Section2_4). Dabei schließen zwei der drei Modell diverse Kontrollvariablen ein, die [Chap. 3](#Chapter3) näher betrachtet.
 
 #	Analysis & Results: Plots and tables from the data (3 pages) {#Chapter3}
-https://www.econometrics-with-r.org/rwpd.html#regression-with-time-fixed-effects
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-print("##### Model 1 ######")
 
-coeftest(regressionModel_1, vcov = vcovHC, type = "HC1")
+rM1_coeftest <- coeftest(regMod_1, vcov = vcovHC, type = "HC1")
 
-linearHypothesis(regressionModel_1,
+rM1_F_Test <- linearHypothesis(regMod_1,
                  test = "F",
                  c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
                  vcov. = vcovHC, type = "HC1")
 
-print("##### Model 2 ######")
+rM2_coeftest <- coeftest(regMod_2, vcov = vcovHC, type = "HC1")
 
-coeftest(regressionModel_2, vcov = vcovHC, type = "HC1")
-
-linearHypothesis(regressionModel_2,
+rM2_F_Test <-linearHypothesis(regMod_2,
                  test = "F",
                  c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
                  vcov. = vcovHC, type = "HC1")
+rM2_F_Test2 <- linearHypothesis(regMod_2,
+                 test = "F",
+                 c("Population=0", "GDP=0", "AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
+                 vcov. = vcovHC, type = "HC1")
 
-print("##### Model 3 ######")
+rM3_coeftest <- coeftest(regMod_3, vcov = vcovHC, type = "HC1")
 
-coeftest(regressionModel_3, vcov = vcovHC, type = "HC1")
-
-linearHypothesis(regressionModel_3,
+rM3_F_Test1 <- linearHypothesis(regMod_3,
                  test = "F",
                  c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
                  vcov. = vcovHC, type = "HC1")
-
-print("##### Model 4 ######")
-
-coeftest(regressionModel_4, vcov = vcovHC, type = "HC1")
-
-linearHypothesis(regressionModel_4,
+rM3_F_Test2 <- linearHypothesis(regMod_3,
                  test = "F",
-                 c("AmountOfUnemployedPeople=0", "TotalExpenditure4Education=0", "CulturalTotalExpenditure=0"), 
+                 c( "Population=0", "GDP=0", "CulturalTotalExpenditure=0"), 
                  vcov. = vcovHC, type = "HC1")
 
-linearHypothesis(regressionModel_4,
-                 test = "F",
-                 c("Population=0", "GDP=0"), 
-                 vcov. = vcovHC, type = "HC1")
+
+
+
+# Section will generate table for overview
+
+#library(stargazer) not used because not adjustable caption with numeration
+# gather clustered standard errors in a list
+#theftsModel_se <- list(sqrt(diag(vcovHC(regMod_1, type = "HC1"))),
+               # sqrt(diag(vcovHC(regMod_2, type = "HC1"))),
+               # sqrt(diag(vcovHC(regMod_3, type = "HC1"))))
+
+#stargazerExample <- stargazer(regMod_1, regMod_2,regMod_3, regMod_4,regMod_5, digits = 6,type = "html", title = "Linear Modells", header = FALSE,se = theftsModel_se, add.lines = list(c("Control Variables", "No", "Yes", "Yes", "Yes", "Yes")),model.numbers = FALSE, column.labels = c("(1)", "(2)", "(3)", "(4)","(5)" ), label = "stargazerExample")
+
+library(sjPlot)
+library(sjmisc)
+library(sjlabelled)
+library(rvest)
+
+#Creating a table for all of the models
+tab_model(regMod_1, regMod_2,regMod_3, 
+          vcov.fun = "HC1",  p.style = "stars" ,digits = 6, 
+          show.df = FALSE, show.fstat = TRUE, show.ci = FALSE,
+          dv.labels = c("Model 1", "Model 2", "Model 3"), 
+          file= "./02_VerarbeiteteDaten/zusammenfassung.html", encoding = "latin") 
+
+Overview_RegModels <- read_html("./02_VerarbeiteteDaten/zusammenfassung.html") %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(caption="Overview of all regression modells shows Model 3 as best result", tfoot =  "All modells show significant estimators for some variables. in [Sec. 2.4](#Section2_4) " , label="Overview_RegModels")
+
 
 ```
+d
+`r toString(regMod_1[1]$coefficients["(Intercept)"]) `
 
-^[https://www.econometrics-with-r.org/10.4-regression-with-time-fixed-effects.html entity and time fixed effects]
+d
+`r regMod_2[1]$coefficients `
+d
+`r regMod_3[1]$coefficients `
+D
+d
+https://www.econometrics-with-r.org/rwpd.html#regression-with-time-fixed-effects
 
 
+
+
+
+r^[https://www.econometrics-with-r.org/10.4-regression-with-time-fixed-effects.html entity and time fixed effects]
+dd
+`r Overview_RegModels`
+ss
+$$ 
+\begin{split}
+TheftAmount & \sim `r toString(regMod_2[1]$coefficients["Population"])`*Population  \\
+& + `r toString(regMod_2[1]$coefficients["GDP"])`*GDP  \\
+& + `r toString(regMod_2[1]$coefficients["AmountOfUnemployedPeople"])`*AmountOfUnemployedPeople  \\
+& + (`r toString(regMod_2[1]$coefficients["TotalExpenditure4Education"])`)*TotalExpenditure4Education   \\
+& + `r toString(regMod_2[1]$coefficients["CulturalTotalExpenditure"])`*CulturalTotalExpenditure \\
+& + (`r toString(regMod_2[1]$coefficients["Areasizebig"])`)*AreaSize0 + ... +  `r toString(regMod_2[1]$coefficients["Areasizevery small"])`*AreaSize3 \\
+& + `r toString(regMod_2[1]$coefficients["Year2015"])`*Year0 + ... + (`r toString(regMod_2[1]$coefficients["Year2020"])`)*Year6
+\end{split}
+(\#eq:equation2)
+$$
 #	Discussion: anomalies and limitations {#Chapter4}
 (0.5 - 1 page)
 - Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
@@ -546,68 +642,8 @@ Mehr arbeitslose als Diebstähle --> theoretisch Überkompensation --> praktisch
 #	Conclusion: findings and implications {#Chapter5}
 (0.5 - 1 page).
 
-Bildungsausgaben setzt sich aus mehreren Untereinheiten zusammen. Welche dieser Einheiten genau den Zusammenhang mit den Diebstählen aufweist sollte Gegenstand zukünftiger untersuchungen werden.
+Bildungsausgaben setzt sich aus mehreren Untereinheiten zusammen. Welche dieser Einheiten genau den Zusammenhang mit den Diebstählen aufweist sollte Gegenstand zukünftiger Untersuchungen werden.
 
-# Kriminalitässtatistik 
-
-
-
-## Datenbanken zu mehr Inhalt 
-
-## Arbeitnehmerentgelte in Kreisen
-- https://www.statistikportal.de/de/vgrdl/ergebnisse-kreisebene/einkommen-kreise
-
-
-## Slide with R Output und gut formatierter tabellen ausgabe
-
-```{r cars, echo = TRUE}
-knitr::kable(summary(cars),
-             caption= "Zusammenfassung von cars")
-knitr::kable(head(cars),
-             caption="Die ersten 10 Zeilen"
-             )
-
-```
-
-## Slide with Plot 
-
-```{r pressure}
-plot(pressure)
-```
-
-
-### Tabellen
-Beispiel | Beispiel2
-:---------:|:---------:
-Inhalt | spalte2
-Spalte1| Inhalt
-
-
-
-## Interaktive Tabs {.tabset}
-
-Sie können verschiedene Daten oder Inhalte in interaktiven Registerkarten anzeigen, indem Sie das Attribut ```.tabset``` hinter dem Namen eines Abschnitts hinzufügen, wie z.B. ```## Interaktive Registerkarten {.tabset}```. Dies bewirkt, dass alle folgenden Unterabschnitte wie ```### Cars rows 1-5``` als Tabs erscheinen:
-
-### Cars Zeilen 1-5 {-}
-
-```{r cars row1-5, echo=FALSE}
-knitr::kable(
-cars[1:5,]
-)
-```
-
-###  Cars Zeilen 6-10 {-}
-
-```{r cars row6-10, echo=FALSE}
-knitr::kable(
-cars[6:10,]
-)
-```
-
-### Car Plot {-}
-```{r cars plot in tabs, echo=FALSE, fig.height = 3}
-plot(cars)
-```
 
 # Appendix
 ## Appendix 1 {.unnumbered .tabset .tabset-fade}
