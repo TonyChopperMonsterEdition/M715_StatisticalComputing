@@ -604,12 +604,12 @@ Aus der Regressionsanalyse gehen die in [Tab. 19](#Overview_RegModels) aufgefüh
 $$ 
 \begin{split}
 TheftAmount & \sim `r toString(regMod_2[1]$coefficients["Population"])`*Population  \\
-& + `r toString(regMod_2[1]$coefficients["GDP"])`*GDP  \\
-& + `r toString(regMod_2[1]$coefficients["AmountOfUnemployedPeople"])`*AmountOfUnemployedPeople  \\
-& + (`r toString(regMod_2[1]$coefficients["TotalExpenditure4Education"])`)*TotalExpenditure4Education   \\
-& + `r toString(regMod_2[1]$coefficients["CulturalTotalExpenditure"])`*CulturalTotalExpenditure \\
-& + (`r toString(regMod_2[1]$coefficients["Areasizebig"])`)*AreaSize0 + ... +  `r toString(regMod_2[1]$coefficients["Areasizevery small"])`*AreaSize3 \\
-& + `r toString(regMod_2[1]$coefficients["Year2015"])`*Year0 + ... + (`r toString(regMod_2[1]$coefficients["Year2020"])`)*Year6
+& + `r toString(round(regMod_2[1]$coefficients["GDP"], digits=7))`*GDP  \\
+& + `r toString(round(regMod_2[1]$coefficients["AmountOfUnemployedPeople"], digits=7))`*AmountOfUnemployedPeople  \\
+& + (`r toString(round(regMod_2[1]$coefficients["TotalExpenditure4Education"], digits=7))`)*TotalExpenditure4Education   \\
+& + `r toString(round(regMod_2[1]$coefficients["CulturalTotalExpenditure"], digits=7))`*CulturalTotalExpenditure \\
+& + (`r toString(round(regMod_2[1]$coefficients["Areasizebig"], digits=7))`)*AreaSize0 + ... +  `r toString(round(regMod_2[1]$coefficients["Areasizevery small"], digits=7))`*AreaSize3 \\
+& + `r toString(round(regMod_2[1]$coefficients["Year2015"], digits=7))`*Year0 + ... + (`r toString(round(regMod_2[1]$coefficients["Year2020"], digits=7))`)*Year6
 \end{split}
 (\#eq:equation2)
 $$
@@ -624,26 +624,44 @@ Der letzte Punkt steht im Gegensatz zu der Annahme der Arbeit. Die Hypothese ver
 
 ```{r echo=TRUE, fig.cap="Rejection of the null hypothesis in favor of the 2nd model by reaching a high level of significance", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
 rM2_F_Test
-
-mean_protoType_perAreasize <- mergedData4regression %>% group_by(Areasize) %>% summarise(TheftAmount = mean(TheftAmount), Year = median(as.numeric(as.character(Year))), GDP = mean(GDP), TotalExpenditure4Education = mean(TotalExpenditure4Education), AmountOfUnemployedPeople = mean(AmountOfUnemployedPeople), CulturalTotalExpenditure = mean(CulturalTotalExpenditure), Population = mean(Population))
-
-mean_protoType_perAreasize$Year <- as.factor(as.character(mean_protoType_perAreasize$Year))
-mean_protoType_perAreasize$CalculatedByModel <- predict(regMod_2,mean_protoType_perAreasize) 
-mean_protoType_perAreasize[-(3:8)]
 ```
 
 **rM2_F_Test** untersucht mithilfe von *linearHypothesis()*, einer im vorherigen [Chunk](#Chapter3) angewendeten Methode, die Signifikanz des Modells. Der **F-Test** liefert einen **p-Wert** < 0.01 und verwirft damit, die Nullhypothese. Er zeigt, dass ein Regressionsmodell mit der Arbeitlosenzahl und den Bildungs- und Kulturausgaben besser für die Vorhersage geeignet ist, als einem Modell, dass den Faktoren keine Effekte unterstellt. (Weitere  Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.)
 
 ```{r echo=TRUE, fig.cap="t-Test for Model 3 consideres heteroscedasticity and autocorrelation and shows only expenditure for education as signicant ", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
+## Checks Standarderror, value of Model 2 is twice as high as the value of model 3
+r_squard_model3 <- round(summary(regMod_2)$adj.r.squared, digits=3)
+SE_model2 <- round(summary(regMod_2)$sigma, digits = 2)
+SE_model3 <- round(summary(regMod_3)$sigma, digits = 2)
+
+# Checks significance of regression coefficients of the independent variables from model 3
 rM3_coeftest
-
 ```
-Berücksichtigt die Arbeit zusätzlich das angepasste Bestimmtheitsmaß R² in seiner Betrachtung, beschreibt das Modell 3 mit den einzelnen Bundesländern als Kontrollvariable die untersuchten Daten besser. Aus dem damit verknüpften **t-Test**  **rM3_coeftest** resultiert die Bildungsausgabe als einzig signifikante Variable. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Der Effekt des dazugehörigen Regressionskoeffizienten nimmt an, dass die Unterschiede zwischen den Ländern um zum Beispiel 100,000€ höheren Bildungsausgaben mit 2,8 weniger Diebstähle zusammenhängen. Fragwürdig ist aber, ob diese Interpretation der nun folgenden kritischen Betrachtung in [Chapter 4](#Chapter4) standhält.
-
-`r predict(regMod_3,data=mergedData4regression[mergedData4regression$FederalState %in% c("Bayern", "Nordrhein-Westfalen") & mergedData4regression$Year == "2014",]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the merged data", tfoot =  "The data includes the federal states, their grouping by areasize and the tracked years as dummy variable, the amount of thefts as the dependent variable and each specific independent variable from the number of inhabitant to the expenditures for culture. The presentation of the values in a non-scientific way was prefered from this work as it shows the diffrences among the variables.", label="summary_mergedData")`
+Daneben betrachtet die Arbeit zusätzlich das Bestimmtheitsmaß R² aus [Tab. 19](#Overview_RegModels). Mit einem Wert von `r  toString(r_squard_model3)` erreicht das Modell 3 durch seine Kontrollvariable für jedes Bundesland das beste Ergebnis auf Basis der untersuchten Daten. Das zeigt auch der Standard Error, welcher im Model 2 `r toString(SE_model2)` und damit doppelt so hoch ist, wie Model 3  mit `r toString(SE_model3)`. Aus dem Ergebnis des  **t-Test** aus **rM3_coeftest** sticht die Variable für die Bildungsausgaben als einzig signifikante Variable hervor. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Aus dem Effekt des  Regressionskoeffizienten folgert die Arbeit, dass Länder die zum Beispiel eine Millionen Euro höheren Bildungsausgaben als andere Länder haben,  ca. 28 weniger Diebstahl-Fälle vorweisen. Fragwürdig bleibt aber, ob dieser Effekt tatsächlich für ein Bundesland relevant ist und ob diese Interpretation in [Chapter 4](#Chapter4) einer kritischen Betrachtung  standhält.
 
 #	Discussion: anomalies and limitations {#Chapter4}
 (0.5 - 1 page)
+
+Hält nicht stand erstens Effektgröße nicht relevant genug wie rechenbeispiel zeigt.
+Zweitens sind die t- und f- tests aufgrund von nicht normalverteilten Residuen verzerrt und damit kann die bedeutsamkeit der schätzer nicht vollständig evaluiert werden. --> andere methode notwendig, mehr daten oder oder andere Form der Aggregation notwendig sie tests und grafik (S232.)
+
+```{r echo=TRUE, fig.cap="QQ-Test shows not normal distributed residuals for both models", fig.subcap="QQ-Tests are important to prove the meaningfullness of the Significance-Test-Results. Deviations from the dotted line can be seen in both graphs; the more the residuals deviate from it, the less normally distributed they are.", message=FALSE, warning=FALSE, paged.print=FALSE}
+# Test for normal distributed residuals
+## Grafik shows not normal distributed residuals --> t- and F-Tests can be biased!
+
+par(mfrow=c(1,2))
+plot(regMod_2, which=2)
+title(main = "Model 2", cex.main=1)
+plot(regMod_3, which=2) 
+title(main = "Model 3", cex.main=1)
+## Validation of the grafical results via jarque-bera-test --> t- und F-test-Results have a little meaningfulness (S.232 Statistik mit R) --> Test shows a non-normal distribution due to outliers --> countermeasure increase sample size or introduce robust estimates, maybe another form of aggregation or grouping of the entities may also be helpful
+library(tseries)
+jb_test_model2 <- jarque.bera.test(regMod_2$residuals) 
+jb_test_model3 <- jarque.bera.test(regMod_3$residuals) 
+## Check Autocorrellation with dwtest --> no autocorrelation, no discussion needed in this paper
+autokorrelation_model2 <- dwtest(regMod_2)
+autokorrelation_model3 <- dwtest(regMod_3)
+```
 
 
 1.232 € Pro Person -> 18.702.368 € weniger Schaden, wenn 600.000.000€ investiert und dadurch 15.000 Personen keinen Diebstahl begehen ^[adapted from @StatistischesBundesamtDeutschland.2023]
