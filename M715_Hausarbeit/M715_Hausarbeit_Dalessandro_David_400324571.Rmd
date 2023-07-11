@@ -302,7 +302,7 @@ mean_gdp2019 <- prettyNum(round(median(gdp_atMarketPrice$`2019`)), big.mark = ",
 ```
 `r summary_gdp`
 
-Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3](#Section2_3) wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014` €, 5 Jahre später bei `r mean_gdp2019`€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
+Abschließend liefert [Table 14](#summary_gdp) einen Einblick in die Beiträge der einzelnen Länder zum Bruttoinlandsprodukt. Die Zusammenfassung impliziert zum einen, einen lückenlosen Datensatz, da keine "NAs" benannt sind. Zum anderen, ergeben sich aus der Struktur der Daten identische Ziele für [Sec. 2.3](#Section2_3) wie bei den Einwohnerzahlen. Auf inhaltlicher Ebene zeigt [Table 14](#summary_gdp), dass die Wirtschaftskraft bis 2019 steigt. 2014 lag das Bruttoinlandsprodukt bei Durchschnittlich `r mean_gdp2014`€, 5 Jahre später bei `r mean_gdp2019`€. Ob ein Einfluss auf die Kirminalfälle existiert, kann aber erst nach der Pivotierung bestimmt werden, da die Jahresangaben nicht als eigenständige Variable vorliegen. Dieser Umstand bewirkt, dass die Daten in der aktuellen Form mehrere Entitäten in einer Zeile repräsentieren und damit die Modellierung verhindern. 
 
 Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner-/ Arbeitslosen- und Bruttoinlandsproduktzahlen strukturell einen ähnlichen Handlungsbedarf aufweisen. Die Datensätze für die Kultur- und Bildungsausgaben sind detailiert aufgegliederten, aber nicht in dieser Art notwendig. Außerdem zeigen sie in einigen Observationen Lücken, die logisch begründet sind und keinen Einfluss auf die relevanten Variablen haben. Somit ergeben die aufgeführten struktuellen und inhaltlichen Besonderheiten für die Datenaufbereitung im Abschnitt [Sec. 2.3](#Section2_3) folgenden Ziele: <br>
 <ul>
@@ -621,20 +621,30 @@ $$
 </ul> 
 Der letzte Punkt steht im Gegensatz zu der Annahme der Arbeit. Die Hypothese vermutete eine negative, anstatt einer  positiven Korrelation zwischen Kulturausgaben und Diebstählen. Folglich entsprechen die ersten beiden Punkte der Annahme der Untersuchung. Ganz aus der Hypothese fallen das Bruttoinlandsprodukt und die Einwohnerzahl die keinen signifikaten Effekte vorweisen. Dementsprechend umfasst die Alternativhypothese nun mehr drei statt fünf Variablen und steht der Nullhypothse gegenüber.
 
+
 ```{r echo=TRUE, fig.cap="Rejection of the null hypothesis in favor of the 2nd model by reaching a high level of significance", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
 rM2_F_Test
+
+mean_protoType_perAreasize <- mergedData4regression %>% group_by(Areasize) %>% summarise(TheftAmount = mean(TheftAmount), Year = median(as.numeric(as.character(Year))), GDP = mean(GDP), TotalExpenditure4Education = mean(TotalExpenditure4Education), AmountOfUnemployedPeople = mean(AmountOfUnemployedPeople), CulturalTotalExpenditure = mean(CulturalTotalExpenditure), Population = mean(Population))
+
+mean_protoType_perAreasize$Year <- as.factor(as.character(mean_protoType_perAreasize$Year))
+mean_protoType_perAreasize$CalculatedByModel <- predict(regMod_2,mean_protoType_perAreasize) 
+mean_protoType_perAreasize[-(3:8)]
 ```
 
 **rM2_F_Test** untersucht mithilfe von *linearHypothesis()*, einer im vorherigen [Chunk](#Chapter3) angewendeten Methode, die Signifikanz des Modells. Der **F-Test** liefert einen **p-Wert** < 0.01 und verwirft damit, die Nullhypothese. Er zeigt, dass ein Regressionsmodell mit der Arbeitlosenzahl und den Bildungs- und Kulturausgaben besser für die Vorhersage geeignet ist, als einem Modell, dass den Faktoren keine Effekte unterstellt. (Weitere  Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.)
 
 ```{r echo=TRUE, fig.cap="t-Test for Model 3 consideres heteroscedasticity and autocorrelation and shows only expenditure for education as signicant ", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
 rM3_coeftest
+
 ```
 Berücksichtigt die Arbeit zusätzlich das angepasste Bestimmtheitsmaß R² in seiner Betrachtung, beschreibt das Modell 3 mit den einzelnen Bundesländern als Kontrollvariable die untersuchten Daten besser. Aus dem damit verknüpften **t-Test**  **rM3_coeftest** resultiert die Bildungsausgabe als einzig signifikante Variable. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Der Effekt des dazugehörigen Regressionskoeffizienten nimmt an, dass die Unterschiede zwischen den Ländern um zum Beispiel 100,000€ höheren Bildungsausgaben mit 2,8 weniger Diebstähle zusammenhängen. Fragwürdig ist aber, ob diese Interpretation der nun folgenden kritischen Betrachtung in [Chapter 4](#Chapter4) standhält.
 
+`r predict(regMod_3,data=mergedData4regression[mergedData4regression$FederalState %in% c("Bayern", "Nordrhein-Westfalen") & mergedData4regression$Year == "2014",]) %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of the merged data", tfoot =  "The data includes the federal states, their grouping by areasize and the tracked years as dummy variable, the amount of thefts as the dependent variable and each specific independent variable from the number of inhabitant to the expenditures for culture. The presentation of the values in a non-scientific way was prefered from this work as it shows the diffrences among the variables.", label="summary_mergedData")`
+
 #	Discussion: anomalies and limitations {#Chapter4}
 (0.5 - 1 page)
-- Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
+
 
 1.232 € Pro Person -> 18.702.368 € weniger Schaden, wenn 600.000.000€ investiert und dadurch 15.000 Personen keinen Diebstahl begehen ^[adapted from @StatistischesBundesamtDeutschland.2023]
 -180 € je Tag Gefängniskosten * 30 Tage Gefängnis * 15.000 Personen = 81.918.000 € Gefängniskosten ^[https://www.justiz-bw.de/,Lde/Startseite/Justiz/datenundfakten, https://www.sueddeutsche.de/panorama/strafvollzug-duesseldorf-jeder-gefangene-kostet-nrw-rund-178-euro-pro-tag-dpa.urn-newsml-dpa-com-20090101-220824-99-494861]
@@ -642,6 +652,7 @@ Wirtschaftskraft 75.000 --> ^[https://www.deutschlandatlas.bund.de/DE/Karten/Wie
 
 Mehr arbeitslose als Diebstähle --> theoretisch Überkompensation --> praktisch aber unplausibel ggf. Probit/Logit Modelle anwenden
 
+Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
 
 #	Conclusion: findings and implications {#Chapter5}
 (0.5 - 1 page).
