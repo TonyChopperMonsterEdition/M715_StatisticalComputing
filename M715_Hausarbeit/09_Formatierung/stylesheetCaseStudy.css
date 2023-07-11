@@ -61,6 +61,12 @@ span.MathJax{
   
 }
 
+ul {
+  padding-left: 10px;
+  color: black;
+  list-style-position: inside;
+  list-style-type: circle;
+}
 .caption{ 
   font-family: Times New Roman;
   font-size: 10pt; 

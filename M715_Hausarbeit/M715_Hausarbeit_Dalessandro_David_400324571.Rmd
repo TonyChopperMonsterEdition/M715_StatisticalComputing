@@ -231,15 +231,15 @@ amount_missings_4_CulturalAffairsAbroad <- nrow(expenditure4Culture[is.na(expend
 ```
 `r table_expenditure4Culture `
 
-In [Tab 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt in Euro, zu den hier aufgezeigten fünf Variablen. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` € insgesamt für Kultur ausgegeben. Anhand des Medians `r toString(median_CulturalExpenditure)` € ist zu erkennen, dass es Länder gibt die den Durchschnitt nach oben verzerren. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potenzielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
+In [Table 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die Struktur als auch die inhaltliche Zusammensetzung der Kulturausgaben. Zu jedem Bundesland und jedem Jahr existieren Angaben, ausgedrückt in Euro, zu den hier aufgezeigten fünf Variablen. Neben diesen, existieren noch `r notSeenVariables`. Im Gegensatz zu den aufgeführten Variablen besitzen sie keine fehlenden Werte und sind deshalb für die Betrachtung weniger interessant. Im Durchschnitt haben die Länder lt. der Spalte CulturalTotalExpenditure `r toString(mean_CulturalExpenditure)` € insgesamt für Kultur ausgegeben. Anhand des Medians `r toString(median_CulturalExpenditure)` € ist zu erkennen, dass es Länder gibt die den Durchschnitt nach oben verzerren. Die Tabelle offenbart anhand der *NA's*, dass unter anderem für die "Cultural Affairs Abroad" `r amount_missings_4_CulturalAffairsAbroad` Datenfelder keine Werte enthalten. Im Hinblick auf die Gesamtausgaben bedeutet dies, das potenzielle Verzerrungen bei der Berechnung vorliegen. Aus diesem Grund untersucht eine vertiefende Betrachtung im folgenden diesen Sachverhalt näher. 
 
 `r table_missings_CulturalAffairsAbroad_detailed `
 
-[Tab 8](#table_missings_CulturalAffairsAbroad_detailed) zeigt den Inhalt der Culturel Affairs Abroad detaillierter. Die Übersicht besteht zum einen aus den Ländern die fehlende Werte besitzten und zum anderen zeigt sie in Spalte zwei, dass das Maximum der Observationen bei 0 liegt. Das bedeutet, dass in den `r nrow(missings_CulturalAffairsAbroad_detailed)` Oberservationen, `r amount_missings_4_CulturalAffairsAbroad` mit fehledem Wert enthalten sind, während die verbleibenden Observationen keine Ausgaben dokumentieren. Insofern nimmt diese Arbeit an, dass die Cultural Affairs Abroad nicht von jedem Bundesland erfasst werden oder keine Ausgaben in diesem Bereich vorliegen. Ähnliche Beobachtungen und Schlussfolgerungen lassen sich für andere Bundesländer in Bezug auf die anderen Ausgabebereiche ziehen. 
+[Table 8](#table_missings_CulturalAffairsAbroad_detailed) zeigt den Inhalt der Culturel Affairs Abroad detaillierter. Die Übersicht besteht zum einen aus den Ländern die fehlende Werte besitzten und zum anderen zeigt sie in Spalte zwei, dass das Maximum der Observationen bei 0 liegt. Das bedeutet, dass in den `r nrow(missings_CulturalAffairsAbroad_detailed)` Oberservationen, `r amount_missings_4_CulturalAffairsAbroad` mit fehledem Wert enthalten sind, während die verbleibenden Observationen keine Ausgaben dokumentieren. Insofern nimmt diese Arbeit an, dass die Cultural Affairs Abroad nicht von jedem Bundesland erfasst werden oder keine Ausgaben in diesem Bereich vorliegen. Ähnliche Beobachtungen und Schlussfolgerungen lassen sich für andere Bundesländer in Bezug auf die anderen Ausgabebereiche ziehen. 
 
 `r table_Hamburg_Administration4CulturalAffairs`
 
-Am Beispiel von Hamburg verdeutlicht [Tab 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Tab 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgaben enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Ein weiteres Ziel für [Sec. 2.3](#Section2_3) ist deshalb die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
+Am Beispiel von Hamburg verdeutlicht [Table 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Table 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgaben enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Ein weiteres Ziel für [Sec. 2.3](#Section2_3) ist deshalb die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
 
 ### Expenditure for Education 
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
@@ -366,7 +366,7 @@ maxMedian_thefts_of_one_federalState <- prettyNum(round(max(grouped_median_theft
 
 grid.arrange(ncol=2, theft_mean_developement,theft_median_developement, widths = c(1, 0.95))
 ```
-Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Fig. 2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Zu beachten ist jedoch der Unterschied zwischen Median (rechts) mit `r toString(maxMedian_thefts_of_one_federalState)` und dem arithmetischen Mittel (links) mit `r toString(maxMean_thefts_of_one_federalState)` Diebstählen beginnend ab 2014.  Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
+Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Figure2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Zu beachten ist jedoch der Unterschied zwischen Median (rechts) mit `r toString(maxMedian_thefts_of_one_federalState)` und dem arithmetischen Mittel (links) mit `r toString(maxMean_thefts_of_one_federalState)` Diebstählen beginnend ab 2014.  Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE,  fig.id= TRUE, fig.cap="Distribution of Theafts among each group of Federal States"}
 
@@ -403,7 +403,7 @@ grid.arrange(ncol=2, thefts_bp_2014, thefts_bp_2015, thefts_bp_2019, thefts_bp_2
 
 ```
 
-Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft eingeschränkt. Jedoch unterstützt [Fig. 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. `r toString(maxMedian_thefts_of_one_federalState)` Diebstählen und es exsitiert ein Ausreißer. Hierdurch wird der höhere Durchschnitt in [Fig. 2.2](#fig:unnamed-chunk-2) erklärt. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
+Mithilfe der Boxplots wird die Verteilung der Diebstähle innerhalb ihrer Gruppen dargestellt, da die Gruppen je Jahr nur durch jeweils 4 Observationen repräsentiert werden, ist ihre Aussagekraft eingeschränkt. Jedoch unterstützt [Figure 2.3](#fig:unnamed-chunk-3) das Verständnis über die Streuung der Diebstähle in den jeweiligen Gruppen. Die linke obere Grafik zeigt für das Jahr 2014 für die großen Bundesländer (rot) eine breite Streuung der Diebstahlzahlen. Der Median liegt bei ca. `r toString(maxMedian_thefts_of_one_federalState)` Diebstählen und es exsitiert ein Ausreißer. Hierdurch wird der höhere Durchschnitt in [Figure 2.2](#fig:unnamed-chunk-2) erklärt. Im Vergleich zu den anderen Boxplots ist das ein erheblicher Unterschied. Weiterhin ist die Streuung der Observationen in den sehr kleinen Bundesländern auffällig. Die Anzahl an Diebstählen übersteigt die größerer Bundesländer und weist eine große Spannweite auf. 
 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.a = "center",  fig.id= TRUE, fig.cap="Development of the Casenumbers in each Federal State"}
@@ -424,7 +424,7 @@ mean_thefts_of_notNRW <- prettyNum(round(mean(thefts_allYears_tidy$TheftAmount[!
 
 
 ```
-Die Einzelbetrachtung der Länder in [Fig. 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über `r toString(mean_thefts_of_NRW)` Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um `r toString(mean_thefts_of_notNRW)` liegen. Die hohe Spanneweite aus [Fig. 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Fig. 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Fig. 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Kapitel 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
+Die Einzelbetrachtung der Länder in [Figure 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über `r toString(mean_thefts_of_NRW)` Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um `r toString(mean_thefts_of_notNRW)` liegen. Die hohe Spanneweite aus [Figure 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Figure 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Figure 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Kapitel 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
 
 ### Preparation of specific data from the Federal States 
 ```{r pivoting extract exclude, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -483,7 +483,7 @@ regMod_3 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + Total
 ## regMod_3 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, index = c("FederalState", "Year"), model = "within", effect = "twoways", data=mergedData4regression[,-4])
 
 ```
-Auf Basis des in [Sec. 2.3](#Section2_3) vorbereiteten Datensatzes  **mergedData4regression** führt dieser Abschnitt die Regressionsanalyse durch. Der darüberliegenden Codechunk berechnet drei Modelle. Das erste Modell berücksichtigt keine fixierten Effekte. Das zweite und dritte Modell schließen Kontrollvariablen in die Analyse mit ein. Als Kontrollvariable werden die Jahresangaben und zusätzlich, entweder die Länder als eigensändige Entität (Modell 3) oder als Ländergruppen nach ihrer Größe (Modell 2) hinzugezogen. Zur Berechnung nutzt die Arbeit die Methode *"lm()"* aus dem Package *"lmtest"*. Die Methode *plm()* ist alternativ einsetzbar, jedoch wurde nicht ausgewählt, da sie die Kontrollvariablen bei der Modellberechnung zwar berücksichtigt, aber nicht ausgibt
+Auf Basis des in [Sec. 2.3](#Section2_3) vorbereiteten Datensatzes  **mergedData4regression** führt dieser Abschnitt die Regressionsanalyse durch. Der darüberliegenden Codechunk berechnet drei Modelle. Das erste Modell berücksichtigt keine fixierten Effekte. Das zweite und dritte Modell schließen Kontrollvariablen in die Analyse mit ein. Als Kontrollvariable werden die Jahresangaben und zusätzlich, entweder die Länder als eigensändige Entität (model 3) oder als Ländergruppen nach ihrer Größe (model 2) hinzugezogen. Zur Berechnung nutzt die Arbeit die Methode *"lm()"* aus dem Package *"lmtest"*. Die Methode *plm()* ist alternativ einsetzbar, jedoch wurde sie nicht ausgewählt, da sie die Kontrollvariablen bei der Modellberechnung zwar berücksichtigt, aber nicht ausgibt. 
 
 ### Equations of each regression model  {.unnumbered .tabset .tabset-fade}
 
@@ -537,8 +537,10 @@ Die Formeln in [2.1](#eq:equation) zeigen den Aufbau der jeweiligen Regressionsm
 Abschließend zeigte [Chap. 2](#Chapter2), dass die Daten des Bundeskriminalamts, sowie die des statistischen Bundesamts einen gewissen Bearbeitungsaufwand bedürfen. [Sec. 2.1](#Section2_1) und [Sec. 2.2](#Section2_2) grenzten die Daten, auf die für die Fragestellung relevanten Variablen und Observationen, ein. [Sec. 2.3](#Section2_3) extrahiert auf Grundlage dessen, die für die Fragestellung relevanten Variablen. Dazu zählt die Zahl der Diebstähle je Bundesland als abhängige Variable und die verschiedenen unabhängigen Variablen, von der Einwohnerzahl bishin zu den Gesamtausgaben für Kultur. Außerdem beschreibt der Abschnitt, dass die Bundesländer nach ihrer Fläche gruppiert, jeweils unterschiedliche Eigenheiten in der Masse an Diebstählen oder ihrer Spannweite besitzen. Wie die unabhängigen Variablen diese Eigenheiten erklären, beschreiben die aufgestellten Regressionsmodelle aus [Sec. 2.4](#Section2_4). Dabei schließen zwei der drei Modell diverse Kontrollvariablen ein, die [Chap. 3](#Chapter3) näher betrachtet.
 
 #	Analysis & Results: Plots and tables from the data (3 pages) {#Chapter3}
-```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r analysis,echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
+
+# Only partially presented in the text, the whole output can be seen in the appendix 5
 rM1_coeftest <- coeftest(regMod_1, vcov = vcovHC, type = "HC1")
 
 rM1_F_Test <- linearHypothesis(regMod_1,
@@ -569,8 +571,6 @@ rM3_F_Test2 <- linearHypothesis(regMod_3,
                  vcov. = vcovHC, type = "HC1")
 
 
-
-
 # Section will generate table for overview
 
 #library(stargazer) not used because not adjustable caption with numeration
@@ -587,35 +587,20 @@ library(sjlabelled)
 library(rvest)
 
 #Creating a table for all of the models
-tab_model(regMod_1, regMod_2,regMod_3, 
+## tab_model has to be executed before you knit the rmarkdown, it stores a the HTML-File which will be used later by read_html(). Unfortunately it does not create the HTML during knitting the document, that's why this Workaround has to be used.
+createOverview <- tab_model(regMod_1, regMod_2,regMod_3, 
           vcov.fun = "HC1",  p.style = "stars" ,digits = 6, 
           show.df = FALSE, show.fstat = TRUE, show.ci = FALSE,
           dv.labels = c("Model 1", "Model 2", "Model 3"), 
           file= "./02_VerarbeiteteDaten/zusammenfassung.html", encoding = "latin") 
 
-Overview_RegModels <- read_html("./02_VerarbeiteteDaten/zusammenfassung.html") %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(caption="Overview of all regression modells shows Model 3 as best result", tfoot =  "All modells show significant estimators for some variables. in [Sec. 2.4](#Section2_4) " , label="Overview_RegModels")
+Overview_RegModels <- read_html("./02_VerarbeiteteDaten/zusammenfassung.html") %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(caption="Overview of all regression modells shows Model 3 as best result", tfoot =  "All regression models from [Sec. 2.4](#Section2_4) present significant estimators for  some of their variables, but the third model has a better adjusted R² and also includes control variables. Hence it is the most exact model for the data that was used. It leads to the conclusion that expenditures for education are negatively related to the number of thefts. The more federal states invest in education, the fewer thefts appear." , label="Overview_RegModels")
 
+Overview_RegModels
 
 ```
-d
-`r toString(regMod_1[1]$coefficients["(Intercept)"]) `
+Aus der Regressionsanalyse gehen die in [Tab. 19](#Overview_RegModels) aufgeführten Koeffizienten hervor. Sie zeigen für verschiedenste unabhängige Variablen, dass ein Zusammenhang der diversen Länderspezifika zu den Fallzahlen der Diebstähle exsistiert. Die Modelle unterscheiden sich in der Menge verwendeter Kontrollvariablen und den als signifikat bewerteten Variablen. Das erste Model enthält beispielsweise keine Kontrollvariablen und deklariert alle unabhängigen Variablen als signifikant. Es betrachtet aber keine konstant wirkenden Effekte in den Bundesländern oder spezifische Effekte aus den jeweiligen Jahren.
 
-d
-`r regMod_2[1]$coefficients `
-d
-`r regMod_3[1]$coefficients `
-D
-d
-https://www.econometrics-with-r.org/rwpd.html#regression-with-time-fixed-effects
-
-
-
-
-
-r^[https://www.econometrics-with-r.org/10.4-regression-with-time-fixed-effects.html entity and time fixed effects]
-dd
-`r Overview_RegModels`
-ss
 $$ 
 \begin{split}
 TheftAmount & \sim `r toString(regMod_2[1]$coefficients["Population"])`*Population  \\
@@ -628,6 +613,25 @@ TheftAmount & \sim `r toString(regMod_2[1]$coefficients["Population"])`*Populati
 \end{split}
 (\#eq:equation2)
 $$
+[Equation 3.1](#eq:equation2) veranschaulicht anhand von Modell 2 wie die Interpretation der [Tab. 19](#Overview_RegModels) als Formel umgesetzt wird. Durch den Einsatz von Kontrollvariablen verändert sich jedoch die die Bewertung der Regressionskoeffizienten.^[https://www.econometrics-with-r.org/10.4-regression-with-time-fixed-effects.html entity and time fixed effects] Das Signifikanzniveau für die Koeffizienten des Bruttoinlandsprodukt und der Einwohnerzahl wird beispielsweise nicht erreicht. Lediglich die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur haben einen nennenswerten Einfluss auf die Anzahl an Diebstählen. In der Deutung der Koeffizienzen vermutet das Modell, dass 
+<ul>
+* der  Anstieg der Arbeitslosenzahl um eine Person mit einer ungefähr gleichen Erhöhung der Diebstähle zusammenhängt.
+* die Investion in Bildung je 100,000€ mit einem Rückgang um 2,3 Fällen in Verbindung steht.
+* die Ausgaben in Kultur je 100,000€ mit einem Anstieg von 8,6 Diebstählen korreliert.
+</ul> 
+Der letzte Punkt steht im Gegensatz zu der Annahme der Arbeit. Die Hypothese vermutete eine negative, anstatt einer  positiven Korrelation zwischen Kulturausgaben und Diebstählen. Folglich entsprechen die ersten beiden Punkte der Annahme der Untersuchung. Ganz aus der Hypothese fallen das Bruttoinlandsprodukt und die Einwohnerzahl die keinen signifikaten Effekte vorweisen. Dementsprechend umfasst die Alternativhypothese nun mehr drei statt fünf Variablen und steht der Nullhypothse gegenüber.
+
+```{r echo=TRUE, fig.cap="Rejection of the null hypothesis in favor of the 2nd model by reaching a high level of significance", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
+rM2_F_Test
+```
+
+**rM2_F_Test** untersucht mithilfe von *linearHypothesis()*, einer im vorherigen [Chunk](#Chapter3) angewendeten Methode, die Signifikanz des Modells. Der **F-Test** liefert einen **p-Wert** < 0.01 und verwirft damit, die Nullhypothese. Er zeigt, dass ein Regressionsmodell mit der Arbeitlosenzahl und den Bildungs- und Kulturausgaben besser für die Vorhersage geeignet ist, als einem Modell, dass den Faktoren keine Effekte unterstellt. (Weitere  Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.)
+
+```{r echo=TRUE, fig.cap="t-Test for Model 3 consideres heteroscedasticity and autocorrelation and shows only expenditure for education as signicant ", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
+rM3_coeftest
+```
+Berücksichtigt die Arbeit zusätzlich das angepasste Bestimmtheitsmaß R² in seiner Betrachtung, beschreibt das Modell 3 mit den einzelnen Bundesländern als Kontrollvariable die untersuchten Daten besser. Aus dem damit verknüpften **t-Test**  **rM3_coeftest** resultiert die Bildungsausgabe als einzig signifikante Variable. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Der Effekt des dazugehörigen Regressionskoeffizienten nimmt an, dass die Unterschiede zwischen den Ländern um zum Beispiel 100,000€ höheren Bildungsausgaben mit 2,8 weniger Diebstähle zusammenhängen. Fragwürdig ist aber, ob diese Interpretation der nun folgenden kritischen Betrachtung in [Chapter 4](#Chapter4) standhält.
+
 #	Discussion: anomalies and limitations {#Chapter4}
 (0.5 - 1 page)
 - Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
@@ -697,10 +701,28 @@ summary_Cases_total
 ```
 ### List of Loaded Packages {.unnumbered}
 ```{r List of Loaded Packages, echo=TRUE, warning=FALSE, paged.print=TRUE}
+# whole session infos
+sessionInfo()
 ## only Packages loaded as a list
-sessionInfo_packages <- sessionInfo()[8]
+sessionInfo_packages <- sessionInfo()["loadedOnly"]
 toString(names(sessionInfo_packages$loadedOnly))
 
 ```
+## Appendix 5 {.unnumbered}
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# Significance-Test that takes also heteroscedasticity and autocorrelation into account 
+## Model 1
+rM1_coeftest
+rM1_F_Test
+## Model 2
+rM2_coeftest
+rM2_F_Test
+rM2_F_Test2
+## Model 3
+rM3_coeftest
+rM3_F_Test1
+rM3_F_Test2
+```
+
 # References
 Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link
