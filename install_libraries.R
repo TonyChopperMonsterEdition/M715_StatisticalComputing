@@ -49,7 +49,7 @@ list_of_packages <- c(
     "plm",
     "gridExtra",
     "ggrepel",
-    "stargazer",
+    "tseries",
     "sjPlot",
     "sjmisc",
     "sjlabelled"
