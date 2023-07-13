@@ -1,5 +1,5 @@
 ---
-title: "regModling on Crimecases"
+title: "Modling on Crimecases"
 subtitle: "Modul 715 - Statistical Computing"
 author: "D'Alessandro David"
 date: "`r Sys.Date()`"
@@ -675,7 +675,7 @@ Zusammenfassend zeigte die Regressionsanalyse wohl wenig relevante Ergebnisse. S
 
 
 #	Conclusion: findings and implications {#Chapter5}
-Die kritische Betrachtung in [Chapter 4](#Chapter4) ergab hinreichende Gründe für eine Ablehnung der Regressionsmodelle. Das zweite Regressionsmodell deutet zwar in [Chapter 3](#Chapter3) daraufhin, dass die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur einen signifikanten Zusammenhang aufweisen und die Hypothesen teilweise bestätigen. Jedoch geraten die Ergebnisse aufgrund des Jarque-Bera-Tests und der unpassenden Funktion in Zweifel. Gleiches gilt für Model 3, das lediglich für die Bildungsausgaben eine vermeintliche Signifikanz attestiert. Ungeachtet der zweifelhaften Signifikanz liegt bei den Bildungsausgaben mit einem Koeffizienten von `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio.€ aus Kostensicht keine Relevanz vor.
+Die kritische Betrachtung in [Chapter 4](#Chapter4) ergab hinreichende Gründe für eine Ablehnung der Regressionsmodelle. Das zweite Regressionsmodell deutet zwar in [Chapter 3](#Chapter3) daraufhin, dass die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur einen signifikanten Zusammenhang aufweisen und die Hypothesen aus teilweise bestätigen. Jedoch geraten die Ergebnisse aufgrund des Jarque-Bera-Tests und der unpassenden Funktion in Zweifel. Gleiches gilt für Model 3, das lediglich für die Bildungsausgaben eine vermeintliche Signifikanz attestiert. Ungeachtet der zweifelhaften Signifikanz liegt bei den Bildungsausgaben mit einem Koeffizienten von `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio.€ aus Kostensicht keine Relevanz vor.
 
 Im Hinblick auf diese Erkenntnis können die Hypothesen, die am Anfang der Arbeit im Raum standen noch nicht entgültig verworfen werden. Die Anwendung eines Probit-/Logit-Modells beseitigt die Schwächen der angewendeten linearen Regressionsfunktion in zukünftigen Untersuchungen. Zusätzlich stellen Gegenmaßnahmen, wie ein durchdachtes Ausreißermanagement oder eine Erhöhung der Stichprobe, durch das Hinzufügen von Observationen verschiedenster Jahre, die Aussagekraft der Signifikanztests wieder her.^[If you are intressted, [Appendix 6][Appendix 6] shows how the models look like, when outliners are removed from the used dataset and the Jarque-Bera-Test show normal distribution]. Die Bereinigung der genannten Mägel erlaubt anschließend die Bewertung der Relevanz.
 
