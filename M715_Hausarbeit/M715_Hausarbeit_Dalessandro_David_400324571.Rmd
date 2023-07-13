@@ -161,7 +161,7 @@ Für die Arbeit interessant sind deshalb die Fallzahl auf höchster Ebene, die i
 </div>
 
 [Table 3](#table_thefts_allStates2017) bis [Table 4](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit des Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet ([see Appendix 1][Appendix 1]).<br>
-Wichtig zu wissen ist, dass sie nicht die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle doppelt erfasst. Demnach könnten die Fallzahlen der einzelnen Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen Jahren. 
+Wichtig zu wissen ist, dass sie nicht die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle doppelt erfasst. Demnach kann die Fallzahlen der einzelnen Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen Jahren. 
 
 ```{r CheckBias, echo=TRUE, message=TRUE, warning=FALSE}
 isBiased <- !(sum(thefts_allStates_2014[1:16,"Casenumbers"]) == thefts_allStates_2014[17,"Casenumbers"] & 
@@ -366,7 +366,7 @@ maxMedian_thefts_of_one_federalState <- prettyNum(round(max(grouped_median_theft
 
 grid.arrange(ncol=2, theft_mean_developement,theft_median_developement, widths = c(1, 0.95))
 ```
-Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Figure2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Zu beachten ist jedoch der Unterschied zwischen Median (rechts) mit `r toString(maxMedian_thefts_of_one_federalState)` und dem arithmetischen Mittel (links) mit `r toString(maxMean_thefts_of_one_federalState)` Diebstählen beginnend ab 2014.  Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
+Die Gruppierung der Bundesländer nach ihrer Landesgröße erlaubt die grafische Betrachtung der Fallzahlen. [Figure 2.2](#fig:unnamed-chunk-2) skiziiert auf der linken Seite, dass **große** Bundesländer eine höhere Anzahl an Diebstähle als andere aufweisen. Dies bestätigt ebenfalls der Media der gruppierten Observationen. Zu beachten ist jedoch der Unterschied zwischen Median (rechts) mit `r toString(maxMedian_thefts_of_one_federalState)` und dem arithmetischen Mittel (links) mit `r toString(maxMean_thefts_of_one_federalState)` Diebstählen beginnend ab 2014.  Daneben fällt auf, dass **sehr kleine** im Vergleich zu **mittleren** und **kleinen** Bundesländer im Durchschnitt ein höhere Anzahl an Diebstählen besitzen. Allerdings legt der Median in der rechten Grafik die Vermutung nahe, dass dieses Phänomen ein Ausreiser verursacht. 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE,  fig.id= TRUE, fig.cap="Distribution of Theafts among each group of Federal States"}
 
@@ -622,13 +622,13 @@ $$
 Der letzte Punkt steht im Gegensatz zu der Annahme der Arbeit. Die Hypothese vermutete eine negative, anstatt einer  positiven Korrelation zwischen Kulturausgaben und Diebstählen. Folglich entsprechen die ersten beiden Punkte der Annahme der Untersuchung. Ganz aus der Hypothese fallen das Bruttoinlandsprodukt und die Einwohnerzahl die keinen signifikaten Effekte vorweisen. Dementsprechend umfasst die Alternativhypothese nun mehr drei statt fünf Variablen und steht der Nullhypothse gegenüber.
 
 
-```{r echo=TRUE, fig.cap="Rejection of the null hypothesis in favor of the 2nd model by reaching a high level of significance", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r significance_model_2, echo=TRUE, fig.cap="Rejection of the null hypothesis in favor of the 2nd model by reaching a high level of significance", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
 rM2_F_Test
 ```
 
 **rM2_F_Test** untersucht mithilfe von *linearHypothesis()*, einer im vorherigen [Chunk](#Chapter3) angewendeten Methode, die Signifikanz des Modells. Der **F-Test** liefert einen **p-Wert** < 0.01 und verwirft damit, die Nullhypothese. Er zeigt, dass ein Regressionsmodell mit der Arbeitlosenzahl und den Bildungs- und Kulturausgaben besser für die Vorhersage geeignet ist, als einem Modell, dass den Faktoren keine Effekte unterstellt. (Weitere  Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.)
 
-```{r echo=TRUE, fig.cap="t-Test for Model 3 consideres heteroscedasticity and autocorrelation and shows only expenditure for education as signicant ", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r significance_model 3, echo=TRUE, fig.cap="t-Test for Model 3 consideres heteroscedasticity and autocorrelation and shows only expenditure for education as signicant ", fig.subcap="All results form t- and F-Test can be seen in [Appendix 5][Appendix 5]", message=FALSE, warning=FALSE, paged.print=FALSE}
 ## Checks Standarderror, value of Model 2 is twice as high as the value of model 3
 r_squard_model3 <- round(summary(regMod_2)$adj.r.squared, digits=3)
 SE_model2 <- round(summary(regMod_2)$sigma, digits = 2)
@@ -637,13 +637,14 @@ SE_model3 <- round(summary(regMod_3)$sigma, digits = 2)
 # Checks significance of regression coefficients of the independent variables from model 3
 rM3_coeftest
 ```
-Daneben betrachtet die Arbeit zusätzlich das Bestimmtheitsmaß R² aus [Tab. 19](#Overview_RegModels). Mit einem Wert von `r  toString(r_squard_model3)` erreicht das Modell 3 durch seine Kontrollvariable für jedes Bundesland das beste Ergebnis auf Basis der untersuchten Daten. Das zeigt auch der Standard Error, welcher im Model 2 `r toString(SE_model2)` und damit doppelt so hoch ist, wie Model 3  mit `r toString(SE_model3)`. Aus dem Ergebnis des  **t-Test** aus **rM3_coeftest** sticht die Variable für die Bildungsausgaben als einzig signifikante Variable hervor. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Aus dem Effekt des  Regressionskoeffizienten folgert die Arbeit, dass Länder die zum Beispiel eine Millionen Euro höheren Bildungsausgaben als andere Länder haben,  ca. 28 weniger Diebstahl-Fälle vorweisen. Fragwürdig bleibt aber, ob dieser Effekt tatsächlich für ein Bundesland relevant ist und ob diese Interpretation in [Chapter 4](#Chapter4) einer kritischen Betrachtung  standhält.
+Daneben betrachtet die Arbeit zusätzlich das Bestimmtheitsmaß R² aus [Tab. 19](#Overview_RegModels). Mit einem Wert von `r  toString(r_squard_model3)` erreicht das Modell 3 durch seine Kontrollvariable für jedes Bundesland das beste Ergebnis auf Basis der untersuchten Daten. Das zeigt auch der Standard Error, welcher im Model 2 `r toString(SE_model2)` und damit doppelt so hoch ist, wie Model 3  mit `r toString(SE_model3)`. Aus diesem Grund wird das Egebnis aus Model 3 bevorzugt. Aus dem Ergebnis des  **t-Test** aus **rM3_coeftest** sticht die Variable für die Bildungsausgaben als einzig signifikante Variable hervor. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Aus dem Effekt des Regressionskoeffizienten folgert die Arbeit, dass Länder die zum Beispiel eine Millionen Euro höheren Bildungsausgaben als andere Länder haben,  ca. 28 weniger Diebstahl-Fälle vorweisen. Fragwürdig bleibt aber, ob dieser Effekt tatsächlich für ein Bundesland relevant ist und ob diese Interpretation in [Chapter 4](#Chapter4) einer kritischen Betrachtung  standhält.
 
 #	Discussion: anomalies and limitations {#Chapter4}
 (0.5 - 1 page)
 
-Hält nicht stand erstens Effektgröße nicht relevant genug wie rechenbeispiel zeigt.
-Zweitens sind die t- und f- tests aufgrund von nicht normalverteilten Residuen verzerrt und damit kann die bedeutsamkeit der schätzer nicht vollständig evaluiert werden. --> andere methode notwendig, mehr daten oder oder andere Form der Aggregation notwendig sie tests und grafik (S232.)
+Wie bereits im vorherigen Kapitel erwähnt, liegt der errechnete, signifikante Effekt von Bildung im Zusammenhang mit einem Diebstahl laut Model 3 bei `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio €. Wenn, vereinfacht angenommen, jeder Diebstahl durch eine Person entsteht und der Effekt auf einem kausalen Zusammenhang beruht, dann müssten `r toString(-10^6/(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6))`€ in Bildung investiert werden um Diebstähle einer Person zu verhindern. Diese Kosten stehen dem durchschnittlichen Schaden von 1.232 € den ein Diebstahl je Person verursacht gegenüber.^[adapted from @StatistischesBundesamtDeutschland.2023] Aus dieser vereinfachten Berechnung folgt, dass für die Praxis wahrscheinlich kein relevanter Zusammenhang besteht. 
+
+Daneben fiel bei einer Überprüfung der allgemeinen Regressionsmodell-Annahmen, wie sie Joachim Zuckarelli beschreibt, auf, dass die Residuen der Modelle nicht gleich verteilt ist. Das bedeutet, dass die Signifikanz der Schätzer und des Modells nicht durch die t- und F-Tests bestimmt werden kann.(S232. 978-3-96009-044-1).  Mit abnehmender Aggregation der Bundesländer weichen die Residuen von der Normalverteilung ab.
 
 ```{r echo=TRUE, fig.cap="QQ-Test shows not normal distributed residuals for both models", fig.subcap="QQ-Tests are important to prove the meaningfullness of the Significance-Test-Results. Deviations from the dotted line can be seen in both graphs; the more the residuals deviate from it, the less normally distributed they are.", message=FALSE, warning=FALSE, paged.print=FALSE}
 # Test for normal distributed residuals
@@ -654,38 +655,40 @@ plot(regMod_2, which=2)
 title(main = "Model 2", cex.main=1)
 plot(regMod_3, which=2) 
 title(main = "Model 3", cex.main=1)
-## Validation of the grafical results via jarque-bera-test --> t- und F-test-Results have a little meaningfulness (S.232 Statistik mit R) --> Test shows a non-normal distribution due to outliers --> countermeasure increase sample size or introduce robust estimates, maybe another form of aggregation or grouping of the entities may also be helpful
+## Validation of the grafical results via Jarque-Bera-test --> t- und F-test-Results have a little meaningfulness (S.232 Statistik mit R) --> Test shows a non-normal distribution due to outliers --> countermeasure increase sample size or introduce robust estimates, maybe another form of aggregation or grouping of the entities may also be helpful
 library(tseries)
-jb_test_model2 <- jarque.bera.test(regMod_2$residuals) 
-jb_test_model3 <- jarque.bera.test(regMod_3$residuals) 
+jb_test_model2 <- jarque.bera.test(regMod_2$residuals)
+jb_test_model3 <- jarque.bera.test(regMod_3$residuals)
+jb_test_model2_p <- round(jb_test_model2$p.value, digits = 4)
+jb_test_model3_p <- round(jb_test_model3$p.value, digits = 15)
 ## Check Autocorrellation with dwtest --> no autocorrelation, no discussion needed in this paper
-autokorrelation_model2 <- dwtest(regMod_2)
+autokorrelation_model2 <-dwtest(regMod_2)
 autokorrelation_model3 <- dwtest(regMod_3)
 ```
+[Figure 4.1](#fig:unnamed-chunk-6) verdeutlicht das Verteilungsproblem durch die größere Entfernung der Datenpunkte an der Quantil-Linie. Im Model 2, welches die Bundesländer nach ihrer Größe gruppiert betrachtet, liegen die Datenpunkte dichter an der Normalverteilung als im Model 3. Der Jarque-Bera-Test bestätigt diesen Eindruck mit signifikanten Ergebnissen für Model 2 (p =`r toString(jb_test_model2_p)`) und Model 3 (p =`r toString(jb_test_model3_p)`). 
 
+Ausreißer, wie Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen (see [Figure 2.4](#fig:unnamed-chunk-2) bieten eine potenzielle Erklärung und Anhaltspunkte zur Optimierung. Die Aggregation nach Größe erscheint aufgrund der Spannweite, wie sie in [Figure 2.3](#fig:unnamed-chunk-3) vorliegt, für die Modellierung nicht sinnvoll. Auch erfordert die Einbettung der Bundesländer als Dummy-Variable (Model 3) mehr Observationen als nur sieben Observationen je Bundesland. Aus diesem Grund muss die signifikanz der Koeffizienzen vorsichtig bewerten. 
 
-1.232 € Pro Person -> 18.702.368 € weniger Schaden, wenn 600.000.000€ investiert und dadurch 15.000 Personen keinen Diebstahl begehen ^[adapted from @StatistischesBundesamtDeutschland.2023]
--180 € je Tag Gefängniskosten * 30 Tage Gefängnis * 15.000 Personen = 81.918.000 € Gefängniskosten ^[https://www.justiz-bw.de/,Lde/Startseite/Justiz/datenundfakten, https://www.sueddeutsche.de/panorama/strafvollzug-duesseldorf-jeder-gefangene-kostet-nrw-rund-178-euro-pro-tag-dpa.urn-newsml-dpa-com-20090101-220824-99-494861]
-Wirtschaftskraft 75.000 --> ^[https://www.deutschlandatlas.bund.de/DE/Karten/Wie-wir-arbeiten/065-Bruttoinlandsprodukt-je-Erwerbstaetigen.html]
+Abschließend ist die zugrundeliegende Regressionfunktion kritisch zu bewerten. Verdeutlicht wird das Problem anhand von Model 2, wie [Equation 3.1](#eq:equation2) darstellt. Es zeigt, dass die Abnahme der Arbeitslosenzahl um eine Einheit ungefähr eine gleichstark sinkende Diebstahlzahl bedeutet. Aus dieser Annahme folgt, dass alle Bundesländer, die mehr Arbeitslose als Diebstähle besitzen, theoretisch ab einem gewissen Grenzwert negative Diebstahlzahlen aufweisen, wenn die Arbeitslosen Zahl diesen Wert erreicht. Zum Beispiel kann Thüringen hypothetisch  diesen Grenzwert bei `r toString(mergedData4regression[mergedData4regression$FederalState == "Thueringen" & mergedData4regression$Year == 2020, "AmountOfUnemployedPeople"])` Arbeitlosen unterschreiten, wenn die Zahl auf `r toString(mergedData4regression[mergedData4regression$FederalState == "Thueringen" & mergedData4regression$Year == 2020, "TheftAmount"]-1)`sinkt.
 
-Mehr arbeitslose als Diebstähle --> theoretisch Überkompensation --> praktisch aber unplausibel ggf. Probit/Logit Modelle anwenden
+Zusammenfassend zeigte die Regressionsanalyse wohl wenig relevante Ergebnisse. Selbst wenn vertiefende Betrachtungen eine Relevanz ergäben, so zweifelt die Arbeit die Signifikanz der Regressionskoeffizienten und des Modells durch die nicht normal-verteilten Residuen an. Abschließend hält die verwendete Regressionsfunktion der kritischen Betrachtung ebenfalls nicht stand. Dennoch bietet [Chapter 5](#Chapter5) einige Optimierungsmöglichkeiten an, die zukünfitge Untersuchungen einsetzen können.
 
-Ausreißer in Bezug auf die Fallzahlen sind Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen. Die Aggregation nach Größe scheint ihre Einflüsse aufgrund der Spannweite nicht sinnvoll wiederzugeben. Ob das Einführen dieser Variable als Konstante sinnvoll ist, erfordert eine separate Untersuchung und die Prüfung auf Alternativen. Zum Beispiel könnten Konstanten, die die einzelnen Länder repräsentieren bessere Variablen darstellen, allerdings erfordert ihr Gebrauch mehr Observationen als die aus den betrachteten 7 Jahren. Aus diesem Grund sollte die Auswertung der Koeffizienzen auf Basis der Regressionsanalyse vorsichtig bewerten.
 
 #	Conclusion: findings and implications {#Chapter5}
-(0.5 - 1 page).
+Die kritische Betrachtung in [Chapter 4](#Chapter4) ergab hinreichende Gründe für eine Ablehnung der Regressionsmodelle. Das zweite Regressionsmodell deutet zwar in [Chapter 3](#Chapter3) daraufhin, dass die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur einen signifikanten Zusammenhang aufweisen und die Hypothesen teilweise bestätigen. Jedoch geraten die Ergebnisse aufgrund des Jarque-Bera-Tests und der unpassenden Funktion in Zweifel. Gleiches gilt für Model 3, das lediglich für die Bildungsausgaben eine vermeintliche Signifikanz attestiert. Ungeachtet der zweifelhaften Signifikanz liegt bei den Bildungsausgaben mit einem Koeffizienten von `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio.€ aus Kostensicht keine Relevanz vor.
 
-Bildungsausgaben setzt sich aus mehreren Untereinheiten zusammen. Welche dieser Einheiten genau den Zusammenhang mit den Diebstählen aufweist sollte Gegenstand zukünftiger Untersuchungen werden.
+Im Hinblick auf diese Erkenntnis können die Hypothesen, die am Anfang der Arbeit im Raum standen noch nicht entgültig verworfen werden. Die Anwendung eines Probit-/Logit-Modells beseitigt die Schwächen der angewendeten linearen Regressionsfunktion in zukünftigen Untersuchungen. Zusätzlich stellen Gegenmaßnahmen, wie ein durchdachtes Ausreißermanagement oder eine Erhöhung der Stichprobe, durch das Hinzufügen von Observationen verschiedenster Jahre, die Aussagekraft der Signifikanztests wieder her.^[If you are intressted, [Appendix 6][Appendix 6] shows how the models look like, when outliners are removed from the used dataset and the Jarque-Bera-Test show normal distribution]. Die Bereinigung der genannten Mägel erlaubt anschließend die Bewertung der Relevanz.
 
+Sofern Folgearbeiten mit optimierten Regressionsanalysen auf ähnliche Ergebnisse stoßen oder wie in [Equation 3.1](#eq:equation2) einen überraschenden, positiven Zusammenhang zwischen Kulturausgaben und der Diebstahlzahl feststellen, so können sie neben der Relevanz auch die Kausalität der Zusammenhänge näher betrachten.  Weiterhin bieten spezifizierte Untersuchungen nach Diebstahlarten oder eine Differenzierung der Bildungs- und Kulturausgaben vertiefende Einblicke, die ggf. stärkere Effekte zeichnen. Damit erarbeiten sie potentielle Erkenntnisse, um die  Reduktion der Diebstähle in Deutschland voranzutreiben.
 
 # Appendix
 ## Appendix 1 {.unnumbered .tabset .tabset-fade}
 ```{r renderRemaining Tabels for Cases, echo=TRUE, warning=FALSE}
-table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2015)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2015")
-table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2017)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2017")
-table_thefts_allStates2016 <- addHtmlTableStyle(thefts_allStates_2016, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2016)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2016")
-table_thefts_allStates2018 <- addHtmlTableStyle(thefts_allStates_2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2018)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2018")
-table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Zahl der Diebstähle in den Ländern und der Bundesrepublik (2019)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2019")
+table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2015)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2015")
+table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2017)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2017")
+table_thefts_allStates2016 <- addHtmlTableStyle(thefts_allStates_2016, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2016)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2016")
+table_thefts_allStates2018 <- addHtmlTableStyle(thefts_allStates_2018, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2018)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2018")
+table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2019)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2019")
 ```
 
 ### 2014 {-}
@@ -752,6 +755,29 @@ rM3_coeftest
 rM3_F_Test1
 rM3_F_Test2
 ```
+## Appendix 6 {.unnumbered}
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
+# Dataset to buid regression without the Outliners Nordrhein-Westfalen, Berlin
+# based on Discussion in Chapter 4 and Improvements described in Chapter 5 and only if you are curious for new results
+mergedData4regression_optimised <- mergedData4regression[!(mergedData4regression$FederalState %in% c("Nordrhein-Westfalen", "Berlin")),] 
+### Results can be seen in "./02_VerarbeiteteDaten/zusammenfassung_ohneAusreißer.html" - in short Jarque-Bera-test show normal-distributed residuals, significant results are truely significant
+
+### Short variablenames are needed because stargazer can not work with longer Variable names
+regMod_1_optimised <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, data=mergedData4regression_optimised[,-1])
+
+regMod_2_optimised <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + Areasize + Year  -1, data=mergedData4regression_optimised[,-1])
+
+regMod_3_optimised <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure + FederalState + Year -1, data=mergedData4regression_optimised[,-4])
+
+Overview_RegModels <- read_html("./02_VerarbeiteteDaten/zusammenfassung_ohneAusreißer.html") %>% addHtmlTableStyle(pos.caption = "bottom", align="left", align.header = "left") %>% htmlTable(caption="Overview of all regression modells shows Model 3 as best result", tfoot =  "The Dataset used, was cleand from outlines, so that Jarque-Bera-Test could confirm a normal distribution of residuals. All regression models present significant estimators for  some of their variables, but the third model has a better adjusted R² and also includes control variables. Hence it is the most exact model for the data that was used. It leads to the conclusion that expenditures for education are negatively related to the number of thefts. Furthermore expenditures for culture are positively related to the number of thefts. The more federal states invest in  education, the fewer thefts appear." , label="Overview_RegModels")
+
+jb_test_model2_optimised <- jarque.bera.test(regMod_2_optimised$residuals)
+jb_test_model3_optimised <- jarque.bera.test(regMod_3_optimised$residuals)
+Overview_RegModels
+```
+
+
 
 # References
 Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link
