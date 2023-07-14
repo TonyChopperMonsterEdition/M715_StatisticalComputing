@@ -19,26 +19,53 @@ body, p{
   line-height: 1;
 }
 /* Headers */
+h1.title, h1.toc-ignore{
+  font-family: Times New Roman;
+  font-size: 20pt;
+  font-weight: bold;
+  text-indent: 0cm;
+  line-height: 100%;
+}
 h1{
   font-family: Times New Roman;
   font-size: 16pt;
   font-weight: bold;
   text-indent: 0cm;
-  line-height: 12pt;
+  line-break: auto;
+  line-height: 100%;
 }
 h2{
   font-family: Times New Roman;
   font-size: 14pt;
   font-weight: bold;
   text-indent: 0,39cm;
+  line-height: 100%;
   }
   
-h3{
+h3.subtitle{
+  font-family: Times New Roman;
+  font-size: 16pt;
+  font-weight: bold;
+  text-indent: 0,39cm;
+  line-height: 120%; 
+}
+
+h3 {
   font-family: Times New Roman;
   font-size: 12pt;
   font-weight: bold;
   text-indent: 0,78cm;
+  line-height: 100%;
   }
+
+h4.author, h4.date{
+    font-family: Times New Roman;
+  font-size: 14pt;
+  font-weight: bold;
+  text-indent: 0,78cm;
+  line-height: 50%;
+}
+
 table{
   max-width: 92.5%;
   margin-left: auto;
@@ -67,6 +94,12 @@ ul {
   list-style-position: inside;
   list-style-type: circle;
 }
+
+ol.vorwort_ol {
+  padding-left: 10px;
+  color: black;
+  list-style-position: inside;
+}
 .caption{ 
   font-family: Times New Roman;
   font-size: 10pt; 
@@ -76,3 +109,18 @@ ul {
 .main-container {max-width: 90%;}
 .row {display: flex;}
 .column {flex: 50%; margin: 2px}
+
+.csl-entry, .references, em{
+  line-break: auto;
+  hyphens: auto; 
+	text-align: justify;
+	justify-content: start;
+}
+
+em{
+  text-align: left;
+}
+
+a {
+  overflow-wrap: break-word;
+}

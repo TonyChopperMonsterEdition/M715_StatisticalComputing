@@ -3,7 +3,7 @@ workingDir="./01_Datenquellen/" # Line for run over rmarkdown
 
 #Genesis-Tabelle: 21621-0003 import Cultural Expenditure --> https://www-genesis.destatis.de/genesis//online?operation=table&code=21621-0003 in Mio. €  
 expenditure4Culture <- read_csv2(paste0(workingDir,"Cultural_Expenditure_per_state_2014_2020.csv") ,skip=6, na= c("-","NA",""),col_names= TRUE, show_col_types = FALSE, locale = locale(encoding = 'latin1', decimal_mark=","))
-names(expenditure4Culture) <- c("Year", "FederalState", "Theater_Musik", "Libraries", "Musseeum_Exhibitions", "Protection_CareOfMonuments", "CulturalAffairsAbroad", "PublicArtColleges", "OtherCulturalCare", "Administration4CulturalAffairs", "CulturalTotalExpenditure" )
+names(expenditure4Culture) <- c("Year", "FederalState", "Theater_Music", "Libraries", "Musseum_Exhibitions", "Protection_CareOfMonuments", "CulturalAffairsAbroad", "PublicArtColleges", "OtherCulturalCare", "Administration4CulturalAffairs", "CulturalTotalExpenditure" )
 expenditure4Culture[,3:11]<- expenditure4Culture[,3:11]*(10^6)
 expenditure4Culture <- expenditure4Culture[!(is.na(expenditure4Culture$FederalState)),]
 expenditure4Culture <- expenditure4Culture[!(expenditure4Culture$FederalState=="Insgesamt"),]

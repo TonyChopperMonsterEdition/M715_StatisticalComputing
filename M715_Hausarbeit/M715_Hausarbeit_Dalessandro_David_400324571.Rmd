@@ -1,7 +1,9 @@
 ---
-title: "Modling on Crimecases"
-subtitle: "Modul 715 - Statistical Computing"
-author: "D'Alessandro David"
+title: "Crimes and their relation to socio-economic factors"
+subtitle: "Linear Regression based on the federal states <br> Modul 715 - Statistical Computing"
+author: 
+  name: "D'Alessandro David"
+  url: "https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing/tree/2536b0a7dfc4fa8ccc7150315d5f05941734e835/M715_Hausarbeit"
 date: "`r Sys.Date()`"
 output:  
   #html_document:
@@ -17,7 +19,7 @@ output:
     code_folding:  show #hide
     fig_caption: False
 bibliography: "./10_Literatur_Quellen/m715_references.bib"
-csl: "https://www.zotero.org/styles/apa-with-abstract"
+csl: "https://www.zotero.org/styles/apa"
 lang: en
 
 
@@ -32,7 +34,8 @@ knit: (function(inputFile, encoding) {
                         
 ---
 
-# Vorwort {.unnumbered}
+
+
 ```{r setup, include=FALSE}
 # load libraries from before
 #### zuvor geladen:
@@ -48,11 +51,31 @@ options(table_counter = TRUE, table_counter_str = "Table %s:", scipen = 15 )
 
 ```
 
-<!-- ohne Nummerierung   -->
+# Vorwort {.unnumbered}
+This paper was created with Rmarkdown. All data that was used to build this paper are also available in [Github](https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing/tree/2536b0a7dfc4fa8ccc7150315d5f05941734e835/M715_Hausarbeit). This includes the Data from the Federal Criminal Police Office and the Federal Statistical Office from Germany, the Rmarkdown-File or any artifact that was build or used by the RMarkdown-File. You are free to use any of the data inside and made your own calculations. Especially the Data from the german offices are [licenced](https://www.govdata.de/dl-de/by-2-0) for an open commercial and non-commericial use.
+Additionally you will find a german and a english version of this rmarkdown in the Repository, the english version does not have any extentions in his filename. In the **08_Report** folder you find two HTML Files, which results from the rmarkdown.  
+<ul>
+* M715_Hausarbeit_Dalessandro_David_400324571.html - english version
+* M715_Hausarbeit_Dalessandro_David_400324571_de.html - german version
+</ul>
+You can create these html files by yourself, if you
+<ol class="vorwort_ol">
+1. pull the git repository, 
+2. keep the structure,
+3. knit one of the rmd-File in the M715_Hausarbeit(Root)-Directory.
+</ol>
+If rendering is not working check [Appendix 1][Appendix 1]. Information about the runtime environment, which created this document are provided there. If you need assistance to render the document or have any further questions, do not hesitate to leave me a message on my studynet-account. Further more the **08_Report**-Folder contains the **statutory declaration**, which confirms that I have created this paper my own and without further help. Finally I hope you enjoy reading the Case Study and I am glad to get feedback for further improvements.
 
-# Introduction (1 page) {#Chapter1}
 ***
-#	Methodology (4-5 pages) {#Chapter2}
+# Introduction {#Chapter1}
+According to crime statistics from the Federal Criminal Police Office, two billion euros damage was caused by around two million thefts in 2022. With over 400,000 cases, North Rhine Westphalia had documented the most.^[cf. @Bundeskriminalamt.2022] There are many ways to prevent thefts and to protect the population. So it makes take a look at the influences on the commission of crimes. In case of this paper, the federal states  and their different socio-economic factors will be focused. For this reason factors like the cultural and educational expenditure, the number of inhabitants, the gross domestic product and the number of social welfare recipients are the subject of the investigation.
+
+This paper asks if the amount of theft is related to some of the above-mentioned socio-economic factors. The null hypothesis is that they do not have any relation to it. But the assumption is that higher cultural or educational expenditures provide better social integration, create alternative leisure activities or career opportunities for potentially vulnerable people, and thus reduce the number of thefts. On the other side the gross domestic product partly represents economic development and purchasing power of the inhabitants, so the paper expects that the economic success of a federal state is negatively related to the number of cases. This is opposed by the number and density of inhabitants, they could lead directly or as a mediator to an increase in the number of cases if the trend is increasing. The same applies to the number of unemployed people, as their living situation could push them to commit crimes. So the alternative hypothesis is, that some of these factors, like the amount of unemployed people, increases, while the other factors, like expenditure in culture, will decrease the number of thefts. However the focus of this paper starts not with the causal link but firstly with the interest of any kind of relation between these factors.
+ 
+Therefore the study addresses these interest with a linear regression. This decision was made because the linear regression takes all of the mentioned factors into account and builds a model to calculate the total amount of thefts. To create such a model, this paper uses the data of the Federal Criminal Police Office from 2020 to 2014. In addition, it takes the socio-economic data from the Federal Statistical Office from Germany to build a regression function. The Data of this paper is introduced in the first part of [Chapter 2](#Chapter2). The second part gives an overview about the preparation of the data and how three different models are created to detect relations between the amount of thefts and the socio-economic factors. [Chapter 3](#Chapter3) interprets the results and selects the appropriate model. Based on the weaknesses of the work, [Chapter 4](#Chapter4) evaluates the methods and data used and subjects the outcome to a critical review. The paper is rounded off by the conclusion in [Chapter 5](#Chapter5), which summarizes the results and draws implications for further research.
+
+***
+#	Methodology {#Chapter2}
 Dieses Kapitel beschreibt und erläutert zum einen die Daten des Bundeskriminalamts ([Sec. 2.1](#Section2_1)), sowie, die des Statistischen Bundesamts ([Sec. 2.2](#Section2_2)). Die Betrachtung hebt vor allem die relevanten Variablen in dieser Arbeit hervor. Zum anderen zeigt das Kapitel welche Aufbereitungsaufwände ([Sec. 2.3](#Section2_3)) notwendig sind, um die Fallzahlen zu modellieren ([Sec. 2.4](#Section2_4)). Unterstützend verwendet die Arbeit die nachfolgenden Bibliotheken.
 ```{r Libraries, echo=TRUE, message=FALSE, warning=FALSE}
 # Libraries needed for the data exploration 
@@ -141,7 +164,7 @@ example_NationWideUntil2017 <- arrange(example_NationWideUntil2017,desc(Casenumb
 example_NationWideSince2018 <- caseNumbers_2018[caseNumbers_2018$FederalState %like% "Bundesrepublik" & caseNumbers_2018$Crimetype %like% "Diebstahl insgesamt und zwar:",] 
 example_NationWideSince2018 <- arrange(example_NationWideSince2018,desc(Casenumbers))
 ```
-Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Download zur Verfügung.^[cf. @Bundeskriminalamt.2023] Für die Arbeit relevant sind die Falltabellen der Länder im Zeitraum von jeweils 2014 bis 2020. Sie enthalten einen Umfang von  `r  toString(totalAmount_CrimeCasesObservations) ` Observationen. Diese geben, getrennt nach Delikt und Ländern, die Anzahl an Straftaten  wieder.^[cf. @Bundeskriminalamt.2021, S.17]. Die angegebenen Deliktschlüssel erlauben es die Fälle zu differenzieren und zu gruppieren. Insgesamt detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten oder möglichen Verzerrungen, ausführt. Zum Beispiel, dass durch die Einführung eines neuen Systems im Jahr 2019 in Thüringen nicht alle Fallzahlen erfasst wurden.^[cf. @Bundeskriminalamt.2021b, S.4]
+Das Bundeskriminalamt stellt eine Vielzahl an Tabellen auf ihrer Website zum Download zur Verfügung.^[cf. @Bundeskriminalamt.2023] Für die Arbeit relevant sind die Falltabellen der Länder im Zeitraum von jeweils 2014 bis 2020. Sie enthalten einen Umfang von  `r  toString(totalAmount_CrimeCasesObservations) ` Observationen. Diese geben, getrennt nach Delikt und Ländern, die Anzahl an Straftaten  wieder.^[cf. @Bundeskriminalamt.2021, p. 17]. Die angegebenen Deliktschlüssel erlauben es die Fälle zu differenzieren und zu gruppieren. Insgesamt detaillieren sie die Delikte auf 5 Ebenen. Ergänzt werden die Tabellen durch die Interpretationshilfe, die Hinweise zur Erfassung der Daten oder möglichen Verzerrungen, ausführt. Zum Beispiel, dass durch die Einführung eines neuen Systems im Jahr 2019 in Thüringen nicht alle Fallzahlen erfasst wurden.^[cf. @Bundeskriminalamt.2021b, p.4]
 
 `r Table_Ber_TheftOnly`
 
@@ -160,7 +183,7 @@ Für die Arbeit interessant sind deshalb die Fallzahl auf höchster Ebene, die i
   </div>
 </div>
 
-[Table 3](#table_thefts_allStates2017) bis [Table 4](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit des Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet ([see Appendix 1][Appendix 1]).<br>
+[Table 3](#table_thefts_allStates2017) bis [Table 4](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit des Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet ([see Appendix 2][Appendix 2]).<br>
 Wichtig zu wissen ist, dass sie nicht die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle doppelt erfasst. Demnach kann die Fallzahlen der einzelnen Bundesländern ggf. Fälle enthalten, die in anderen Bundesländern ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen Jahren. 
 
 ```{r CheckBias, echo=TRUE, message=TRUE, warning=FALSE}
@@ -177,6 +200,7 @@ isBiased
 ```
 Abschließend bedeutet das Ergebnis `r isBiased` der Überprüfung, dass die Observationen der jeweiligen Länder keine Fallzahlen mehrfach führen. Insofern stellt jedes Bundesland im Rahmen der Diebstähle eine unverzerrte Entität dar. Für [Sec. 2.3](#Section2_3) ergab die Betrachtung der Daten das Ziel, die Tabellen der jeweiligen Jahre zusammenzuführen und die Observationen auf den Falltyp "Diebstahl insgesamt und zwar:" zu beschränken. Ein weiteres Ziel ist, dass bei der Zusammenführung die Angabe zum Jahr erhalten bleibt. Eine Anpassung der Fallartbezeichnung oder ein erhalten der Fallnummer ist nicht vorgesehen, da die Tabelle lediglich die Gesamtzahl der Diebstähle, das Jahr und Bundesland aus der Kriminalstatistik enthalten soll. Ergänzt werden die Daten durch die unabhängigen Variablen, deren Herkunft und Bedeutung der nächsten Abschnitt erläutert.
 
+***
 ##	Data of Federal Statistical Office {#Section2_2}
 Um zu überprüfen, ob die Anzahl der Diebstähle in Deutschland mit verschiedenen inländischen Faktoren zusammenhängen, untersucht die Arbeit verschiedene Faktoren auf Bundesländerebene. Dazu bedient sie sich an der Genesis-Datenbank des statistischen Bundesamts.^[@StatistischesBundesamtDeutschland.2023f] Dieser Abschnitt widmet sein Augenmerk dabei auf die Einwohnerzahl^[@StatistischesBundesamtDeutschland.2023], der Bildungs^[@StatistischesBundesamtDeutschland.2023d]- und Kulturausgaben^[@StatistischesBundesamtDeutschland.2023c], sowie der Arbeitslosenzahl^[@StatistischesBundesamtDeutschland.2023b] und der Wirtschaftskraft^[@StatistischesBundesamtDeutschland.2023e], gemessen am erzeugten Bruttoinlandsprodukt.
 ```{r Inhabitants, echo=TRUE, message=FALSE, warning=FALSE}
@@ -199,12 +223,12 @@ table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(popul
 [Table 5][Population per State at the End of a year] zeigt die Einwohnerzahl aller 16 Bundesländer am Stichtag ihrer Erfassung. Aus der Dokumentation geht nicht hervor wie die Erfassung durchgeführt wurde oder, ob die sie auf einer Hochrechnung basiert. Aber, da die Bevölkerungszahl, laut den Stichtagen, am Ende des Jahres ermittelt wurde, repräsentiert sie, im Hinblick auf ihren Einfluss, das jeweils kommende Jahr. Aus diesem Grund passt das Skript beim Importieren die Tabellenüberschrift an. Als Ergebnis entsteht [Table 6][Population, based on the year before], eine strukturell gleiche Tabelle , inhaltlich gelten die Einwohnerzahlen, aber nicht mehr für das Jahr in denen die Zahlen erfasst wurden, sondern für das daraufolgende. Zur Modellierung ist die Struktur des Datensatz jedoch ungeeignet. Daher ist eine Veränderung der Tabelle notwendig, damit die Einwohnerzahl der Länder je Jahr als eigene Observationen in das Regressionsmodell einfließen. Das bedeutet, die Jahresspalten müssen in eigenständigen Entitäten die Einwohnerzahl abbilden. 
 
 ***
-```{r ,echo=FALSE, fig.align = "center",  fig.id= TRUE, fig.cap="Pivoting a table into a longer, tidy form^[Fig. 12.2, taken from @GrolemundHadleyWickhamandGarrett.24.6.2023 section 12.3.1]"}
+```{r ,echo=FALSE, fig.align = "center",  fig.id= TRUE, fig.cap="Pivoting a table into a longer, tidy form^[Fig. 12.2, taken from @GrolemundHadleyWickhamandGarrett.2023 section 12.3.1]"}
 
 knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bbe49981acda07696c0c7fcd8/2de65/images/tidy-9.png")
 ```
 ***
-Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-1) vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[cf. @GrolemundHadleyWickhamandGarrett.24.6.2023 section 12.3.1]. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
+Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-1) vorschlagen. Übertragen auf den Datensatz des statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[cf. @GrolemundHadleyWickhamandGarrett.2023 section 12.3.1]. Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
 
 ### Cultural Expenditure
 ```{r Cultural Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
@@ -239,7 +263,7 @@ In [Table 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die S
 
 `r table_Hamburg_Administration4CulturalAffairs`
 
-Am Beispiel von Hamburg verdeutlicht [Table 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Table 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgaben enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Ein weiteres Ziel für [Sec. 2.3](#Section2_3) ist deshalb die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
+Am Beispiel von Hamburg verdeutlicht [Table 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Table 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgabetypen enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Deshalb ist für [Sec. 2.3](#Section2_3) ein weiteres Ziel die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
 
 ### Expenditure for Education 
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
@@ -252,11 +276,11 @@ amount_missings_4_expenditure4Education <- nrow(expenditure4Education[is.na(expe
 
 ### Missings in Educational Expenditure
 expenditure4Education_missings<- expenditure4Education[is.na(expenditure4Education$TotalExpenditure4Education),]
-table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="llllr",align.header = "llllr") %>% htmlTable(rnames=FALSE, caption="Only missings for local authorities expenditures from 3 cities^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="table_expenditure4Education_missings")
+table_expenditure4Education_missings <- addHtmlTableStyle(head(expenditure4Education_missings), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Only missings for local authorities expenditures from 3 cities^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="table_expenditure4Education_missings")
 
 ### 
 # Summary of the Expenditures for Education
-summary_expenditure4Education_onlyTotal <- addHtmlTableStyle(summary(expenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt",], maxsum = 20), pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="Summary of expenditure for education^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education_onlyTotal")
+summary_expenditure4Education_onlyTotal <- addHtmlTableStyle(summary(expenditure4Education[expenditure4Education$LevelOfSeparation == "Insgesamt",], maxsum = 20), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Summary of expenditure for education^[adapted from @StatistischesBundesamtDeutschland.2023d]", label="summary_expenditure4Education_onlyTotal")
 
 ## Get Median and Mean from the Expenditures for Education
 
@@ -312,6 +336,7 @@ Zusammenfassend zeigte dieser Abschnitt, dass die Datensätze für die Einwohner
 * Zusammenführung aller Datensätze aller Datensätze im Hinblick auf die Regressionsmodellierung
 </ul>
 
+***
 ##	Data preparation {#Section2_3}
 Aus den vorangegangenen beiden Abschnitten ([Sec. 2.1](#Section2_1)) und ([Sec. 2.2](#Section2_2)) gingen für diesen Abschnitt diverse Extraktions-, Transformationsaufgaben hervor. Sie besitzen das Ziel einen Datensatz für die Regressionsmodellierung hervorzubringen. Zuerst widmet dieser Abschnitt seine Aufmerksamkeit auf die Daten des Bundeskriminalamts. Die wichtigste Aufgabe ist die Gesamtfallzahlen der Diebstähle je Bundesland und Jahr zu selektieren und in einer Tabelle zusammenzuführen. Darüberhinaus wird dem Datensatz eine zusätzliche Variable hinzugefügt, der die Bundesländer nach ihrer Größe in 4 Kategorien einteilt. Diese Zuordnung dient in der Regressionsanalyse später um konstantwirkende Effekte zu berücksichtigen und die Aussagekraft zu verbessern.
 
@@ -424,7 +449,7 @@ mean_thefts_of_notNRW <- prettyNum(round(mean(thefts_allYears_tidy$TheftAmount[!
 
 
 ```
-Die Einzelbetrachtung der Länder in [Figure 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über `r toString(mean_thefts_of_NRW)` Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um `r toString(mean_thefts_of_notNRW)` liegen. Die hohe Spanneweite aus [Figure 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Figure 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Figure 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Kapitel 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
+Die Einzelbetrachtung der Länder in [Figure 2.4](#fig:unnamed-chunk-4) verdeutlicht die Beobachtungen. Nordrhein-Westfalen besitzt mit über `r toString(mean_thefts_of_NRW)` Fällen die höchste Anzahl an Diebstählen. Sie weicht deutlich von den Fallzahlen anderer **großer** Länder ab, die im Schnitt um `r toString(mean_thefts_of_notNRW)` liegen. Die hohe Spanneweite aus [Figure 2.3](#fig:unnamed-chunk-3) in den **sehr kleinen** Bundesländern ist Resultat von den merklich höheren Fallzahlen aus Berlin und der niedrigeren Fallzahlen aus dem Saarland. Bremen und Hamburg liegen genau mittig, weswegen sich der eingezeichnete Median in [Figure 2.3](#fig:unnamed-chunk-3) kaum von den zwei nächstgrößeren Länder-Gruppen unterscheidet, aber der dargestellte Durchschnitt aus [Figure 2.2](#fig:unnamed-chunk-2) einen höheren Wert besitzt.Die Bedeutung dieser Eigenheiten diskutiert die Arbeit erst in [Chapter 4](#Chapter4). Der nächste Teil des Abschnitts verfolgt die Ziele aus [Sec. 2.2](#Section2_2) und behandelt die spezifischen Daten der Bundeländer.
 
 ### Preparation of specific data from the Federal States 
 ```{r pivoting extract exclude, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -461,6 +486,7 @@ Das Ergebnis der Pivotierung ist exemplarisch an den Einwohnerzahlen in [Table 1
 
 Die Extraktion der Daten wurde bereits vor Einbettung in die Skripte in Abschnitt [Sec. 2.2](#Section2_2) vorgeführt. Im Skript werden die Selektionsmethoden genutzt, um deren Ausgabe in neue Variablen zu überführen. Während der Ausführung verbindet das Skripts sukzessive die Inkremente zu dem Datensatz **mergedData4regression**.  Eingeschlossen in das Vorgehen sind Bereinigungen und Anpassungen an das Datenformat der Variablen. Das Ergebnis stellt [Table 18](#summary_mergedData) zusammengefasst dar.^[Angemerkt sei an dieser Stelle, dass die Arbeit eine reguläre Darstellung der Zahlen präferiert, um optisch die Unterschiede zwischen den Variablen und ihrer Größenordnung darzustellen. Textuell wird die Darstellung durch Intervallpunkte unterstüzt.] Der Datensatz enthält zu jedem Bundesland je Jahr eine Observation und ist zusätzlich mit anderen Bundesländern nach seiner jeweiligen Fläche in einer von vier Gruppen untergebracht. Die Population gibt die Anzahl der Einwohner wieder. Die höchste, jemals in einem Bundesland, im Zeitraum von 2014 bis 2020, gemessene Einwohnerzahl ist `r pretty_maxPopulation`. Im Durchschnitt waren von den Einwohnern Deutschlands `r pretty_meanJobless` arbeitslos. Das Gross Domestic Product erstreckt sich  zwischen den Bundesländern von `r pretty_minGDP`€ bishin zu `r pretty_maxGDP`€. Damit weist es im Vergleich zu den Ausgaben für Bildung und Kultur die größten Milliardenbeträge vor. Im Durchschnitt lagen die Ausgaben für Bildung bei `r pretty_medianEduExp`€  und für Kultur bei `r pretty_medianCultExp`€. Inwieweit ein Zusammenhang zwischen den Zahlen und der Spannweite von `r pretty_spanThefts` Diebstahlfällen besteht, eruiert im folgenden Abschnitt die vorgestellte Regressionsanalyse.
 
+***
 ##	Modeling by using linear regression {#Section2_4}
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library("plm")
@@ -483,7 +509,7 @@ regMod_3 <- lm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + Total
 ## regMod_3 <- plm(TheftAmount ~ Population + GDP + AmountOfUnemployedPeople + TotalExpenditure4Education + CulturalTotalExpenditure, index = c("FederalState", "Year"), model = "within", effect = "twoways", data=mergedData4regression[,-4])
 
 ```
-Auf Basis des in [Sec. 2.3](#Section2_3) vorbereiteten Datensatzes  **mergedData4regression** führt dieser Abschnitt die Regressionsanalyse durch. Der darüberliegenden Codechunk berechnet drei Modelle. Das erste Modell berücksichtigt keine fixierten Effekte. Das zweite und dritte Modell schließen Kontrollvariablen in die Analyse mit ein. Als Kontrollvariable werden die Jahresangaben und zusätzlich, entweder die Länder als eigensändige Entität (model 3) oder als Ländergruppen nach ihrer Größe (model 2) hinzugezogen. Zur Berechnung nutzt die Arbeit die Methode *"lm()"* aus dem Package *"lmtest"*. Die Methode *plm()* ist alternativ einsetzbar, jedoch wurde sie nicht ausgewählt, da sie die Kontrollvariablen bei der Modellberechnung zwar berücksichtigt, aber nicht ausgibt. 
+Auf Basis des in [Sec. 2.3](#Section2_3) vorbereiteten Datensatzes  **mergedData4regression** führt dieser Abschnitt die Regressionsanalyse durch. Der darüberliegenden Codechunk berechnet drei Modelle.Der Grund für drei Modelle liegt im unbekannten Einfluss der Kontrollvariablen und ihrer Aggregation. Das erste Modell berücksichtigt keine fixierten Effekte. Das zweite und dritte Modell schließen Kontrollvariablen in die Analyse mit ein. Als Kontrollvariable werden die Jahresangaben und zusätzlich, entweder die Länder als eigensändige Entität (model 3) oder als Ländergruppen nach ihrer Größe (model 2) hinzugezogen. Zur Berechnung nutzt die Arbeit die Methode *"lm()"* aus dem Package *"lmtest"*. Die Methode *plm()* ist alternativ einsetzbar, jedoch wurde sie nicht ausgewählt, da sie die Kontrollvariablen bei der Modellberechnung zwar berücksichtigt, aber nicht ausgibt, dies verursachte im Verlauf der Untersuchung einige Verzerrungen.
 
 ### Equations of each regression model  {.unnumbered .tabset .tabset-fade}
 
@@ -534,9 +560,10 @@ $$
 ### {-}
 Die Formeln in [2.1](#eq:equation) zeigen den Aufbau der jeweiligen Regressionsmodelle. Das erste Modell verzichtet auf Kontrollvariablen und beschreibt den Zusammenhang zu den Fallzahlen als Summe der Population, des Bruttoinlandprodukts, der Arbeitlosigkeit, sowie der Ausagaben für Bildung und Kultur. Darüberhinaus beeinflussen die Regressionskoeffizienten $\beta_0$ bis $\beta_5$ den Effekt der unabhängigen Variablen. Das zweite und das dritte Modell führen die obengenannten Kontrollvariablen ein um Verzerrungen auf die unabhängigen Variablen zu reduzieren. Sie nehmen als Dummyvariable den Wert 0 oder 1 an und werden durch die Parameter $\gamma_n$ oder  $\delta_n$ beeinflusst. 
 
-Abschließend zeigte [Chap. 2](#Chapter2), dass die Daten des Bundeskriminalamts, sowie die des statistischen Bundesamts einen gewissen Bearbeitungsaufwand bedürfen. [Sec. 2.1](#Section2_1) und [Sec. 2.2](#Section2_2) grenzten die Daten, auf die für die Fragestellung relevanten Variablen und Observationen, ein. [Sec. 2.3](#Section2_3) extrahiert auf Grundlage dessen, die für die Fragestellung relevanten Variablen. Dazu zählt die Zahl der Diebstähle je Bundesland als abhängige Variable und die verschiedenen unabhängigen Variablen, von der Einwohnerzahl bishin zu den Gesamtausgaben für Kultur. Außerdem beschreibt der Abschnitt, dass die Bundesländer nach ihrer Fläche gruppiert, jeweils unterschiedliche Eigenheiten in der Masse an Diebstählen oder ihrer Spannweite besitzen. Wie die unabhängigen Variablen diese Eigenheiten erklären, beschreiben die aufgestellten Regressionsmodelle aus [Sec. 2.4](#Section2_4). Dabei schließen zwei der drei Modell diverse Kontrollvariablen ein, die [Chap. 3](#Chapter3) näher betrachtet.
+Abschließend zeigte [Chapter  2](#Chapter2), dass die Daten des Bundeskriminalamts, sowie die des statistischen Bundesamts einen gewissen Bearbeitungsaufwand bedürfen. [Sec. 2.1](#Section2_1) und [Sec. 2.2](#Section2_2) grenzten die Daten, auf die für die Fragestellung relevanten Variablen und Observationen, ein. [Sec. 2.3](#Section2_3) extrahiert auf Grundlage dessen, die für die Fragestellung relevanten Variablen. Dazu zählt die Zahl der Diebstähle je Bundesland als abhängige Variable und die verschiedenen unabhängigen Variablen, von der Einwohnerzahl bishin zu den Gesamtausgaben für Kultur. Außerdem beschreibt der Abschnitt, dass die Bundesländer nach ihrer Fläche gruppiert, jeweils unterschiedliche Eigenheiten in der Masse an Diebstählen oder ihrer Spannweite besitzen. Wie die unabhängigen Variablen diese Eigenheiten erklären, beschreiben die aufgestellten Regressionsmodelle aus [Sec. 2.4](#Section2_4). Dabei schließen zwei der drei Modell diverse Kontrollvariablen ein, die [Chapter  3](#Chapter3) näher betrachtet.
 
-#	Analysis & Results: Plots and tables from the data (3 pages) {#Chapter3}
+***
+#	Analysis & Results {#Chapter3}
 ```{r analysis,echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
 
@@ -613,7 +640,7 @@ TheftAmount & \sim `r toString(regMod_2[1]$coefficients["Population"])`*Populati
 \end{split}
 (\#eq:equation2)
 $$
-[Equation 3.1](#eq:equation2) veranschaulicht anhand von Modell 2 wie die Interpretation der [Tab. 19](#Overview_RegModels) als Formel umgesetzt wird. Durch den Einsatz von Kontrollvariablen verändert sich jedoch die die Bewertung der Regressionskoeffizienten.^[https://www.econometrics-with-r.org/10.4-regression-with-time-fixed-effects.html entity and time fixed effects] Das Signifikanzniveau für die Koeffizienten des Bruttoinlandsprodukt und der Einwohnerzahl wird beispielsweise nicht erreicht. Lediglich die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur haben einen nennenswerten Einfluss auf die Anzahl an Diebstählen. In der Deutung der Koeffizienzen vermutet das Modell, dass 
+[Equation 3.1](#eq:equation2) veranschaulicht anhand von Modell 2 wie die Interpretation der [Tab. 19](#Overview_RegModels) als Formel umgesetzt wird. Durch den Einsatz von Kontrollvariablen verändert sich die Bewertung der Regressionskoeffizienten, da Verzerrungen durch nicht betrachtete Effekte reduziert werden.^[cf. @ChristophHanckMartinArnoldAlexanderGerberandMartinSchmelzer.2023] Das Signifikanzniveau für die Koeffizienten des Bruttoinlandsprodukt und der Einwohnerzahl wird beispielsweise nicht erreicht. Lediglich die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur haben einen nennenswerten Einfluss auf die Anzahl an Diebstählen. In der Deutung der Koeffizienzen vermutet das Modell, dass 
 <ul>
 * der  Anstieg der Arbeitslosenzahl um eine Person mit einer ungefähr gleichen Erhöhung der Diebstähle zusammenhängt.
 * die Investion in Bildung je 100,000€ mit einem Rückgang um 2,3 Fällen in Verbindung steht.
@@ -639,12 +666,12 @@ rM3_coeftest
 ```
 Daneben betrachtet die Arbeit zusätzlich das Bestimmtheitsmaß R² aus [Tab. 19](#Overview_RegModels). Mit einem Wert von `r  toString(r_squard_model3)` erreicht das Modell 3 durch seine Kontrollvariable für jedes Bundesland das beste Ergebnis auf Basis der untersuchten Daten. Das zeigt auch der Standard Error, welcher im Model 2 `r toString(SE_model2)` und damit doppelt so hoch ist, wie Model 3  mit `r toString(SE_model3)`. Aus diesem Grund wird das Egebnis aus Model 3 bevorzugt. Aus dem Ergebnis des  **t-Test** aus **rM3_coeftest** sticht die Variable für die Bildungsausgaben als einzig signifikante Variable hervor. (Alle Ergebnisse aus t- und F-Test sind aus [Appendix 5][Appendix 5] zu entnehmen.) Aus dem Effekt des Regressionskoeffizienten folgert die Arbeit, dass Länder die zum Beispiel eine Millionen Euro höheren Bildungsausgaben als andere Länder haben,  ca. 28 weniger Diebstahl-Fälle vorweisen. Fragwürdig bleibt aber, ob dieser Effekt tatsächlich für ein Bundesland relevant ist und ob diese Interpretation in [Chapter 4](#Chapter4) einer kritischen Betrachtung  standhält.
 
-#	Discussion: anomalies and limitations {#Chapter4}
-(0.5 - 1 page)
+***
+#	Discussion: biases and limitations {#Chapter4}
 
-Wie bereits im vorherigen Kapitel erwähnt, liegt der errechnete, signifikante Effekt von Bildung im Zusammenhang mit einem Diebstahl laut Model 3 bei `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio €. Wenn, vereinfacht angenommen, jeder Diebstahl durch eine Person entsteht und der Effekt auf einem kausalen Zusammenhang beruht, dann müssten `r toString(-10^6/(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6))`€ in Bildung investiert werden um Diebstähle einer Person zu verhindern. Diese Kosten stehen dem durchschnittlichen Schaden von 1.232 € den ein Diebstahl je Person verursacht gegenüber.^[adapted from @StatistischesBundesamtDeutschland.2023] Aus dieser vereinfachten Berechnung folgt, dass für die Praxis wahrscheinlich kein relevanter Zusammenhang besteht. 
+Wie bereits im vorherigen Kapitel erwähnt, liegt der errechnete, signifikante Effekt von Bildung im Zusammenhang mit einem Diebstahl laut Model 3 bei `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio €. Wenn dieser Effekt tatsächlich auf einem kausalen Zusammenhang beruht, dann liegen die Investitionskosten in Bildung bei `r toString(-10^6/(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6))`€ um je einen Diebstahl zu verhindern. Diese Kosten stehen dem durchschnittlichen Schaden von 1.232 € den ein Diebstahl je Person verursacht gegenüber.^[adapted from @StatistischesBundesamtDeutschland.2023] Aus dieser Kostensicht folgt, dass für die Praxis wahrscheinlich kein relevanter Zusammenhang besteht. Allerdings gilt zu beachten, dass diese vereinfachte Berechnung die Kosten für Strafverfolgung und Strafvollzug je Diebstahl nicht berücksichtigt und daher eine gesonderte Betrachtung erfordert.
 
-Daneben fiel bei einer Überprüfung der allgemeinen Regressionsmodell-Annahmen, wie sie Joachim Zuckarelli beschreibt, auf, dass die Residuen der Modelle nicht gleich verteilt ist. Das bedeutet, dass die Signifikanz der Schätzer und des Modells nicht durch die t- und F-Tests bestimmt werden kann.(S232. 978-3-96009-044-1).  Mit abnehmender Aggregation der Bundesländer weichen die Residuen von der Normalverteilung ab.
+Daneben fiel bei einer Überprüfung der allgemeinen Regressionsmodell-Annahmen, wie sie Joachim Zuckarelli beschreibt, auf, dass die Residuen der Modelle nicht gleich verteilt ist. Mit abnehmender Aggregation der Bundesländer weichen die Residuen von der Normalverteilung ab. Das bedeutet, dass die Signifikanz der Schätzer und des Modells nicht durch die t- und F-Tests bestimmt werden kann.^[cf. @Zuckarelli.2017 p. 232]
 
 ```{r echo=TRUE, fig.cap="QQ-Test shows not normal distributed residuals for both models", fig.subcap="QQ-Tests are important to prove the meaningfullness of the Significance-Test-Results. Deviations from the dotted line can be seen in both graphs; the more the residuals deviate from it, the less normally distributed they are.", message=FALSE, warning=FALSE, paged.print=FALSE}
 # Test for normal distributed residuals
@@ -655,7 +682,7 @@ plot(regMod_2, which=2)
 title(main = "Model 2", cex.main=1)
 plot(regMod_3, which=2) 
 title(main = "Model 3", cex.main=1)
-## Validation of the grafical results via Jarque-Bera-test --> t- und F-test-Results have a little meaningfulness (S.232 Statistik mit R) --> Test shows a non-normal distribution due to outliers --> countermeasure increase sample size or introduce robust estimates, maybe another form of aggregation or grouping of the entities may also be helpful
+## Validation of the grafical results via Jarque-Bera-test --> t- und F-test-Results have a little meaningfulness (p. 232 Statistik mit R) --> Test shows a non-normal distribution due to outliers --> countermeasure increase sample size or introduce robust estimates, maybe another form of aggregation or grouping of the entities may also be helpful
 library(tseries)
 jb_test_model2 <- jarque.bera.test(regMod_2$residuals)
 jb_test_model3 <- jarque.bera.test(regMod_3$residuals)
@@ -669,20 +696,37 @@ autokorrelation_model3 <- dwtest(regMod_3)
 
 Ausreißer, wie Norrhein-Westfahlen in den **großen** und Berlin in den **sehr kleinen** Bundesländergruppen (see [Figure 2.4](#fig:unnamed-chunk-2) bieten eine potenzielle Erklärung und Anhaltspunkte zur Optimierung. Die Aggregation nach Größe erscheint aufgrund der Spannweite, wie sie in [Figure 2.3](#fig:unnamed-chunk-3) vorliegt, für die Modellierung nicht sinnvoll. Auch erfordert die Einbettung der Bundesländer als Dummy-Variable (Model 3) mehr Observationen als nur sieben Observationen je Bundesland. Aus diesem Grund muss die signifikanz der Koeffizienzen vorsichtig bewerten. 
 
-Abschließend ist die zugrundeliegende Regressionfunktion kritisch zu bewerten. Verdeutlicht wird das Problem anhand von Model 2, wie [Equation 3.1](#eq:equation2) darstellt. Es zeigt, dass die Abnahme der Arbeitslosenzahl um eine Einheit ungefähr eine gleichstark sinkende Diebstahlzahl bedeutet. Aus dieser Annahme folgt, dass alle Bundesländer, die mehr Arbeitslose als Diebstähle besitzen, theoretisch ab einem gewissen Grenzwert negative Diebstahlzahlen aufweisen, wenn die Arbeitslosen Zahl diesen Wert erreicht. Zum Beispiel kann Thüringen hypothetisch  diesen Grenzwert bei `r toString(mergedData4regression[mergedData4regression$FederalState == "Thueringen" & mergedData4regression$Year == 2020, "AmountOfUnemployedPeople"])` Arbeitlosen unterschreiten, wenn die Zahl auf `r toString(mergedData4regression[mergedData4regression$FederalState == "Thueringen" & mergedData4regression$Year == 2020, "TheftAmount"]-1)`sinkt.
+Weiterhin ist die zugrundeliegende Regressionfunktion kritisch zu bewerten. Verdeutlicht wird das Problem anhand von Model 2, wie [Equation 3.1](#eq:equation2) darstellt. Es zeigt, dass die Abnahme der Arbeitslosenzahl um eine Einheit ungefähr eine gleichstark sinkende Diebstahlzahl bedeutet. Aus dieser Annahme folgt, dass alle Bundesländer, die mehr Arbeitslose als Diebstähle besitzen, theoretisch ab einem gewissen Grenzwert negative Diebstahlzahlen aufweisen, wenn die Arbeitslosen Zahl diesen Wert erreicht. Zum Beispiel kann Thüringen hypothetisch  diesen Grenzwert bei `r toString(mergedData4regression[mergedData4regression$FederalState == "Thueringen" & mergedData4regression$Year == 2020, "AmountOfUnemployedPeople"])` Arbeitlosen unterschreiten, wenn die Zahl auf `r toString(mergedData4regression[mergedData4regression$FederalState == "Thueringen" & mergedData4regression$Year == 2020, "TheftAmount"]-1)`sinkt.
 
 Zusammenfassend zeigte die Regressionsanalyse wohl wenig relevante Ergebnisse. Selbst wenn vertiefende Betrachtungen eine Relevanz ergäben, so zweifelt die Arbeit die Signifikanz der Regressionskoeffizienten und des Modells durch die nicht normal-verteilten Residuen an. Abschließend hält die verwendete Regressionsfunktion der kritischen Betrachtung ebenfalls nicht stand. Dennoch bietet [Chapter 5](#Chapter5) einige Optimierungsmöglichkeiten an, die zukünfitge Untersuchungen einsetzen können.
 
-
+***
 #	Conclusion: findings and implications {#Chapter5}
 Die kritische Betrachtung in [Chapter 4](#Chapter4) ergab hinreichende Gründe für eine Ablehnung der Regressionsmodelle. Das zweite Regressionsmodell deutet zwar in [Chapter 3](#Chapter3) daraufhin, dass die Arbeitslosenzahl, sowie die Ausgaben für Bildung und Kultur einen signifikanten Zusammenhang aufweisen und die Hypothesen aus teilweise bestätigen. Jedoch geraten die Ergebnisse aufgrund des Jarque-Bera-Tests und der unpassenden Funktion in Zweifel. Gleiches gilt für Model 3, das lediglich für die Bildungsausgaben eine vermeintliche Signifikanz attestiert. Ungeachtet der zweifelhaften Signifikanz liegt bei den Bildungsausgaben mit einem Koeffizienten von `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio.€ aus Kostensicht keine Relevanz vor.
 
-Im Hinblick auf diese Erkenntnis können die Hypothesen, die am Anfang der Arbeit im Raum standen noch nicht entgültig verworfen werden. Die Anwendung eines Probit-/Logit-Modells beseitigt die Schwächen der angewendeten linearen Regressionsfunktion in zukünftigen Untersuchungen. Zusätzlich stellen Gegenmaßnahmen, wie ein durchdachtes Ausreißermanagement oder eine Erhöhung der Stichprobe, durch das Hinzufügen von Observationen verschiedenster Jahre, die Aussagekraft der Signifikanztests wieder her.^[If you are intressted, [Appendix 6][Appendix 6] shows how the models look like, when outliners are removed from the used dataset and the Jarque-Bera-Test show normal distribution]. Die Bereinigung der genannten Mägel erlaubt anschließend die Bewertung der Relevanz.
+Im Hinblick auf diese Erkenntnis können die Hypothesen, die am Anfang der Arbeit im Raum standen noch nicht entgültig verworfen werden. Die Anwendung eines Probit-/Logit-Modells beseitigt die Schwächen der angewendeten linearen Regressionsfunktion in zukünftigen Untersuchungen. Zusätzlich stellen Gegenmaßnahmen, wie ein durchdachtes Ausreißermanagement oder eine Erhöhung der Stichprobe, durch das Hinzufügen von Observationen verschiedenster Jahre, die Aussagekraft der Signifikanztests wieder her.^[If you are intressted, [Appendix 6][Appendix 6] shows how the models look like, when outliners are removed from the used dataset and the Jarque-Bera-Test show normal distribution]. Die Bereinigung der genannten Mägel erlaubt anschließend die Bewertung der Relevanz.^[cf. @Zuckarelli.2017 p. 232 et sqq.]
 
 Sofern Folgearbeiten mit optimierten Regressionsanalysen auf ähnliche Ergebnisse stoßen oder wie in [Equation 3.1](#eq:equation2) einen überraschenden, positiven Zusammenhang zwischen Kulturausgaben und der Diebstahlzahl feststellen, so können sie neben der Relevanz auch die Kausalität der Zusammenhänge näher betrachten.  Weiterhin bieten spezifizierte Untersuchungen nach Diebstahlarten oder eine Differenzierung der Bildungs- und Kulturausgaben vertiefende Einblicke, die ggf. stärkere Effekte zeichnen. Damit erarbeiten sie potentielle Erkenntnisse, um die  Reduktion der Diebstähle in Deutschland voranzutreiben.
 
+***
 # Appendix
-## Appendix 1 {.unnumbered .tabset .tabset-fade}
+## Appendix 1 {.unnumbered}
+### Information about Runtime Environment {.unnumbered}
+```{r Sessioninformation, echo=TRUE, warning=FALSE, paged.print=TRUE}
+## Overall Session information
+sessionInfo()
+
+```
+### List of Loaded Packages {.unnumbered}
+```{r List of Loaded Packages, echo=TRUE, warning=FALSE, paged.print=TRUE}
+## only Packages loaded as a list
+sessionInfo_packages <- sessionInfo()["loadedOnly"]
+toString(names(sessionInfo_packages$loadedOnly))
+
+```
+
+## Appendix 2 {.unnumbered .tabset .tabset-fade}
+
 ```{r renderRemaining Tabels for Cases, echo=TRUE, warning=FALSE}
 table_thefts_allStates2015 <- addHtmlTableStyle(thefts_allStates_2015, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2015)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2015")
 table_thefts_allStates2017 <- addHtmlTableStyle(thefts_allStates_2017, pos.caption = "bottom", align="lllr",align.header = "lccr") %>% htmlTable(rnames=FALSE, caption="Number of Thefts in each Federal State and in total for Germany (2017)^[adapted from @Bundeskriminalamt.2023]", label="table_thefts_allStates2017")
@@ -706,18 +750,12 @@ table_thefts_allStates2019 <- addHtmlTableStyle(thefts_allStates_2019, pos.capti
 `r table_thefts_allStates2019`
 ### 2020 {-}
 `r table_thefts_allStates2020`
-## Appendix 2 {.unnumbered}
-### Information about Runtime Environment {.unnumbered}
-```{r Sessioninformation, echo=TRUE, warning=FALSE, paged.print=TRUE}
-## Overall Session information
-sessionInfo()
 
-```
 ## Appendix 3 {.unnumbered}
 ```{r unemployment rate appendix, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Shows the amount of unemployees in each federal state 
-summary_Unemployment_full <- summary(jobless_people) %>% addHtmlTableStyle(pos.caption = "bottom") %>% htmlTable(rnames=FALSE, caption="The structre presents the amount of unemployed people by colums of federal states^[adapted from @StatistischesBundesamtDeutschland.2023b]",  tfoot= "The relevant figures are splited around many colums and the variable of federal states is only presented by column headers. To be compatible with the other datasets is has to be pivotated to a longer dataset with one column per variable. This means one observation contains a variable/column for years, one for the fedaral state and one for the amount of unemployees in that year and federal state.", label="summary_Unemployment_full")
+summary_Unemployment_full <- summary(jobless_people) %>% addHtmlTableStyle(pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="The structre presents the amount of unemployed people by colums of federal states^[adapted from @StatistischesBundesamtDeutschland.2023b]",  tfoot= "The relevant figures are splited around many colums and the variable of federal states is only presented by column headers. To be compatible with the other datasets is has to be pivotated to a longer dataset with one column per variable. This means one observation contains a variable/column for years, one for the fedaral state and one for the amount of unemployees in that year and federal state.", label="summary_Unemployment_full")
 
 summary_Unemployment_full
 ```
@@ -731,30 +769,25 @@ summary_Cases_total<- summary(caseNumbers_allYears_transformed4Summary, maxsum =
 
 summary_Cases_total
 ```
-### List of Loaded Packages {.unnumbered}
-```{r List of Loaded Packages, echo=TRUE, warning=FALSE, paged.print=TRUE}
-# whole session infos
-sessionInfo()
-## only Packages loaded as a list
-sessionInfo_packages <- sessionInfo()["loadedOnly"]
-toString(names(sessionInfo_packages$loadedOnly))
 
-```
 ## Appendix 5 {.unnumbered}
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 # Significance-Test that takes also heteroscedasticity and autocorrelation into account 
-## Model 1
-rM1_coeftest
-rM1_F_Test
-## Model 2
-rM2_coeftest
-rM2_F_Test
-rM2_F_Test2
-## Model 3
-rM3_coeftest
-rM3_F_Test1
-rM3_F_Test2
+
+## Modell 1
+rM1_coeftest ## t-Test Result of Modell 1's Regressioncoefficients
+rM1_F_Test ## F-Test Result of Modell 1
+## Modell 2
+rM2_coeftest ## t-Test Result of Modell 2's Regressioncoefficients
+rM2_F_Test ## F-Test Result of Modell 2
+rM2_F_Test2 ## F-Test Result of Modell 2
+## Modell 3
+rM3_coeftest ## t-Test Result of Modell 3's Regressioncoefficients
+rM3_F_Test1 ## F-Test Result of Modell 3
+rM3_F_Test2 ## F-Test Result of Modell 3
+
 ```
+
 ## Appendix 6 {.unnumbered}
 ```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 
@@ -777,7 +810,5 @@ jb_test_model3_optimised <- jarque.bera.test(regMod_3_optimised$residuals)
 Overview_RegModels
 ```
 
-
-
+***
 # References
-Zitate von Quellcode mit Urheber oder Gitrepository angeben oder den link
