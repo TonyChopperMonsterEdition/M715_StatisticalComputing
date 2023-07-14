@@ -1,6 +1,6 @@
 ---
-title: "Crimes and their relation to socio-economic factors"
-subtitle: "Linear Regression based on the federal states <br> Modul 715 - Statistical Computing"
+title: "Kriminalfälle und ihre Verbindung zu sozio-ökonomischen Faktoren"
+subtitle: "Lineare Regression auf Basis von Bundesländer-Spezifika <br> Modul 715 - Statistical Computing"
 author: 
   name: "D'Alessandro David"
   url: "https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing/tree/2536b0a7dfc4fa8ccc7150315d5f05941734e835/M715_Hausarbeit"
@@ -51,14 +51,14 @@ options(table_counter = TRUE, table_counter_str = "Table %s:", scipen = 15 )
 # Vorwort {.unnumbered}
 Dieses Papier wurde mit Rmarkdown erstellt. Alle Daten, die zur Erstellung dieses Papiers verwendet wurden, sind ebenfalls auf [Github](https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing/tree/2536b0a7dfc4fa8ccc7150315d5f05941734e835/M715_Hausarbeit) verfügbar. Dazu gehören die Daten des Bundeskriminalamtes und des Statistischen Bundesamtes aus Deutschland, die Rmarkdown-Datei oder jedes Artefakt, das mit der RMarkdown-Datei erstellt oder verwendet wurde. Es steht Ihnen frei, die darin enthaltenen Daten zu verwenden und eigene Berechnungen anzustellen. Insbesondere die Daten aus den deutschen Ämtern sind für eine offene, kommerzielle und nicht-kommerzielle Nutzung [lizenziert](https://www.govdata. De/dl-de/by-2-0). Zusätzlich finden Sie im Repository eine deutsche und eine englische Version dieser Rmarkdown-Datei, wobei die englische Version keine Erweiterungen im Dateinamen hat. Im Ordner **08_Report** finden Sie zwei HTML-Dateien, die aus dem Rmarkdown resultieren.
 <ul>
-* M715_Hausarbeit_Dalessandro_David_400324571.html - Englische Version
-* M715_Hausarbeit_Dalessandro_David_400324571_de.html - Deutsche Version
+<li>  M715_Hausarbeit_Dalessandro_David_400324571.html - Englische Version </li>
+<li>  M715_Hausarbeit_Dalessandro_David_400324571_de.html - Deutsche Version </li>
 </ul>
 Sie können diese HTML-Dateien selbst erstellen, wenn Sie
 <ol class="vorwort_ol">
-* das Git-Repository ziehen, 
-* behalten Sie die Struktur bei,
-* stricken Sie eine der rmd-Dateien im M715_Hausarbeit(Root)-Verzeichnis.
+<li> das Git-Repository ziehen, </li>
+<li> behalten Sie die Struktur bei, </li>
+<li> stricken Sie eine der rmd-Dateien im M715_Hausarbeit(Root)-Verzeichnis. </li>
 </ol>
 Wenn das Rendern nicht funktioniert, sehen Sie in [Appendix 1][Appendix 1] nach. Dort finden Sie Informationen über die Laufzeitumgebung, mit der dieses Dokument erstellt wurde. Falls Sie Hilfe beim Rendern des Dokuments benötigen oder weitere Fragen haben, können Sie mir gerne eine Nachricht auf meinem studynet-Account hinterlassen. Des Weiteren enthält der **08_Report**-Ordner die **eidesstattliche Erklärung (statutory declaration)**, die bestätigt, dass ich diese Arbeit selbstständig und ohne weitere Hilfe erstellt habe. Abschließend wünsche ich Ihnen viel Spaß bei der Lektüre der Fallstudie und freue mich über Feedback für weitere Verbesserungen.
 
@@ -179,7 +179,7 @@ Für die Arbeit interessant sind deshalb die Fallzahl auf höchster Ebene, die i
   </div>
 </div>
 
-[Table 3](#table_thefts_allStates2017) bis [Table 4](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit der Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet ([siehe Appendix 1][Appendix 1]).<br>
+[Table 3](#table_thefts_allStates2017) bis [Table 4](#table_thefts_allStates2020) gewähren einen Überblick aller Diebstähle in den Bundesländern. Die vorliegenden Werte bilden die Zielvariable, die die Regressionsanalyse untersucht. Im Rahmen der Datenaufbereitung müssen diese Observationen von den verbleibenden extrahiert werden. Die Aufbereitung muss diese Tabellen zusammenführen und dabei die Jahreszugehörigkeit der Observation erhalten. Die Beobachtung mit FederalState *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"*  ist eine separate Aufführung der Straftaten und aggregiert alle Fallzahlen der Länder. Einen Unterschied zwischen der Bezeichnung *"Bund echte Zählung der Tatverdächtigen"* oder *"Bundesrepublik Deutschland"* gibt es nicht, bis 2017 wurde die erstgenannte  und ab 2018 die letztere verwendet ([siehe Appendix 2][Appendix 2]).<br>
 Wichtig zu wissen ist, dass sie nicht die Summe aller Fallzahlen der jeweiligen Länder ist, sondern dass Fälle, die übergreifend in verschiedenen Bundesländern stattfanden, nur einmalig erfasst werden. Somit ist dieser Wert unverzerrt, da er keine Fälle doppelt erfasst. Demnach kann die Fallzahlen der einzelnen Bundesländer ggf. Fälle enthalten, die in anderen Bundesländern ebenfalls dokumentiert wurden. Die nachfolgende Überprüfung widerlegt diesen Sachverhalt für Diebstähle durch einen Vergleich der Summe aller Fallzahlen mit der Gesamtzahl der Bundesrepublik in den jeweiligen Jahren. 
 
 ```{r CheckBias, echo=TRUE, message=TRUE, warning=FALSE}
@@ -210,7 +210,7 @@ table_population_per_FederalState <- addHtmlTableStyle(head(population_per_Feder
 table_population_per_FederalState_headerAdjusted <- addHtmlTableStyle(head(population_per_FederalState_headerAdjusted,10), pos.caption = "bottom", align="left",align.header = "left") %>% htmlTable(rnames=FALSE, caption="Population per federal state per Year with adjusted headers^[entnommen aus @StatistischesBundesamtDeutschland.2023]", label="table_population_per_FederalState_headerAdjusted")
 
 ```
-### Einwohner {.tabset .tabset-fade}
+### Einwohnerzahl {.tabset .tabset-fade}
 #### Bevölkerung pro Bundesland am Ende eines Jahres {-}
 `r table_population_per_FederalState `
 #### Bevölkerung, basierend auf dem Vorjahr {-}
@@ -226,7 +226,7 @@ knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/3aea19108d39606bb
 ***
 Ein Ziel der Datenaufbereitung ist das Gathering, wie sie die Autoren Garrett Grolemund und Hadley Wickham beispielhaft mit [Figure 2.1](#fig:unnamed-chunk-1) vorschlagen. Übertragen auf den Datensatz des Statistischen Bundesamts bedeutetet das, dass die 7 Jahresspalten je Bundesland zu einer Entität umgewandelt werden. Diese Maßnahme erhöht die Reihenzahl von `r nrow(population_per_FederalState_headerAdjusted)` auf `r nrow(population_per_FederalState_headerAdjusted)*ncol(population_per_FederalState_headerAdjusted)` und es entsteht eine Spalte mit der Jahresangabe und eine mit der Einwohnerzahl.^[Vgl. @GrolemundHadleyWickhamandGarrett.2023 Abschnitt 12.3.1] Durch diese Maßnahme gewinnt die Arbeit im späteren Verlauf ein Datensatz zur Modellierung.
 
-### Cultural Expenditure
+### Kulturausgaben
 ```{r Cultural Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
 
 
@@ -261,7 +261,7 @@ In [Table 7](#table_expenditure4Culture) zeigt die Zusammenfassung, sowohl die S
 
 Am Beispiel von Hamburg verdeutlicht [Table 9](#table_Hamburg_Administration4CulturalAffairs), dass die im vorherigen Absatz geschilderten Erkenntnisse für die administrativen Ausgaben im Kulturbereich ebenso gelten. Somit sagen die fehlenden Werte aus der Zusammenfassung in [Table 7](#table_expenditure4Culture) aus, dass einige Länder keine Ausgaben in den genannten Bereichen vorweisen. Auf Basis dieses Wissens schließt die Arbeit, dass die dargestellten Gesamtausgaben der Länder keine fehlenden Ausgabetypen enthalten, die Kulturausgaben hinreichend zusammenfassen und für die Einbettung in die das Regressionsmodell geeignet sind. Deshalb ist für [Abs. 2.3](#Abschnitt2_3) ein weiteres Ziel die Gesamtausgaben zu extrahieren und dem Datensatz für die Modellierung zuzuführen.  
 
-### Expenditure for Education 
+### Bildungsausgaben
 ```{r Educational Expenditure, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Summary of the Expenditures for Education
@@ -299,7 +299,7 @@ Aus der Betrachtung der Missings in [Table 11](#table_expenditure4Education_miss
 
 Die angepasste [Table 12](#summary_expenditure4Education_onlyTotal) zeigt nun die Gesamtausgaben der Länder und legt ihre statistischen Eigenheiten offen, trotz Fokussierung auf die Gesamtausgaben, zeigt sich eine erhebliche Differenz von `r toString(difference_median_mean)` zwischen dem Median `r toString(median_expenditure4Education_onlyTotal)` und dem arithmetischen Mittel `r toString(mean_expenditure4Education_onlyTotal)`. Welche Auswirkung diese Differenz hat, wird in [Kapitel 3](#Kapitel3) beleuchtet. Daneben existiert eine Variable für die Ausgaben der Länder je Einwohner, diese wird jedoch nicht in der Arbeit verwendet, da sie bereits die Einwohnerzahl der Länder berücksichtigt. In Bezug auf die Bildungsausgaben resultiert für [Abs. 2.3](#Abschnitt2_3) die Aufgabe, die Gesamtausgaben eines Landes zu extrahieren und auf die Jahre 2014 bis 2020 zu beschränken.
 
-### Number of Unemployed People
+### Erwerbslosigkeit
 ```{r unemployment rate, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Shows the amount of unemployees in each federal state 
@@ -310,7 +310,7 @@ summary_Unemployment <- summary(jobless_people[,1:8]) %>% addHtmlTableStyle(pos.
 
 Ähnlich wie bei dem Datensatz der Einwohner ist der Datensatz für die Arbeitslosenzahlen aufgebaut. In diesem Fall liegt nach [Table 13](#summary_Unemployment) eine Variable für die Jahre vor, während die Anzahl an Arbeitslosen als Variable je Bundesland auf mehrere Spalten verteilt ist. Aufgrund einer verkürzten Darstellung präsentiert [Table 13](#summary_Unemployment) nicht alle Bundesländer mit ihren Zahlen. Zur besseren Nachvollziehbarkeit der Problematik führt [Appendix 3][Appendix 3] eine vollständige Übersicht auf. Um eine Regressionsmodellierung durchzuführen, muss eine Pivotisierung wie in [Figure 2.1](#fig:unnamed-chunk-1) für die Bundesländer erfolgen. Das bedeutet [Abs. 2.3](#Abschnitt2_3) erhält als weitere Aufgabe, die Bundesländer und die Anzahl an Arbeitslosen als eine separate Variable darzustellen. Somit entsteht eine Observation mit den Variablen für das Jahr, das Bundesland und der Fallzahl.
 
-### Gross Domesti Product 
+### Bruttoinlandsprodukt 
 ```{r gross domestic product, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Gross Domestic Product is structured similar to the inhabitants
@@ -668,7 +668,7 @@ Daneben betrachtet die Arbeit zusätzlich das Bestimmtheitsmaß R² aus [Tab. 19
 
 Wie bereits im vorherigen Kapitel erwähnt, liegt der errechnete, signifikante Effekt von Bildung laut Modell 3 bei `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio. €. Wenn dieser Effekt tatsächlich auf einem kausalen Zusammenhang beruht, dann liegen die Investitionskosten in Bildung bei `r toString(-10^6/(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6))` €, um je einen Diebstahl zu verhindern. Diese Kosten stehen dem durchschnittlichen Schaden von 1.232 €, den ein Diebstahl je Person verursacht, gegenüber.^[entnommen aus @StatistischesBundesamtDeutschland.2023] Aus dieser Kostensicht folgt, dass für die Praxis wahrscheinlich kein relevanter Zusammenhang besteht. Allerdings gilt zu beachten, dass diese vereinfachte Berechnung die Kosten für Strafverfolgung und Strafvollzug je Diebstahl nicht berücksichtigt und daher eine gesonderte Betrachtung erfordert.
 
-Daneben fiel bei einer Überprüfung der allgemeinen Regressionsmodell-Annahmen, wie sie Joachim Zuckarelli beschreibt, auf, dass die Residuen der Modelle nicht gleich verteilt ist. Mit abnehmender Aggregation der Bundesländer weichen die Residuen von der Normalverteilung ab. Das bedeutet, dass die Signifikanz der Schätzer und des Modells nicht durch die t- und F-Tests bestimmt werden kann.^[Vgl. @Zuckarelli.2017 S. 232]
+Daneben fiel bei einer Überprüfung der allgemeinen Regressionsmodell-Annahmen, wie sie Zuckarelli beschreibt, auf, dass die Residuen der Modelle nicht gleich verteilt ist. Mit abnehmender Aggregation der Bundesländer weichen die Residuen von der Normalverteilung ab. Das bedeutet, dass die Signifikanz der Schätzer und des Modells nicht durch die t- und F-Tests bestimmt werden kann.^[Vgl. @Zuckarelli.2017 S. 232]
 
 ```{r echo=TRUE, fig.cap="QQ-Test shows not normal distributed residuals for both models", fig.subcap="QQ-Tests are important to prove the meaningfullness of the Significance-Test-Results. Deviations from the dotted line can be siehen in both graphs; the more the residuals deviate from it, the less normally distributed they are.", message=FALSE, warning=FALSE, paged.print=FALSE}
 # Test for normal distributed residuals
@@ -806,5 +806,4 @@ Overview_RegModels
 
 ***
 # Quellen
-
 ***
