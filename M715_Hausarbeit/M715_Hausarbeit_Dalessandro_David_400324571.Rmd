@@ -2,8 +2,9 @@
 title: "Crimes and their relation to socio-economic factors"
 subtitle: "Linear Regression based on the federal states <br> Modul 715 - Statistical Computing"
 author: 
-  name: "D'Alessandro David"
-  url: "https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing/tree/2536b0a7dfc4fa8ccc7150315d5f05941734e835/M715_Hausarbeit"
+  - "Author: D'Alessandro, David "
+  - "Matriculationnumber: 400324571 "
+  - "Evaluator: Prof. Dr. Albrecht, Simon"
 date: "`r Sys.Date()`"
 output:  
   #html_document:
@@ -712,7 +713,7 @@ In summary, the regression analysis probably showed little relevant results. Eve
 
 ***
 #	Conclusion: findings and implications {#Chapter5}
-The critical review in [chapter 4](#Chapter4) revealed sufficient reasons to reject the regression models. The second regression model does suggest in [chapter 3](#Chapter3) that the unemployment rate and spending on education and culture have a significant relationship and partially confirms the hypotheses from. However, the results come into doubt due to the Jarque-Bera-Test and the improper function. The same applies to model 3, which only attests to a supposed significance for education spending. Regardless of the doubtful significance, there is no relevance from a cost perspective for the variable education expenditures, with a coefficient of `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` thefts per million €.
+The critical review in [chapter 4](#Chapter4) revealed sufficient reasons to reject the regression models. The second regression model does suggest in [chapter 3](#Chapter3) that the unemployment rate and spending on education and culture have a significant relationship and partially confirms the hypotheses from [Chapter 1](#Chapter1). However, the results come into doubt due to the Jarque-Bera-Test and the improper function. The same applies to model 3, which only attests to a supposed significance for education spending. Regardless of the doubtful significance, there is no relevance from a cost perspective for the variable education expenditures, with a coefficient of `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` thefts per million €.
 
 The hypotheses that were in the room at the beginning of the paper cant be tossed aside yet. The application of a probit/logit model  in future investigations eliminates the weaknesses of the applied linear regression function. In addition, countermeasures, such as thoughtful outlier management or increasing the sample by adding observations from a wide range of years, restore the significance of the significance tests.^[If you are intressted, [Appendix 6][Appendix 6] shows how the models look like, when outliners are removed from the used dataset and the Jarque-Bera-Test show normal distribution] Cleaning up the aforementioned deficiencies subsequently allows the evaluation of relevance.^[cf. @Zuckarelli.2017 p. 232 et sqq.]
 

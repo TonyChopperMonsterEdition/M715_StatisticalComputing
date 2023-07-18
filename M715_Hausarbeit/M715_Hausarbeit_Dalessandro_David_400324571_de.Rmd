@@ -2,8 +2,9 @@
 title: "Kriminalfälle und ihre Verbindung zu sozio-ökonomischen Faktoren"
 subtitle: "Lineare Regression auf Basis von Bundesländer-Spezifika <br> Modul 715 - Statistical Computing"
 author: 
-  name: "D'Alessandro David"
-  url: "https://github.com/TonyChopperMonsterEdition/M715_StatisticalComputing/tree/2536b0a7dfc4fa8ccc7150315d5f05941734e835/M715_Hausarbeit"
+  - "Author: D'Alessandro, David "
+  - "Matriculationnumber: 400324571 "
+  - "Evaluator: Prof. Dr. Albrecht, Simon"
 date: "`r Sys.Date()`"
 output:  
   #html_document:
@@ -699,7 +700,7 @@ Zusammenfassend zeigte die Regressionsanalyse wohl wenig relevante Ergebnisse. S
 
 ***
 #	Schlussfolgerung: Ergebnisse und Implikationen {#Kapitel5}
-Die kritische Betrachtung in [Kapitel 4](#Kapitel4) ergab hinreichende Gründe für eine Ablehnung der Regressionsmodelle. Das zweite Regressionsmodell deutet zwar in [Kapitel 3](#Kapitel3) darauf hin, dass die Arbeitslosenzahl sowie die Ausgaben für Bildung und Kultur einen signifikanten Zusammenhang aufweisen und die Hypothesen aus teilweise bestätigen. Jedoch geraten die Ergebnisse aufgrund des Jarque-Bera-Tests und der unpassenden Funktion in Zweifel. Gleiches gilt für Modell 3, das lediglich für die Bildungsausgaben eine vermeintliche Signifikanz attestiert. Ungeachtet der zweifelhaften Signifikanz liegt bei den Bildungsausgaben mit einem Koeffizienten von `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio. € aus Kostensicht keine Relevanz vor.
+Die kritische Betrachtung in [Kapitel 4](#Kapitel4) ergab hinreichende Gründe für eine Ablehnung der Regressionsmodelle. Das zweite Regressionsmodell deutet zwar in [Kapitel 3](#Kapitel3) darauf hin, dass die Arbeitslosenzahl sowie die Ausgaben für Bildung und Kultur einen signifikanten Zusammenhang aufweisen und die Hypothesen aus der [Einleitung](#Kapitel1) teilweise bestätigen. Jedoch geraten die Ergebnisse aufgrund des Jarque-Bera-Tests und der unpassenden Funktion in Zweifel. Gleiches gilt für Modell 3, das lediglich für die Bildungsausgaben eine vermeintliche Signifikanz attestiert. Ungeachtet der zweifelhaften Signifikanz liegt bei den Bildungsausgaben mit einem Koeffizienten von `r toString(round(regMod_3[1]$coefficients["TotalExpenditure4Education"], digits=7)*10^6)` Diebstählen je Mio. € aus Kostensicht keine Relevanz vor.
 
 Im Hinblick auf diese Erkenntnis können die Hypothesen, die am Anfang der Arbeit im Raum standen, noch nicht endgültig verworfen werden. Die Anwendung eines Probit-/Logit-Modells beseitigt die Schwächen der angewendeten linearen Regressionsfunktion in zukünftigen Untersuchungen. Zusätzlich stellen Gegenmaßnahmen, wie ein durchdachtes Ausreißermanagement oder eine Erhöhung der Stichprobe, durch das Hinzufügen von Observationen verschiedenster Jahre, die Aussagekraft der Signifikanztests wieder her.^[Bei Interesse zeigt [Appendix 6][Appendix 6], wie die Modelle aussehen, wenn die Outliner aus dem verwendeten Datensatz entfernt werden und der Jarque-Bera-Test eine Normalverteilung zeigt.] Die Bereinigung der genannten Mängel erlaubt anschließend die Bewertung der Relevanz.^[Vgl. @Zuckarelli.2017 S. 232 ff.]
 
